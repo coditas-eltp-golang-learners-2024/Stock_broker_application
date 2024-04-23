@@ -1,0 +1,62 @@
+definitions:
+  models.ChangePassword:
+    properties:
+      email:
+        example: john.doe@gmail.com
+        type: string
+      newPassword:
+        example: newPassword
+        minLength: 8
+        type: string
+      oldPassword:
+        example: password
+        minLength: 8
+        type: string
+    required:
+    - email
+    - newPassword
+    - oldPassword
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: api for Stock Broker using gin and gorm
+  title: Stock Broker Application
+  version: "2.0"
+paths:
+  /customer-changepassword:
+    patch:
+      consumes:
+      - application/json
+      description: Change a user's password
+      parameters:
+      - description: Change Password Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password changed successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      summary: Change Password
+      tags:
+      - Authentication
+securityDefinitions:
+  JWT:
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"
