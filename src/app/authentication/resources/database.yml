@@ -1,5 +1,6 @@
-dbHostName: eltp.mysql.database.azure.com
-port: 3306
-dbName: eltp-database
-userName: eltp
-password: Coditas@123
+database:
+  username: eltp
+  password: Coditas@123
+  host: eltp.mysql.database.azure.com
+  port: "3306"
+  dbname: eltp-database

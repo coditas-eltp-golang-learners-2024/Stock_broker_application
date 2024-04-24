@@ -1,0 +1,51 @@
+basePath: /
+definitions:
+  models.SignInRequest:
+    properties:
+      email:
+        example: john.doe@gmail.com
+        type: string
+      password:
+        example: password
+        minLength: 8
+        type: string
+    required:
+    - email
+    - password
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: API endpoints for a stock broker application
+  title: Stock Broker Application API
+  version: "1.0"
+paths:
+  /signin:
+    post:
+      consumes:
+      - application/json
+      description: Handle sign-in request and authenticate the user
+      parameters:
+      - description: Sign-in request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User authenticated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      summary: Handle sign-in request
+swagger: "2.0"
