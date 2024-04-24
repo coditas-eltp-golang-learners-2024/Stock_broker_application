@@ -28,8 +28,7 @@ func SetupRouter(db *gorm.DB) *gin.Engine {
 	r.POST(constants.SignInRoute, handlers.SignInHandler(userAuthService))
 
 	// Swagger documentation setup
-	docs
-	.SwaggerInfo.Schemes = []string{"http", "https"}
+	docs.SwaggerInfo.Schemes = []string{"http", "https"}
 	r.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 	return r
