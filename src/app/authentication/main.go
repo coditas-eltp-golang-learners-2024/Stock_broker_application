@@ -12,11 +12,8 @@ import (
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
 	"go.uber.org/zap"
-	"gorm.io/gorm"
-
 )
 
-var db *gorm.DB 
 func main() {
 	ctx := context.Background()
 	initConfigs(ctx)

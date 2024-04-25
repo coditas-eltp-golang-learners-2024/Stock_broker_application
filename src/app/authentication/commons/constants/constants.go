@@ -9,3 +9,4 @@ const (
 var (
 	SuccessOTPValidation = "OTP validated successfully"
 )
+
