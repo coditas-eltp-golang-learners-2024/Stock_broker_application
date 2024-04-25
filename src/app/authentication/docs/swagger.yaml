@@ -1,0 +1,44 @@
+definitions:
+  models.OTPValidationRequest:
+    properties:
+      createdAt:
+        type: string
+      email:
+        type: string
+      otp:
+        type: integer
+    type: object
+info:
+  contact: {}
+paths:
+  /validateOTP:
+    post:
+      consumes:
+      - application/json
+      description: Validates the OTP for a user
+      parameters:
+      - description: OTP Request
+        in: body
+        name: otpRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.OTPValidationRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OTP validated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "401":
+          description: OTP is expired or invalid
+          schema:
+            type: string
+      summary: Validate OTP
+      tags:
+      - OTP
+swagger: "2.0"
