@@ -25,6 +25,11 @@ const (
 	NestMRVFalseValue = "N"
 )
 
+// Validate Password Constants
+const (
+	ValidatePasswordFormat = "Validate_Password_Format"
+)
+
 // Response Message Constants
 const (
 	ResponseMessageKey    = "message"
