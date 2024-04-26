@@ -11,12 +11,10 @@ import (
 	"stock_broker_application/src/utils/flags"
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
-	"go.uber.org/zap"
-	"gorm.io/gorm"
 
+	"go.uber.org/zap"
 )
 
-var db *gorm.DB 
 func main() {
 	ctx := context.Background()
 	initConfigs(ctx)
@@ -33,7 +31,6 @@ func main() {
 		panic(fmt.Errorf(genericConstants.ConfigBindingFailedError))
 	}
 
-	
 	startRouter(ctx)
 }
 
@@ -58,4 +55,3 @@ func startRouter(ctx context.Context) {
 		log.With(zap.Error(err)).Fatal(genericConstants.ExternalServiceError)
 	}
 }
-

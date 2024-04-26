@@ -3,13 +3,10 @@ package router
 import (
 	"net/http"
 
-	"authentication/business"
 	serviceConstant "authentication/commons/constants"
-	"authentication/handler"
-	"authentication/repositories"
-	"github.com/gin-gonic/gin"
 	genericConstants "stock_broker_application/src/constants"
-	"stock_broker_application/src/utils/postgres"
+
+	"github.com/gin-gonic/gin"
 )
 
 func init() {
@@ -31,13 +28,6 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			c.JSON(http.StatusOK, response)
 		})
 		//Add your routes here
-		// Create instances of the repository and service layers
-		connectionWithDb := postgres.GetPostGresClient().GormDb
-		userRepository := repositories.NewCustomerRepository(connectionWithDb)
-		otpService := business.NewOTPService(userRepository)
-
-		v1Routes.POST("/validateOTP", handler.NewValidateOTPHandler(otpService))
-
 	}
 	return router
 }
