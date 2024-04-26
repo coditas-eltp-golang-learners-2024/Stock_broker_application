@@ -13,6 +13,5 @@ const (
 	ErrorBadRequest                  = "Bad request"
 	ErrorUnauthorized                = "Unauthorized"
 	ErrorMessageAuthenticationFailed = "Authentication failed"
-	SuccessMessageSignIn             = "User authenticated successfully"
 	ErrorAuthenticatingUserFormat    = "error authenticating user: %w"
 )

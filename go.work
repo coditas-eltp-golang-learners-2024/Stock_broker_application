@@ -1,7 +1,5 @@
-go 1.20
+go 1.21
 
-use (
-    ./src/app/authentication
-	
-	
-)
+toolchain go1.22.0
+
+use ./src/app/authentication
