@@ -13,14 +13,6 @@ type UserSignUpRepository interface {
 
 type userSignUpRepository struct{}
 
-// type UserDBRepository struct {
-// 	userSignUpRepo repositories.UserSignUpRepository
-// }
-
-// func NewUserSignUpInstance(userSignUp repositories.UserSignUpRepository) *UserDBRepository {
-// 	return &UserDBRepository{}
-// }
-
 func NewUserSignUpInstance() *userSignUpRepository {
 	return &userSignUpRepository{}
 }
