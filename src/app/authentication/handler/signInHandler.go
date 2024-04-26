@@ -2,10 +2,11 @@ package handler
 
 import (
 	"authentication/business"
-    "authentication/models"
+	"authentication/commons/constants"
+	"authentication/models"
 	"net/http"
+	"stock_broker_application/src/utils/validations"
 	"github.com/gin-gonic/gin"
-    "stock_broker_application/src/utils/validations"
 )
 
 // SignInHandler handles the sign-in request
@@ -19,27 +20,33 @@ import (
 // @Failure 401 {object} string "Unauthorized"
 // @Router /signin [post]
 func SignInHandler(userService *business.SignInService) gin.HandlerFunc {
-    return func(c *gin.Context) {
-        var signInRequest models.SignInRequest
+	return func(c *gin.Context) {
+		var signInRequest models.SignInRequest
 
-        // Bind JSON request body to SignInRequest struct
-        if err := c.ShouldBindJSON(&signInRequest); err != nil {
-            c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-            return
-        }
-        if err := validations.SignInValidation(&signInRequest) ; err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		// Bind JSON request body to SignInRequest struct
+		if err := c.ShouldBindJSON(&signInRequest); err != nil {
+			c.JSON(http.StatusBadRequest, constants.ErrorBadRequest)
 			return
 		}
-        // Call SignIn method to authenticate user
-        if err := userService.SignIn(signInRequest); err != nil {
-            c.JSON(http.StatusUnauthorized, gin.H{"error": "authentication failed"})
-            return
-        }
+        customValidator := validations.NewCustomValidator()
+     // Register custom validation functions
+     customValidator.Validator.RegisterValidation("email", validations.ValidateEmail)
+     customValidator.Validator.RegisterValidation("strong_password", validations.ValidateStrongPassword)
+ 
+     // Validate the struct using the custom validator
+     if err := customValidator.ValidateStruct(c.Request.Context(), signInRequest); err != nil {
+         c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+         return
+     }
 
-        // Authentication successful
-        c.JSON(http.StatusOK, gin.H{"message": "User authenticated successfully"})
+		// Call SignIn method to authenticate user
+		if err := userService.SignIn(signInRequest); err != nil {
+			c.JSON(http.StatusUnauthorized, constants.ErrorMessageAuthenticationFailed)
+			return
+		}
 
-      
-    }
+		// Authentication successful
+		c.JSON(http.StatusOK, constants.SuccessMessageSignIn)
+
+	}
 }

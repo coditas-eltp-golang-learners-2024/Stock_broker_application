@@ -1,15 +1,18 @@
 package constants
 
-import "errors"
+const (
+	ErrUserNotFound       = "user not found"
+	ErrInvalidPassword    = "invalid password"
+	ErrInvalidCredentials = "invalid credentials"
+	ErrInvalidEmailFormat = "invalid email address format"
+	ErrPasswordTooShort   = "password length must be at least 8 characters"
+	ErrFieldRequired      = "this field is required"
+)
 
-var (
-	// Other errors
-	ErrUserNotFound                      = errors.New("user not found")
-	ErrInvalidEmail                      = errors.New("invalid email")
-	ErrInvalidCredentials                = errors.New("invalid credentials")
-	ErrEmptyField                        = errors.New("all required fields should be present")
-	ErrValidationFailed                  = errors.New("validation failed")
-	ErrEmailOrPasswordVerificationFailed = errors.New("email or password wrong")
-	ErrShouldHaveNewPassword             = errors.New("please enter different password from old password")
-	ErrInvalidPassword                   = errors.New("invalid password format")
+const (
+	ErrorBadRequest                  = "Bad request"
+	ErrorUnauthorized                = "Unauthorized"
+	ErrorMessageAuthenticationFailed = "Authentication failed"
+	SuccessMessageSignIn             = "User authenticated successfully"
+	ErrorAuthenticatingUserFormat    = "error authenticating user: %w"
 )
