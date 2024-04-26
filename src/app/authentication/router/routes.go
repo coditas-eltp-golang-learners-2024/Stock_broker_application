@@ -1,12 +1,19 @@
 package router
 
 import (
-	"net/http"
-
+	"authentication/business"
 	serviceConstant "authentication/commons/constants"
+	"authentication/docs"
+	"authentication/handler"
+	"authentication/repositories"
+	"net/http"
 	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/middleware/headerCheck"
+	"stock_broker_application/src/utils/postgres"
 
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func init() {
@@ -27,7 +34,12 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			}
 			c.JSON(http.StatusOK, response)
 		})
-		//Add your routes here
+		ConnectionWithDb := postgres.GetPostGresClient().GormDb
+		userDatabaseRepo := repositories.NewUserDBRepository(ConnectionWithDb)
+		passwordService := business.NewRestPasswordService(userDatabaseRepo)
+		v1Routes.PATCH(serviceConstant.CustomerchangepasswordEndpoint,headerCheck.AuthMiddleware(),handler.HandleChangePassword(passwordService))
+		docs.SwaggerInfo.Schemes = []string{"http", "https"}
+		v1Routes.GET(serviceConstant.DocsAnyPath, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 	return router
 }
