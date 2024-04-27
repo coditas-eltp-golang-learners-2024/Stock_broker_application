@@ -11,7 +11,6 @@ import (
 	"stock_broker_application/src/utils/flags"
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
-
 	"go.uber.org/zap"
 )
 
@@ -31,6 +30,7 @@ func main() {
 		panic(fmt.Errorf(genericConstants.ConfigBindingFailedError))
 	}
 
+	
 	startRouter(ctx)
 }
 
@@ -55,3 +55,4 @@ func startRouter(ctx context.Context) {
 		log.With(zap.Error(err)).Fatal(genericConstants.ExternalServiceError)
 	}
 }
+

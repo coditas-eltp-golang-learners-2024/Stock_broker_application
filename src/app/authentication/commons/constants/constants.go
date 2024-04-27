@@ -5,3 +5,7 @@ const (
     ServiceName        = "authentication"
     PortDefaultValue   = 8080
 )
+
+var (
+	SuccessOTPValidation = "OTP validated successfully"
+)
