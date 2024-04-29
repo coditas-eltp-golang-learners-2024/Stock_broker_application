@@ -1,12 +1,12 @@
 package repositories
 
 import (
-	"authentication/models"
+	dbModels "stock_broker_application/src/models"
 
 	"gorm.io/gorm"
 )
 
-type ForgetPasswordRequest interface {
+type ForgotPasswordRequest interface {
 	VerifyCredentialsAndUpdateOTP(email string, pancardNumber string, newPassword string) error
 }
 
@@ -14,13 +14,13 @@ type UpdatePasswordRepo struct {
 	DB *gorm.DB
 }
 
-func NewForgetPasswordRepository(db *gorm.DB) ForgetPasswordRequest {
+func NewforgotPasswordRepository(db *gorm.DB) ForgotPasswordRequest {
 	return &UpdatePasswordRepo{DB: db}
 }
 
 func (repo *UpdatePasswordRepo) VerifyCredentialsAndUpdateOTP(email string, pancardNumber string, newPassword string) error {
 	// Update the password for the user if found
-	result := repo.DB.Model(&models.ForgetPasswordRequest{}).
+	result := repo.DB.Model(&dbModels.ForgotPasswordRequest{}).
 		Where("email = ? AND pancard = ?", email, pancardNumber).
 		Update("password", newPassword)
 

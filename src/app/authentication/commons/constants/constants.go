@@ -4,8 +4,9 @@ package constants
 const (
 	ServiceName      = "authentication"
 	PortDefaultValue = 8080
+)
 
-	ValidatePassword = "Validate_Password_Format"
-
+// Success messages for password update
+const (
 	PasswordUpdated = "Password updated successfully"
 )

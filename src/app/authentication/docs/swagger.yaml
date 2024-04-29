@@ -1,5 +1,5 @@
 definitions:
-  models.ForgetPasswordRequest:
+  models.ForgotPasswordRequest:
     properties:
       NewPassword:
         example: sample11110
@@ -18,19 +18,19 @@ definitions:
 info:
   contact: {}
 paths:
-  /update-credentials:
+  /forgot-password:
     post:
       consumes:
       - application/json
       description: Updates user credentials based on the provided request.
       operationId: update-credentials
       parameters:
-      - description: Forget Password Request JSON
+      - description: Forgot Password Request JSON
         in: body
         name: request
         required: true
         schema:
-          $ref: '#/definitions/models.ForgetPasswordRequest'
+          $ref: '#/definitions/models.ForgotPasswordRequest'
       produces:
       - application/json
       responses:

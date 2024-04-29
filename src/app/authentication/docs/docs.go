@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/update-credentials": {
+        "/forgot-password": {
             "post": {
                 "description": "Updates user credentials based on the provided request.",
                 "consumes": [
@@ -28,12 +28,12 @@ const docTemplate = `{
                 "operationId": "update-credentials",
                 "parameters": [
                     {
-                        "description": "Forget Password Request JSON",
+                        "description": "Forgot Password Request JSON",
                         "name": "request",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/models.ForgetPasswordRequest"
+                            "$ref": "#/definitions/models.ForgotPasswordRequest"
                         }
                     }
                 ],
@@ -67,7 +67,7 @@ const docTemplate = `{
         }
     },
     "definitions": {
-        "models.ForgetPasswordRequest": {
+        "models.ForgotPasswordRequest": {
             "type": "object",
             "required": [
                 "NewPassword"

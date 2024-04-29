@@ -24,8 +24,8 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
-	//Dependency Injection for Forget-Password-Feature
-	repository := repositories.NewForgetPasswordRepository(postgres.GetPostGresClient().GormDb)
+	//Dependency Injection for forgot-Password-Feature
+	repository := repositories.NewforgotPasswordRepository(postgres.GetPostGresClient().GormDb)
 	service := business.NewCredentialsService(repository)
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
@@ -37,7 +37,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			c.JSON(http.StatusOK, response)
 		})
 		//Add your routes here
-		v1Routes.POST(serviceConstant.ForgetPasswordFeature, handler.UpdateCredentialsHandler(service))
+		v1Routes.POST(serviceConstant.ForgotPassword, handler.UpdateCredentialsHandler(service))
 
 	}
 	return router

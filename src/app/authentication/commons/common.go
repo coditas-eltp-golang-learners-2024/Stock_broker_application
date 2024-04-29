@@ -8,13 +8,10 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 )
 
-// Create a new instance of the validator to be used commonly for every other feature
 var validate = validator.New()
 
-// Function to perform validation
-func ValidateForgetPasswordStruct(req models.ForgetPasswordRequest) error {
-	if err := validate.Struct(req); err != nil {
-		// Validation failed
+func ValidateforgotPasswordStruct(validatePasswordResetRequest models.ForgotPasswordRequest) error {
+	if err := validate.Struct(validatePasswordResetRequest); err != nil {
 		return err
 	}
 	return nil
