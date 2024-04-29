@@ -34,14 +34,14 @@ func UpdateCredentialsHandler(service business.NewforgotPasswordService) gin.Han
 
 		// Perform validation using the initialized validator
 		if err := validations.GetCustomValidator(context.Request.Context()).Struct(request); err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorInvalidPasswordFormat})
+			context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: constants.InvalidPasswordFormatError})
 			return
 		}
 
 		// var request dbModels.ForgotPasswordRequest
 		err := service.UpdatePassword(request) // Use 'service' instead of 'business'
 		if err != nil {
-			context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorInvalidUserData})
+			context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.InvalidUserDataError})
 			return
 		}
 		context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.PasswordUpdated})
