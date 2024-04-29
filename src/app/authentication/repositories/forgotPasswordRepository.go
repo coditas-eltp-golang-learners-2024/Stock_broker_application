@@ -21,7 +21,7 @@ func NewforgotPasswordRepository(db *gorm.DB) ForgotPasswordRequest {
 func (repo *UpdatePasswordRepo) VerifyCredentialsAndUpdateOTP(email string, pancardNumber string, newPassword string) error {
 	// Update the password for the user if found
 	result := repo.DB.Model(&dbModels.ForgotPasswordRequest{}).
-		Where("email = ? AND pancard = ?", email, pancardNumber).
+		Where("email = ? AND pan_card = ?", email, pancardNumber).
 		Update("password", newPassword)
 
 	if result.Error != nil {

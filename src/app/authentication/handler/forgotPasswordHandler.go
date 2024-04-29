@@ -4,6 +4,7 @@ import (
 	"authentication/business"
 	"authentication/commons/constants"
 	"authentication/models"
+	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
 
 	"net/http"
@@ -25,23 +26,24 @@ import (
 // @Router /forgot-password [post]
 func UpdateCredentialsHandler(service business.NewforgotPasswordService) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		var req models.ForgotPasswordRequest
-		if err := context.ShouldBindJSON(&req); err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		var request models.ForgotPasswordRequest
+		if err := context.ShouldBindJSON(&request); err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 			return
 		}
 
 		// Perform validation using the initialized validator
-		if err := validations.GetCustomValidator(context.Request.Context()).Struct(req); err != nil {
-			context.JSON(http.StatusBadRequest, gin.H{"error": constants.ErrInvalidPasswordFormat})
+		if err := validations.GetCustomValidator(context.Request.Context()).Struct(request); err != nil {
+			context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorInvalidPasswordFormat})
 			return
 		}
 
-		err := service.UpdatePassword(req) // Use 'service' instead of 'business'
+		// var request dbModels.ForgotPasswordRequest
+		err := service.UpdatePassword(request) // Use 'service' instead of 'business'
 		if err != nil {
-			context.JSON(http.StatusInternalServerError, gin.H{"error": constants.ErrorInvalidUserData})
+			context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorInvalidUserData})
 			return
 		}
-		context.JSON(http.StatusOK, gin.H{"message": constants.PasswordUpdated})
+		context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.PasswordUpdated})
 	}
 }
