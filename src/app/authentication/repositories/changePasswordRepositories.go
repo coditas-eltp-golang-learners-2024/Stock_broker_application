@@ -1,13 +1,14 @@
 package repositories
 
 import (
-	"authentication/models"
+	"authentication/commons/constants"
 	"gorm.io/gorm"
+	"stock_broker_application/src/models"
 )
 
 type AuthenticationProvider interface {
-	CheckEmailAndPassword(email, password string) bool
-	SetNewPassword(email, newPassword string) bool
+	CheckEmailAndPassword(condition map[string]interface{}) bool
+	SetNewPassword(PasswordUpdateSQLCondition map[string]interface{}) bool
 }
 
 type UserDBRepository struct {
@@ -18,17 +19,17 @@ func NewUserDBRepository(dataBase *gorm.DB) *UserDBRepository {
 	return &UserDBRepository{db: dataBase}
 }
 
-func (userRepository *UserDBRepository) CheckEmailAndPassword(email, password string) bool {
+func (userRepository *UserDBRepository) CheckEmailAndPassword(condition map[string]interface{}) bool {
 	var count int64
-	if err := userRepository.db.Model(&models.ChangePassword{}).Where("email = ? AND password = ?", email, password).Count(&count).Error; err != nil {
+	if err := userRepository.db.Model(&models.PasswordUpdateRequest{}).Where(condition).Count(&count).Error; err != nil {
 		return false
 	}
 	return count > 0
 }
 
-func (userRepository *UserDBRepository) SetNewPassword(email, newPassword string) bool {
+func (userRepository *UserDBRepository) SetNewPassword(PasswordUpdateSQLCondition map[string]interface{}) bool {
 	var count int64
-	if err := userRepository.db.Model(&models.ChangePassword{}).Where("email = ?", email).Update("password", newPassword).Count(&count).Error; err != nil {
+	if err := userRepository.db.Model(&models.PasswordUpdateRequest{}).Where(constants.EmailId, PasswordUpdateSQLCondition[constants.EmailId]).Update(constants.Password, PasswordUpdateSQLCondition[constants.Password]).Count(&count).Error; err != nil {
 		return false
 	}
 	return count > 0

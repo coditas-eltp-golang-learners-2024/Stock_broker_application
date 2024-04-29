@@ -2,9 +2,23 @@ package constants
 
 // authentication NEST API URL Keys
 const (
-	ServiceName                   = "Authentication"
-	PortDefaultValue              = 8080
+	ServiceName      = "Authentication"
+	PortDefaultValue = 8080
+)
+
+// constants defining keys and messages used in the application.
+const (
 	StatusKey                     = "Status"
 	PasswordChangedSuccessMessage = "Password changed successfully"
-	EmailId                       = "email"
+)
+
+// database column names used in change-password
+const (
+	EmailId  = "email"
+	Password = "password"
+)
+
+//password regex expression
+const (
+	PasswordRegex = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
 )

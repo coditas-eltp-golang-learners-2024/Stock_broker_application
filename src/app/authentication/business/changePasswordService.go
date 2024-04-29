@@ -6,29 +6,38 @@ import (
 	"authentication/repositories"
 	"authentication/utils"
 	"errors"
-
 	"github.com/gin-gonic/gin"
 )
 
 type PasswordResetter struct {
-	PasswordResetter repositories.AuthenticationProvider
+	PasswordResetterRepository repositories.AuthenticationProvider
 }
 
 func NewRestPasswordService(restPswd repositories.AuthenticationProvider) *PasswordResetter {
 	return &PasswordResetter{
-		PasswordResetter: restPswd,
+		PasswordResetterRepository: restPswd,
 	}
 }
 
 func (service *PasswordResetter) ResetPassword(request models.ChangePassword, ctx *gin.Context) error {
-	// Retrieve the value associated with the key "email" from ctx
 	email := ctx.Value(constants.EmailId).(string)
-	if !service.PasswordResetter.CheckEmailAndPassword(email, request.OldPassword) {
-		return errors.New(constants.ErrInvalidEmailOrPassword)
+	condition := map[string]interface{}{
+		constants.EmailId:  email,
+		constants.Password: request.OldPassword,
 	}
-	utils.ValidatePassword(request.OldPassword)
-	if !service.PasswordResetter.SetNewPassword(email, request.NewPassword) {
-		return errors.New(constants.ErrFailedToSetNewPassword)
+	if !service.PasswordResetterRepository.CheckEmailAndPassword(condition) {
+		return errors.New(constants.ErrorInvalidEmailOrPassword)
+	}
+	err := utils.ValidatePassword(request.NewPassword)
+	if err != nil {
+		return err
+	}
+	PasswordUpdateSQLCondition := map[string]interface{}{
+		constants.EmailId:  email,
+		constants.Password: request.NewPassword,
+	}
+	if !service.PasswordResetterRepository.SetNewPassword(PasswordUpdateSQLCondition) {
+		return errors.New(constants.ErrorFailedToSetNewPassword)
 	}
 	return nil
 }
