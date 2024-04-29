@@ -4,9 +4,9 @@ import (
 	"authentication/business"
 	genericConstants "authentication/commons/constants"
 	"authentication/models"
+	"github.com/gin-gonic/gin"
 	"net/http"
 	"stock_broker_application/src/constants"
-	"github.com/gin-gonic/gin"
 )
 
 // @Summary Change Password

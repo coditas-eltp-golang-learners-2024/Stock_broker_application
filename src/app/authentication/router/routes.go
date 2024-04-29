@@ -10,7 +10,6 @@ import (
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/middleware/headerCheck"
 	"stock_broker_application/src/utils/postgres"
-
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"

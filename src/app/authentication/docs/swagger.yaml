@@ -2,12 +2,10 @@ definitions:
   models.ChangePassword:
     properties:
       newPassword:
-        example: newPassword
-        minLength: 8
+        example: Coditas@18
         type: string
       oldPassword:
-        example: password
-        minLength: 8
+        example: S@nket123
         type: string
     required:
     - newPassword

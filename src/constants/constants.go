@@ -693,3 +693,8 @@ const (
 const (
 	CustomPasswordValidationTag = "passwordValidation"
 )
+
+//password regex expression
+const (
+	PasswordRegex = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
+)
