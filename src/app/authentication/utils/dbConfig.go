@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"authentication/constants"
+	"authentication/commons/constants"
 	"stock_broker_application/src/models"
 
 	"github.com/spf13/viper"

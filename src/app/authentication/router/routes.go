@@ -4,8 +4,8 @@ import (
 	"net/http"
 
 	"authentication/business"
+	"authentication/commons/constants"
 	serviceConstant "authentication/commons/constants"
-	"authentication/constants"
 	"authentication/handler"
 	"authentication/repositories"
 	genericConstants "stock_broker_application/src/constants"

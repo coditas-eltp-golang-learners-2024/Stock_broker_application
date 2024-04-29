@@ -5,8 +5,8 @@ import (
 
 	genericConstants "stock_broker_application/src/constants"
 	"watchlist/business"
+	"watchlist/commons/constants"
 	serviceConstant "watchlist/commons/constants"
-	"watchlist/constants"
 	"watchlist/handler"
 	"watchlist/repositories"
 
