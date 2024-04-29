@@ -689,3 +689,7 @@ const (
 	ChartSource                    = "CHART"
 	AutomationFlag                 = "AUTOMATION"
 )
+
+const (
+	CustomPasswordValidationTag = "passwordValidation"
+)

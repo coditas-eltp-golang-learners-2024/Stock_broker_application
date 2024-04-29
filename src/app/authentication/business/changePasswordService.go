@@ -7,6 +7,7 @@ import (
 	"authentication/utils"
 	"errors"
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type PasswordResetter struct {
@@ -28,9 +29,12 @@ func (service *PasswordResetter) ResetPassword(request models.ChangePassword, ct
 	if !service.PasswordResetterRepository.CheckEmailAndPassword(condition) {
 		return errors.New(constants.ErrorInvalidEmailOrPassword)
 	}
-	err := utils.ValidatePassword(request.NewPassword)
-	if err != nil {
-		return err
+	validate := validator.New()
+	if err := utils.RegisterCustomValidations(validate); err != nil {
+		return errors.New(err.Error())
+	}
+	if err := validate.Struct(request); err != nil {
+		return errors.New(err.Error())
 	}
 	PasswordUpdateSQLCondition := map[string]interface{}{
 		constants.EmailId:  email,

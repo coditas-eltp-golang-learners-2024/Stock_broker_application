@@ -1,7 +1,6 @@
 package models
 
 import (
-	"github.com/dgrijalva/jwt-go"
 	"stock_broker_application/src/constants"
 )
 
@@ -11,14 +10,5 @@ type PasswordUpdateRequest struct {
 }
 
 func (PasswordUpdateRequest) TableName() string {
-	return constants.UserTable
-}
-
-type TokenModel struct {
-	Email string `gorm:"column:email" json:"email"`
-	jwt.StandardClaims
-}
-
-func (TokenModel) TableName() string {
 	return constants.UserTable
 }

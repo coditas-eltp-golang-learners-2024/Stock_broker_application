@@ -1,6 +1,8 @@
 package models
 
 import (
+	"stock_broker_application/src/constants"
+
 	"github.com/dgrijalva/jwt-go"
 )
 
@@ -63,7 +65,11 @@ type HttpGoRoutineRequest struct {
 }
 
 // claim model for email
-type TokenClaims struct {
-	Email string `gorm:"column:email" json:"email" example:"john.doe@gmail.com"`
+type TokenModel struct {
+	Email string `gorm:"column:email" json:"email"`
 	jwt.StandardClaims
+}
+
+func (TokenModel) TableName() string {
+	return constants.UserTable
 }

@@ -24,7 +24,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			tokenString = tokenString[len(bearerPrefix):]
 		}
 		tokenString = strings.TrimSpace(tokenString)
-		token, err := jwt.ParseWithClaims(tokenString, &models.TokenClaims{}, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenString, &models.TokenModel{}, func(token *jwt.Token) (interface{}, error) {
 			return SecretKey, nil
 		})
 		if err != nil {
@@ -35,7 +35,7 @@ func AuthMiddleware() gin.HandlerFunc {
 		if claims, ok := token.Claims.(*models.TokenModel); ok && token.Valid {
 			ctx.Set(genericConstants.EmailId, claims.Email)
 			ctx.Next()
-		} else {
+		}else {
 			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericErrorMessage: genericConstants.InvalidJWT})
 			ctx.Abort()
 			return
