@@ -4,8 +4,8 @@ import (
 	"context"
 	"errors"
 	"reflect"
+	"regexp"
 	"stock_broker_application/src/constants"
-	"unicode"
 
 	"gopkg.in/go-playground/validator.v9"
 )
@@ -41,19 +41,11 @@ func ValidatePasswordStruct(fl validator.FieldLevel) bool {
 }
 
 func validateCustomPasswordFormat(input string) error {
-	hasAlpha := false
-	hasNumeric := false
 
-	for _, char := range input {
-		if unicode.IsLetter(char) {
-			hasAlpha = true
-		} else if unicode.IsDigit(char) {
-			hasNumeric = true
-		}
+	match, _ := regexp.MatchString(constants.PasswordRegex, input)
 
-		if hasAlpha && hasNumeric {
-			return nil
-		}
+	if match {
+		return nil
 	}
 
 	return errors.New(constants.ErrorValidatePassword)

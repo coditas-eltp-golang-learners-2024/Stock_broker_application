@@ -28,6 +28,7 @@ const (
 // Validate Password Constants
 const (
 	ValidatePasswordFormat = "Validate_Password_Format"
+	PasswordRegex          = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
 )
 
 // Response Message Constants
