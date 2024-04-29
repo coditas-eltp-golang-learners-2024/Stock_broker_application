@@ -1,7 +1,7 @@
 package business
 
 import (
-	"authentication/constants"
+	"authentication/commons/constants"
 	"authentication/models"
 	"authentication/repositories"
 	"errors"

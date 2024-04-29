@@ -2,7 +2,7 @@ package handler
 
 import (
 	"authentication/business"
-	"authentication/constants"
+	"authentication/commons/constants"
 	"authentication/models"
 	"log"
 	"net/http"
