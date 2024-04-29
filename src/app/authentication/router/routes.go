@@ -23,6 +23,10 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
+	userRepoSignUp := repositories.NewUserSignUpInstance()
+	userSignUpService := business.NewSignUpService(userRepoSignUp)
+	userSignUpController := handler.NewSignUpController(userSignUpService)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
@@ -32,10 +36,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			c.JSON(http.StatusOK, response)
 		})
 		//Add your routes here
-
-		userRepoSignUp := repositories.NewUserSignUpInstance()
-		userSignUpService := business.NewSignUpService(userRepoSignUp)
-		router.POST(constants.SignUp, handler.SignUp(*userSignUpService))
+		v1Routes.POST(constants.SignUp, userSignUpController.SignUp)
 	}
 	return router
 }

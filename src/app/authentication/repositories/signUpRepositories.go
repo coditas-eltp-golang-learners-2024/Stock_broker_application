@@ -2,6 +2,7 @@ package repositories
 
 import (
 	"authentication/models"
+	"log"
 
 	"gorm.io/gorm"
 )
@@ -28,9 +29,12 @@ func (repo *userSignUpRepository) CheckUserExists(db *gorm.DB, user *models.User
 }
 func (repo *userSignUpRepository) InsertUserIntoDB(db *gorm.DB, user *models.User) error {
 
+	log.Println("INFO: SignUpRepository - Inserting user into db")
 	err := db.Model(&models.User{}).Create(user).Error
 	if err != nil {
+		log.Println("ERROR: SignUpRepository - Error inserting user into db", err)
 		return err
 	}
+	log.Println("INFO: SignUpRepository - User inserted into db successfully")
 	return nil
 }

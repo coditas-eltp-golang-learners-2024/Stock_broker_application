@@ -2,29 +2,40 @@ package handler
 
 import (
 	"authentication/business"
+	"authentication/constants"
 	"authentication/models"
-	"authentication/utils"
+	"log"
 	"net/http"
+	"stock_broker_application/src/utils/validations"
 
 	"github.com/gin-gonic/gin"
 )
 
-func SignUp(userSignUpService business.SignUpService) gin.HandlerFunc {
-	return func(c *gin.Context) {
-		var user models.User
-		if err := c.ShouldBindJSON(&user); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		if err := utils.SignUpValidation(&user); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
-		if err := userSignUpService.SignUp(&user); err != nil {
-			c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-			return
-		}
+type signUpController struct {
+	service *business.SignUpService
+}
 
-		c.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
+func NewSignUpController(service *business.SignUpService) *signUpController {
+	return &signUpController{
+		service: service,
 	}
+}
+
+func (controller *signUpController) SignUp(ctx *gin.Context) {
+	var user models.User
+	if err := ctx.ShouldBindJSON(&user); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+	if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(user); err != nil {
+		log.Println("Validation error:", err)
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": constants.ErrInvalidPasswordFormat})
+		return
+	}
+	if err := controller.service.SignUp(&user); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	ctx.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
 }
