@@ -18,7 +18,7 @@ const (
 	RateLimitExceeded               = "server has reached maximum request limit"
 	ErrorInitializeTraceProvider    = "failed to initialize open telemetry trace provider: %w"
 	ErrorShoutDownTraceProvider     = "failed to shutdown open telemetry trace provider: %w"
-	ErrValidatePassword             = "invalid Password Format. Password should be alphanumeric and at least 8 characters long"
+	ErrorValidatePassword           = "invalid Password Format. Password should be alphanumeric"
 )
 
 // Initialization Error Messages
@@ -103,7 +103,6 @@ const (
 	MaxValidationError                 = "must be less than or equal to %v"
 	AlphaNumericValidationError        = "must be alphanumeric"
 	BidLengthValidationError           = "please enter bid details"
-	DefaultValidationError             = "Unusual Error detected while validating Password Format."
 )
 
 // NEST API Error Messages
@@ -282,4 +281,10 @@ const (
 // Test Case Error Messages
 const (
 	UnexpectedResponseError = "Body content did not match with %v"
+)
+
+// Generic Error Messages
+const (
+	GenericJSONErrorMessage = "error"
+	GenericJSONMessage      = "message"
 )
