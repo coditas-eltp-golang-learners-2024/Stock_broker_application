@@ -37,7 +37,7 @@ func NewValidateOTPHandler(otpService *business.OTPService) gin.HandlerFunc {
 		}
 
 		// Generate and store JWT token using OTPService
-		token, err := otpService.GenerateAndStoreToken(otpValidationRequest.Email)
+		token, err := otpService.GenerateAndStoreToken(otpValidationRequest.UserName)
 		if err != nil {
 			context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorGenToken})
 			return

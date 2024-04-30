@@ -18,19 +18,19 @@ func NewOTPService(userRepository repositories.CustomerRepository) *OTPService {
 	}
 }
 func (otpService *OTPService) OtpVerification(otpData models.Users) error {
-	if otpService.UserRepository.CheckOtp(otpData.Email, otpData.OTP) {
+	if otpService.UserRepository.CheckOtp(otpData.UserName, otpData.OTP) {
 		return errors.New(constants.ErrorOtpVerification)
 	}
 	return nil
 }
 
-func (otpService *OTPService) GenerateAndStoreToken(email string) (string, error) {
-	token, err := authorization.GenerateJWTToken(email)
+func (otpService *OTPService) GenerateAndStoreToken(username string) (string, error) {
+	token, err := authorization.GenerateJWTToken(username)
 	if err != nil {
 		return "", err
 	}
 
-	if err := otpService.UserRepository.UpdateUserToken(email, token); err != nil {
+	if err := otpService.UserRepository.UpdateUserToken(username, token); err != nil {
 		return "", err
 	}
 
