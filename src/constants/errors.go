@@ -281,3 +281,8 @@ const (
 const (
 	UnexpectedResponseError = "Body content did not match with %v"
 )
+// Generic Error Messages
+const (
+	GenericJSONErrorMessage = "error"
+	GenericJSONMessage      = "message"
+)

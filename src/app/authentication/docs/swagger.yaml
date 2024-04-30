@@ -1,24 +1,19 @@
-basePath: /
 definitions:
   models.SignInRequest:
     properties:
-      email:
-        example: john.doe@gmail.com
-        type: string
-      password:
-        example: password
+      NewPassword:
+        example: sample11110
+        maxLength: 20
         minLength: 8
         type: string
+      username:
+        type: string
     required:
-    - email
-    - password
+    - NewPassword
+    - username
     type: object
-host: localhost:8080
 info:
   contact: {}
-  description: API endpoints for a stock broker application
-  title: Stock Broker Application API
-  version: "1.0"
 paths:
   /v1/authentication/signin:
     post:

@@ -14,11 +14,7 @@ import (
 
 	"go.uber.org/zap"
 )
-// @title Stock Broker Application API
-// @version 1.0
-// @description API endpoints for a stock broker application
-// @host localhost:8080
-// @BasePath /
+
 func main() {
 	ctx := context.Background()
 	initConfigs(ctx)

@@ -9,7 +9,7 @@ import (
 
 // SignInRepository defines methods for interacting with user data in the database
 type SignInRepository interface {
-	GetUserByEmail(email string) *models.SignInRequest
+	GetUserByUsername(username string) *models.SignInRequest
 	AuthenticateUser(user *models.SignInRequest, password string) (bool, error)
 }
 
@@ -23,9 +23,9 @@ func NewSignInRepositoryImpl(db *gorm.DB) *SignInRepositoryImpl {
 	return &SignInRepositoryImpl{db: db}
 }
 
-func (r *SignInRepositoryImpl) GetUserByEmail(email string) *models.SignInRequest {
+func (repo *SignInRepositoryImpl) GetUserByUsername(username string) *models.SignInRequest {
 	var user models.SignInRequest
-	if err := r.db.Where("email = ?", email).First(&user).Error; err != nil {
+	if err := repo.db.Where("username = ?", username).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return nil
 		}
@@ -34,17 +34,12 @@ func (r *SignInRepositoryImpl) GetUserByEmail(email string) *models.SignInReques
 	return &user
 }
 
-func (r *SignInRepositoryImpl) AuthenticateUser(user *models.SignInRequest, password string) (bool, error) {
+func (repo *SignInRepositoryImpl) AuthenticateUser(user *models.SignInRequest, password string) (bool, error) {
 	if user == nil {
 		return false, errors.New("user not found")
 	}
-
-	// Compare the provided password with the password stored in the database
 	if user.Password != password {
-		// Passwords do not match
 		return false, nil
 	}
-
-	// Passwords match
 	return true, nil
 }

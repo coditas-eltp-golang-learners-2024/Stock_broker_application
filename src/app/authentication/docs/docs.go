@@ -63,18 +63,18 @@ const docTemplate = `{
         "models.SignInRequest": {
             "type": "object",
             "required": [
-                "email",
-                "password"
+                "NewPassword",
+                "username"
             ],
             "properties": {
-                "email": {
+                "NewPassword": {
                     "type": "string",
-                    "example": "john.doe@gmail.com"
-                },
-                "password": {
-                    "type": "string",
+                    "maxLength": 20,
                     "minLength": 8,
-                    "example": "password"
+                    "example": "sample11110"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         }
@@ -83,12 +83,12 @@ const docTemplate = `{
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
-	Version:          "1.0",
-	Host:             "localhost:8080",
-	BasePath:         "/",
+	Version:          "",
+	Host:             "",
+	BasePath:         "",
 	Schemes:          []string{},
-	Title:            "Stock Broker Application API",
-	Description:      "API endpoints for a stock broker application",
+	Title:            "",
+	Description:      "",
 	InfoInstanceName: "swagger",
 	SwaggerTemplate:  docTemplate,
 	LeftDelim:        "{{",

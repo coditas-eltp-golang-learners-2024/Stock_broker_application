@@ -1,13 +1,8 @@
 {
     "swagger": "2.0",
     "info": {
-        "description": "API endpoints for a stock broker application",
-        "title": "Stock Broker Application API",
-        "contact": {},
-        "version": "1.0"
+        "contact": {}
     },
-    "host": "localhost:8080",
-    "basePath": "/",
     "paths": {
         "/v1/authentication/signin": {
             "post": {
@@ -57,18 +52,18 @@
         "models.SignInRequest": {
             "type": "object",
             "required": [
-                "email",
-                "password"
+                "NewPassword",
+                "username"
             ],
             "properties": {
-                "email": {
+                "NewPassword": {
                     "type": "string",
-                    "example": "john.doe@gmail.com"
-                },
-                "password": {
-                    "type": "string",
+                    "maxLength": 20,
                     "minLength": 8,
-                    "example": "password"
+                    "example": "sample11110"
+                },
+                "username": {
+                    "type": "string"
                 }
             }
         }
