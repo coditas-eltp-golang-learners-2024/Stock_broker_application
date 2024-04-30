@@ -14,6 +14,6 @@ const (
 
 // database column names used in change-password
 const (
-	EmailId  = "email"
+	UserName  = "username"
 	Password = "password"
 )

@@ -66,7 +66,7 @@ type HttpGoRoutineRequest struct {
 
 // claim model for email
 type TokenModel struct {
-	Email string `gorm:"column:email" json:"email"`
+	UserName string `gorm:"column:username" json:"username"`
 	jwt.StandardClaims
 }
 

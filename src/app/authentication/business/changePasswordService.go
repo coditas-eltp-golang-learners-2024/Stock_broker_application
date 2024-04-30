@@ -21,9 +21,9 @@ func NewRestPasswordService(restPswd repositories.AuthenticationProvider) *Passw
 }
 
 func (service *PasswordResetter) ResetPassword(request models.ChangePassword, ctx *gin.Context) error {
-	email := ctx.Value(constants.EmailId).(string)
+	username := ctx.Value(constants.UserName).(string)
 	condition := map[string]interface{}{
-		constants.EmailId:  email,
+		constants.UserName:  username,
 		constants.Password: request.OldPassword,
 	}
 	if !service.PasswordResetterRepository.CheckEmailAndPassword(condition) {
@@ -37,7 +37,7 @@ func (service *PasswordResetter) ResetPassword(request models.ChangePassword, ct
 		return errors.New(err.Error())
 	}
 	PasswordUpdateSQLCondition := map[string]interface{}{
-		constants.EmailId:  email,
+		constants.UserName:  username,
 		constants.Password: request.NewPassword,
 	}
 	if !service.PasswordResetterRepository.SetNewPassword(PasswordUpdateSQLCondition) {

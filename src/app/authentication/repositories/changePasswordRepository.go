@@ -21,7 +21,7 @@ func NewUserDBRepository(dataBase *gorm.DB) *UserDBRepository {
 
 func (userRepository *UserDBRepository) CheckEmailAndPassword(condition map[string]interface{}) bool {
 	var count int64
-	if err := userRepository.db.Model(&models.PasswordUpdateRequest{}).Where(condition).Count(&count).Error; err != nil {
+	if err := userRepository.db.Model(&models.Users{}).Where(condition).Count(&count).Error; err != nil {
 		return false
 	}
 	return count > 0
@@ -29,7 +29,7 @@ func (userRepository *UserDBRepository) CheckEmailAndPassword(condition map[stri
 
 func (userRepository *UserDBRepository) SetNewPassword(PasswordUpdateSQLCondition map[string]interface{}) bool {
 	var count int64
-	if err := userRepository.db.Model(&models.PasswordUpdateRequest{}).Where(constants.EmailId, PasswordUpdateSQLCondition[constants.EmailId]).Update(constants.Password, PasswordUpdateSQLCondition[constants.Password]).Count(&count).Error; err != nil {
+	if err := userRepository.db.Model(&models.Users{}).Where(constants.UserName, PasswordUpdateSQLCondition[constants.UserName]).Update(constants.Password, PasswordUpdateSQLCondition[constants.Password]).Count(&count).Error; err != nil {
 		return false
 	}
 	return count > 0

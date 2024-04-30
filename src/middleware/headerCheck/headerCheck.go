@@ -33,7 +33,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 		if claims, ok := token.Claims.(*models.TokenModel); ok && token.Valid {
-			ctx.Set(genericConstants.EmailId, claims.Email)
+			ctx.Set(genericConstants.Username, claims.UserName)
 			ctx.Next()
 		}else {
 			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericErrorMessage: genericConstants.InvalidJWT})
