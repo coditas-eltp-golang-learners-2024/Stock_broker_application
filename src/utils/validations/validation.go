@@ -8,7 +8,7 @@ import (
 	genericConstants "stock_broker_application/src/constants"
 	"unicode"
 
-	"gopkg.in/go-playground/validator.v9"
+	"github.com/go-playground/validator"
 )
 
 var custValidator *validator.Validate
