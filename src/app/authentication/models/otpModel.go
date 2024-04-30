@@ -2,12 +2,14 @@ package models
 
 import "time"
 
-type OTPValidationRequest struct {
-	Email        string    `gorm:"column:email" json:"email"`
-	OTP          int       `gorm:"column:otp" json:"otp"`
-	CreationTime time.Time `gorm:"column:createdAt" json:"createdAt"`
-}
-
-func (OTPValidationRequest) TableName() string {
-	return "users"
+type Users struct {
+	Name           string    `json:"name"`
+	Email          string    `json:"email"`
+	PhoneNumber    string    `json:"phone_number"`
+	PanCard        string    `json:"pan_card"`
+	Password       string    `json:"password"`
+	Token          string    `json:"token"`
+	CreationTime   time.Time `json:"created_at"`
+	OTP            int       `json:"otp"`
+	EpochTimestamp int64     `json:"epochtimestamp"`
 }

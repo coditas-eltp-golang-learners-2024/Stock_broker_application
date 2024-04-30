@@ -1,21 +1,20 @@
 package repositories
 
 import (
-	"authentication/models"
 	"github.com/go-sql-driver/mysql"
 	"gorm.io/gorm"
 	"log"
+	"stock_broker_application/src/constants"
+	"stock_broker_application/src/models"
 	"time"
 )
 
-// CustomerRepository defines the interface for interacting with customer data.
 type CustomerRepository interface {
 	AssignOtpToEmail(email string, otp int, creatime time.Time) bool
 	CheckOtp(email string, otp int) bool
 	UpdateUserToken(email, token string) error
 }
 
-// CustomerDBRepository is an implementation of CustomerRepository using GORM for database interactions.
 type CustomerDBRepository struct {
 	db *gorm.DB
 }
@@ -27,9 +26,8 @@ func NewCustomerRepository(db *gorm.DB) *CustomerDBRepository {
 
 func (repo *CustomerDBRepository) AssignOtpToEmail(email string, otp int, creationTime time.Time) bool {
 	var count int64
-	// Truncate milliseconds from otpExpiry
 	creationTime = creationTime.Truncate(time.Second)
-	if err := repo.db.Model(&models.OTPValidationRequest{}).Where("email = ?", email).Updates(models.OTPValidationRequest{OTP: otp, CreationTime: creationTime}).Count(&count).Error; err != nil {
+	if err := repo.db.Model(&models.Users{}).Where("email = ?", email).Updates(models.Users{OTP: otp, CreationTime: creationTime}).Count(&count).Error; err != nil {
 		return false
 	}
 	return count > 0
@@ -44,7 +42,7 @@ func (repo *CustomerDBRepository) CheckOtp(email string, otp int) bool {
 		return false
 	}
 
-	err := repo.db.Table("users").Select("createdAt").Where("email = ?", email).Scan(&otpCreationTime).Error
+	err := repo.db.Table(constants.UserTable).Select("createdAt").Where("email = ?", email).Scan(&otpCreationTime).Error
 	if err != nil {
 		return false
 	}
@@ -54,16 +52,14 @@ func (repo *CustomerDBRepository) CheckOtp(email string, otp int) bool {
 			return false
 		}
 	}
-	if err := repo.db.Model(&models.OTPValidationRequest{}).Where("email=? AND otp =?", email, otp).Count(&count).Error; err != nil {
+	if err := repo.db.Model(&models.Users{}).Where("email=? AND otp =?", email, otp).Count(&count).Error; err != nil {
 		return false
 	}
 	return count > 0
 }
 
 func (repo *CustomerDBRepository) UpdateUserToken(email, token string) error {
-	// Update or insert user's token into the database
-	// Example: Using GORM to update or insert token into the users table
-	result := repo.db.Model(&models.OTPValidationRequest{}).Where("email = ?", email).Update("token", token)
+	result := repo.db.Model(&models.Users{}).Where("email = ?", email).Update("token", token)
 	if result.Error != nil {
 		return result.Error
 	}
