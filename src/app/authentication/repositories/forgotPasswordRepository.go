@@ -25,15 +25,13 @@ func (repo *UpdatePasswordRepo) VerifyCredentialsAndUpdateOTP(email string, panc
 		Update("password", newPassword)
 
 	if result.Error != nil {
-		// Handle database error
 		return result.Error
 	}
 
-	// Check if any rows were affected by the update
 	if result.RowsAffected == 0 {
 		// No user found with the provided credentials
 		return gorm.ErrRecordNotFound
 	}
 
-	return nil // Password updated successfully
+	return nil
 }
