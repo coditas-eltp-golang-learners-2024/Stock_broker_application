@@ -63,15 +63,14 @@ const docTemplate = `{
         "models.SignInRequest": {
             "type": "object",
             "required": [
-                "NewPassword",
+                "password",
                 "username"
             ],
             "properties": {
-                "NewPassword": {
+                "password": {
                     "type": "string",
                     "maxLength": 20,
-                    "minLength": 8,
-                    "example": "sample11110"
+                    "minLength": 8
                 },
                 "username": {
                     "type": "string"

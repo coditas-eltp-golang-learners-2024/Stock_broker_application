@@ -1,22 +1,11 @@
 package constants
 
 const (
-	ErrorUserNotFound       = "user not found"
-	ErrorInvalidPassword    = "invalid password"
-	ErrorInvalidCredentials = "invalid credentials"
-	ErrorInvalidEmailFormat = "invalid email address format"
-	ErrorPasswordTooShort   = "password length must be at least 8 characters"
-	ErrorFieldRequired      = "this field is required"
-)
-
-const (
+	ErrorInvalidCredentials          = "invalid credentials"
 	ErrorBadRequest                  = "Bad request"
 	ErrorUnauthorized                = "Unauthorized"
 	ErrorMessageAuthenticationFailed = "Authentication failed"
-	ErrorAuthenticatingUserFormat    = "error authenticating user: %w"
-)
-const(
-	InvalidPasswordFormatError = "password should contain both alphabetic and numeric characters."
-	InvalidUserDataError       = "invalid user data."
-	DefaultValidationError     = "error occurred while validating password format."
+	ErrorAuthenticatingUser          = "error authenticating user: %w"
+	InvalidPasswordFormatError       = "password should contain both alphabetic and numeric characters."
+	ErrorGenerateAndSaveOTP          = "failed to generate and save OTP"
 )

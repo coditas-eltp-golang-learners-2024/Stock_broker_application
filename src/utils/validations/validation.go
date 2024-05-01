@@ -3,18 +3,16 @@ package validations
 import (
 	"context"
 	"errors"
-	"regexp"
-
 	"gopkg.in/go-playground/validator.v9"
+	"regexp"
+	"stock_broker_application/src/constants"
 )
 
 var custValidator *validator.Validate
 
 func NewCustomValidator(ctx context.Context) {
 	custValidator = validator.New()
-
-	// Register custom validation functions
-	custValidator.RegisterValidation("password", ValidatePasswordStruct)
+	custValidator.RegisterValidation(constants.Password, ValidatePasswordStruct)
 }
 
 func GetCustomValidator(ctx context.Context) *validator.Validate {
@@ -31,13 +29,12 @@ func ValidatePasswordStruct(fl validator.FieldLevel) bool {
 }
 
 func validateCustomPasswordFormat(input string) error {
-	strongPasswordRegex := `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
-	match, err := regexp.MatchString(strongPasswordRegex, input)
+	match, err := regexp.MatchString(constants.PasswordRegex, input)
 	if err != nil {
 		return err
 	}
 	if match {
 		return nil
 	}
-	return errors.New("password must be at least 8 characters long and contain at least one uppercase letter, one lowercase letter, one digit, and one special character")
+	return errors.New(constants.ErrorValidatePassword)
 }

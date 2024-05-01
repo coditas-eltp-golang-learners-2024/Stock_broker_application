@@ -1,15 +1,14 @@
 definitions:
   models.SignInRequest:
     properties:
-      NewPassword:
-        example: sample11110
+      password:
         maxLength: 20
         minLength: 8
         type: string
       username:
         type: string
     required:
-    - NewPassword
+    - password
     - username
     type: object
 info:

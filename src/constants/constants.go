@@ -17,6 +17,7 @@ const (
 	AvailableRateLimitKey            = "Available-Limit"
 	Password                         = "password"
 	OTP                              = "otp"
+	CreatedAt                        = "created_at"
 )
 
 // Nest Request Constants

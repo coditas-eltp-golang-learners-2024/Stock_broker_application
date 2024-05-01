@@ -6,4 +6,5 @@ const (
 	AuthenticationHealthCheck = "/authentication/health-check"
 	Metrics                   = "/metrics"
 	SignIn                    = "/authentication/signin"
+	DocsAnyPath               = "/docs/*any"
 )

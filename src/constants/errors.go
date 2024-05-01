@@ -18,6 +18,7 @@ const (
 	RateLimitExceeded               = "server has reached maximum request limit"
 	ErrorInitializeTraceProvider    = "failed to initialize open telemetry trace provider: %w"
 	ErrorShoutDownTraceProvider     = "failed to shutdown open telemetry trace provider: %w"
+	ErrorValidatePassword           = "invalid Password Format. Password should be alphanumeric"
 )
 
 // Initialization Error Messages
@@ -281,6 +282,7 @@ const (
 const (
 	UnexpectedResponseError = "Body content did not match with %v"
 )
+
 // Generic Error Messages
 const (
 	GenericJSONErrorMessage = "error"

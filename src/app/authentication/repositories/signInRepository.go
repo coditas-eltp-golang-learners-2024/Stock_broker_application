@@ -1,19 +1,15 @@
 package repositories
 
 import (
-	"authentication/models"
 	"errors"
-
 	"gorm.io/gorm"
+	dbModels "stock_broker_application/src/models"
 )
 
-// SignInRepository defines methods for interacting with user data in the database
 type SignInRepository interface {
-	GetUserByUsername(username string) *models.SignInRequest
-	AuthenticateUser(user *models.SignInRequest, password string) (bool, error)
+	AuthenticateUser(username string, password string) (bool, error)
 }
 
-// SignInRepositoryImpl is the implementation of SignInRepository
 type SignInRepositoryImpl struct {
 	db *gorm.DB
 }
@@ -23,20 +19,13 @@ func NewSignInRepositoryImpl(db *gorm.DB) *SignInRepositoryImpl {
 	return &SignInRepositoryImpl{db: db}
 }
 
-func (repo *SignInRepositoryImpl) GetUserByUsername(username string) *models.SignInRequest {
-	var user models.SignInRequest
+func (repo *SignInRepositoryImpl) AuthenticateUser(username string, password string) (bool, error) {
+	var user dbModels.Users
 	if err := repo.db.Where("username = ?", username).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return nil
+			return false, nil
 		}
-		return nil
-	}
-	return &user
-}
-
-func (repo *SignInRepositoryImpl) AuthenticateUser(user *models.SignInRequest, password string) (bool, error) {
-	if user == nil {
-		return false, errors.New("user not found")
+		return false, err
 	}
 	if user.Password != password {
 		return false, nil

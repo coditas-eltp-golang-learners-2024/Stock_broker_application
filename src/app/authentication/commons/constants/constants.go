@@ -6,4 +6,3 @@ const (
 	PortDefaultValue     = 8080
 	SuccessMessageSignIn = "User authenticated successfully"
 )
-

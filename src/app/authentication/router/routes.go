@@ -35,13 +35,17 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		})
 		// // Swagger documentation setup
 		docs.SwaggerInfo.Schemes = []string{"http", "https"}
-		v1Routes.GET("docs/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
+		v1Routes.GET(serviceConstant.DocsAnyPath, ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 		// routes
 		connectionWithDb := postgres.GetPostGresClient().GormDb
 		userDatabaseRepo := repositories.NewSignInRepositoryImpl(connectionWithDb)
 		userService := business.NewSignInService(userDatabaseRepo)
-		v1Routes.POST(serviceConstant.SignIn, handler.SignInHandler(userService))
+
+		userRepository := repositories.NewUserRepository(connectionWithDb)
+		otpService := business.NewOTPService(userRepository)
+
+		v1Routes.POST(serviceConstant.SignIn, handler.SignInHandler(userService, otpService))
 	}
 	return router
 }

@@ -22,26 +22,12 @@ func NewSignInService(userRepository repositories.SignInRepository) *SignInServi
 
 // SignIn verifies the sign-in credentials
 func (service *SignInService) SignIn(signInRequest models.SignInRequest) error {
-	user := service.userRepository.GetUserByUsername(signInRequest.UserName)
-	if user == nil {
-		return errors.New(constants.ErrorUserNotFound)
-	}
-	ok, err := AuthenticateUser(user, signInRequest.Password)
+	user, err := service.userRepository.AuthenticateUser(signInRequest.UserName, signInRequest.Password)
 	if err != nil {
-		return fmt.Errorf(constants.ErrorAuthenticatingUserFormat, err)
-	} else if !ok {
+		return fmt.Errorf(constants.ErrorAuthenticatingUser, err)
+	}
+	if !user {
 		return errors.New(constants.ErrorInvalidCredentials)
 	}
 	return nil
-}
-
-// AuthenticateUser verifies the user's password
-func AuthenticateUser(user *models.SignInRequest, password string) (bool, error) {
-	if user == nil {
-		return false, errors.New(constants.ErrorInvalidPassword)
-	}
-	if user.Password != password {
-		return false, nil
-	}
-	return true, nil
 }
