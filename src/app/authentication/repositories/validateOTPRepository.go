@@ -10,8 +10,7 @@ import (
 )
 
 type CustomerRepository interface {
-	AssignOtpToUserName(username string, otp int, creatime time.Time) bool
-	CheckOtp(username string, otp int) bool
+	CheckOtp(username string, otp uint16) bool
 	UpdateUserToken(username, token string) error
 }
 
@@ -24,16 +23,7 @@ func NewCustomerRepository(db *gorm.DB) *CustomerDBRepository {
 	return &CustomerDBRepository{db: db}
 }
 
-func (repo *CustomerDBRepository) AssignOtpToUserName(username string, otp int, creationTime time.Time) bool {
-	var count int64
-	creationTime = creationTime.Truncate(time.Second)
-	if err := repo.db.Model(&models.Users{}).Where("username = ?", username).Updates(models.Users{OTP: otp, CreationTime: creationTime}).Count(&count).Error; err != nil {
-		return false
-	}
-	return count > 0
-}
-
-func (repo *CustomerDBRepository) CheckOtp(username string, otp int) bool {
+func (repo *CustomerDBRepository) CheckOtp(username string, otp uint16) bool {
 	var count int64
 	var otpCreationTime mysql.NullTime
 

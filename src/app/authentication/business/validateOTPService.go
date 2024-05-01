@@ -17,7 +17,7 @@ func NewOTPService(userRepository repositories.CustomerRepository) *OTPService {
 		UserRepository: userRepository,
 	}
 }
-func (otpService *OTPService) OtpVerification(otpData models.Users) error {
+func (otpService *OTPService) OtpVerification(otpData models.ValidateOTPRequest) error {
 	if otpService.UserRepository.CheckOtp(otpData.UserName, otpData.OTP) {
 		return errors.New(constants.ErrorOtpVerification)
 	}

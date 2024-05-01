@@ -18,8 +18,6 @@ type Request struct {
 	Request  interface{} `json:"request,omitempty"`  // Content
 }
 
-
-
 type EncryptResponse struct {
 	EncResponse string `json:"encResponse"`
 }
@@ -33,18 +31,18 @@ type EncryptedNestAPIResponse struct {
 }
 
 type TokenData struct {
-	UserId            string       `json:"uid"`
-	UserSessionId     string       `json:"userSessionId"`
-	BFFPublicKey      string       `json:"bffPublicKey"`
-	BFFPrivateKey     string       `json:"bffPrivateKey"`
-	DevicePublicKey   string       `json:"devicePublicKey"`
-	AccountId         string       `json:"accountId"`
-	BrokerName        string       `json:"brokerName"`
-	BranchName        string       `json:"branchName"`
-	ProductAlias      string       `json:"productAlias"`
-	CriteriaAttribute []string     `json:"criteriaAttribute"`
-	ClearingOrg       string       `json:"clearingOrg"`
-	EnabledExchanges  []string     `json:"enabledExchange"`
+	UserId            string   `json:"uid"`
+	UserSessionId     string   `json:"userSessionId"`
+	BFFPublicKey      string   `json:"bffPublicKey"`
+	BFFPrivateKey     string   `json:"bffPrivateKey"`
+	DevicePublicKey   string   `json:"devicePublicKey"`
+	AccountId         string   `json:"accountId"`
+	BrokerName        string   `json:"brokerName"`
+	BranchName        string   `json:"branchName"`
+	ProductAlias      string   `json:"productAlias"`
+	CriteriaAttribute []string `json:"criteriaAttribute"`
+	ClearingOrg       string   `json:"clearingOrg"`
+	EnabledExchanges  []string `json:"enabledExchange"`
 }
 
 type ChannelResponse struct {
@@ -60,9 +58,6 @@ type HttpGoRoutineRequest struct {
 	Metadata    interface{}
 }
 
-
-
-
-
-
-
+type Tokens struct {
+	Username string `json:"username"`
+}

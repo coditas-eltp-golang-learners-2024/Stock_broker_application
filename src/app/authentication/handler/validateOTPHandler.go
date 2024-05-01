@@ -22,7 +22,7 @@ import (
 // @Router /validateOTP [post]
 func NewValidateOTPHandler(otpService *business.OTPService) gin.HandlerFunc {
 	return func(context *gin.Context) {
-		var otpValidationRequest models.Users
+		var otpValidationRequest models.ValidateOTPRequest
 
 		// Bind JSON request body to OTPValidationRequest struct
 		if err := context.ShouldBindJSON(&otpValidationRequest); err != nil {
