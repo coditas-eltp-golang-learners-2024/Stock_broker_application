@@ -690,7 +690,3 @@ const (
 	ChartSource                    = "CHART"
 	AutomationFlag                 = "AUTOMATION"
 )
-const (
-	ValidatePasswordFormat = "Validate_Password_Format"
-	PasswordRegex          = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
-)

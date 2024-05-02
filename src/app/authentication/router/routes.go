@@ -6,13 +6,12 @@ import (
 	"authentication/docs"
 	"authentication/handler"
 	"authentication/repositories"
-	"net/http"
-	genericConstants "stock_broker_application/src/constants"
-	"stock_broker_application/src/utils/postgres"
-
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+	"net/http"
+	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/utils/postgres"
 )
 
 func init() {
@@ -25,6 +24,12 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
+	//dependency injection for signin
+	connectionWithDb := postgres.GetPostGresClient().GormDb
+	userDatabaseRepository := repositories.NewSignInRepository(connectionWithDb)
+	signInService := business.NewSignInService(userDatabaseRepository)
+	signInController := handler.NewSignInController(signInService)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
@@ -33,19 +38,12 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			}
 			c.JSON(http.StatusOK, response)
 		})
-		// // Swagger documentation setup
+		//  Swagger documentation setup
 		docs.SwaggerInfo.Schemes = []string{"http", "https"}
-		v1Routes.GET(serviceConstant.DocsAnyPath, ginSwagger.WrapHandler(swaggerFiles.Handler))
+		v1Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 		// routes
-		connectionWithDb := postgres.GetPostGresClient().GormDb
-		userDatabaseRepo := repositories.NewSignInRepositoryImpl(connectionWithDb)
-		userService := business.NewSignInService(userDatabaseRepo)
-
-		userRepository := repositories.NewUserRepository(connectionWithDb)
-		otpService := business.NewOTPService(userRepository)
-
-		v1Routes.POST(serviceConstant.SignIn, handler.SignInHandler(userService, otpService))
+		v1Routes.POST(serviceConstant.SignIn, signInController.HandleSignIn)
 	}
 	return router
 }

@@ -103,6 +103,8 @@ const (
 	MaxValidationError                 = "must be less than or equal to %v"
 	AlphaNumericValidationError        = "must be alphanumeric"
 	BidLengthValidationError           = "please enter bid details"
+	UpperCaseValidationError           = "must be uppercase"
+	LowerCaseValidationError           = "must be lowercase"
 )
 
 // NEST API Error Messages
@@ -287,4 +289,5 @@ const (
 const (
 	GenericJSONErrorMessage = "error"
 	GenericJSONMessage      = "message"
+	ValidationErrors        = "validation errors"
 )

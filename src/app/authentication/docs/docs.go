@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/authentication/signin": {
+        "/v1/signin": {
             "post": {
                 "description": "Handle sign-in request and authenticate the user",
                 "consumes": [
@@ -70,10 +70,12 @@ const docTemplate = `{
                 "password": {
                     "type": "string",
                     "maxLength": 20,
-                    "minLength": 8
+                    "minLength": 8,
+                    "example": "Goat@018"
                 },
                 "username": {
-                    "type": "string"
+                    "type": "string",
+                    "example": "virat"
                 }
             }
         }

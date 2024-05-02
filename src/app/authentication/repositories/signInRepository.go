@@ -3,23 +3,27 @@ package repositories
 import (
 	"errors"
 	"gorm.io/gorm"
+	"stock_broker_application/src/constants"
+	"stock_broker_application/src/models"
 	dbModels "stock_broker_application/src/models"
+	"time"
 )
 
 type SignInRepository interface {
 	AuthenticateUser(username string, password string) (bool, error)
+	UpdateOTPAndCreationTime(email string, newOTP int) error
 }
 
-type SignInRepositoryImpl struct {
+type userDBRepository struct {
 	db *gorm.DB
 }
 
 // NewSignInRepositoryImpl creates a new instance of SignInRepositoryImpl
-func NewSignInRepositoryImpl(db *gorm.DB) *SignInRepositoryImpl {
-	return &SignInRepositoryImpl{db: db}
+func NewSignInRepository(db *gorm.DB) *userDBRepository {
+	return &userDBRepository{db: db}
 }
 
-func (repo *SignInRepositoryImpl) AuthenticateUser(username string, password string) (bool, error) {
+func (repo *userDBRepository) AuthenticateUser(username string, password string) (bool, error) {
 	var user dbModels.Users
 	if err := repo.db.Where("username = ?", username).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -31,4 +35,15 @@ func (repo *SignInRepositoryImpl) AuthenticateUser(username string, password str
 		return false, nil
 	}
 	return true, nil
+}
+
+func (repo *userDBRepository) UpdateOTPAndCreationTime(email string, newOTP int) error {
+	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(constants.OTP, newOTP).Error; err != nil {
+		return err
+	}
+	otpCreationTime := time.Now().Truncate(time.Second)
+	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(constants.CreatedAt, otpCreationTime).Error; err != nil {
+		return err
+	}
+	return nil
 }

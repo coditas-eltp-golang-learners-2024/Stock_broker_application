@@ -22,3 +22,5 @@ type Users struct {
 func (Users) TableName() string {
     return constants.UserTable
 }
+
+

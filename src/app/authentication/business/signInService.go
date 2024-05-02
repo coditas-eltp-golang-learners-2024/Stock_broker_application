@@ -6,6 +6,7 @@ import (
 	"authentication/repositories"
 	"errors"
 	"fmt"
+	"math/rand"
 )
 
 // SignInService handles the sign-in logic
@@ -31,3 +32,11 @@ func (service *SignInService) SignIn(signInRequest models.SignInRequest) error {
 	}
 	return nil
 }
+func (service *SignInService) GenerateAndSaveOTP(username string) error {
+	otp := rand.Intn(8999) + 1000
+	if err := service.userRepository.UpdateOTPAndCreationTime(username, otp); err != nil {
+		return err
+	}
+	return nil
+}
+

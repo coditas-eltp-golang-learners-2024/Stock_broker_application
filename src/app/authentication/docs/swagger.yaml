@@ -2,10 +2,12 @@ definitions:
   models.SignInRequest:
     properties:
       password:
+        example: Goat@018
         maxLength: 20
         minLength: 8
         type: string
       username:
+        example: virat
         type: string
     required:
     - password
@@ -14,7 +16,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /v1/authentication/signin:
+  /v1/signin:
     post:
       consumes:
       - application/json
