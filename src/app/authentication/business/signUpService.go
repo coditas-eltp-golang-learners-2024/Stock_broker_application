@@ -18,16 +18,16 @@ func NewSignUpService(userSignUpRepository repositories.UserSignUpRepository) *S
 	}
 }
 
-func (b *SignUpService) SignUp(user *models.Users) error {
+func (service *SignUpService) SignUp(user *models.Users) error {
 	client := postgres.GetPostGresClient()
-	count, err := b.UserSignUpRepository.CheckUserExists(client.GormDb, user)
+	count, err := service.UserSignUpRepository.CheckUserExists(client.GormDb, user)
 	if err != nil {
 		return err
 	}
 	if count > 0 {
 		return errors.New(constants.ErrUserExists)
 	}
-	result := b.UserSignUpRepository.InsertUserIntoDB(client.GormDb, user)
+	result := service.UserSignUpRepository.InsertUserIntoDB(client.GormDb, user)
 	if result != nil {
 		return result
 	}
