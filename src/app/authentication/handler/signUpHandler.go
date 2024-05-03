@@ -2,13 +2,13 @@ package handler
 
 import (
 	"authentication/business"
-	"authentication/commons/constants"
 	"authentication/models"
-	"log"
 	"net/http"
+	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type signUpController struct {
@@ -28,8 +28,11 @@ func (controller *signUpController) SignUp(ctx *gin.Context) {
 		return
 	}
 	if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(user); err != nil {
-		log.Println("Validation error:", err)
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": constants.ErrInvalidPasswordFormat})
+		validationErrors := validations.FormatValidationErrors(ctx.Request.Context(), err.(validator.ValidationErrors))
+		ctx.JSON(http.StatusBadRequest, gin.H{
+			genericConstants.GenericJSONErrorMessage: genericConstants.ValidatorError,
+			genericConstants.GenericValidationError:  validationErrors,
+		})
 		return
 	}
 	if err := controller.service.SignUp(&user); err != nil {
