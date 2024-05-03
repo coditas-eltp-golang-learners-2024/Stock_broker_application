@@ -24,6 +24,17 @@ func NewOTPValidationController(service OTPService) *OTPValidationController {
 	}
 }
 
+// NewValidateOTPHandler handles the OTP validation request
+// @Summary Validate OTP
+// @Description Validates the OTP for a user
+// @Tags OTP
+// @Accept json
+// @Produce json
+// @Param otpRequest body models.ValidateOTPRequest true "OTP Request"
+// @Success 200 {string} string "OTP validated successfully"
+// @Failure 400 {string} string "Bad request"
+// @Failure 401 {string} string "OTP is expired or invalid"
+// @Router /validateOTP [post]
 func (controller *OTPValidationController) HandleOTPValidation(context *gin.Context) {
 	var otpValidationRequest models.ValidateOTPRequest
 

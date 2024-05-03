@@ -11,4 +11,5 @@ const (
 	ErrorCheckUserExists  = "failed to check user exists"
 	ErrorUpdateUserToken  = "failed to update user token"
 	ErrorInvalidRequest   = "invalid request"
+	ErrorInvalidUserData  = "invalid user data."
 )

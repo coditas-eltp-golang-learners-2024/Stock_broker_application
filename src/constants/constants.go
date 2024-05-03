@@ -25,6 +25,16 @@ const (
 	NestMRVFalseValue = "N"
 )
 
+// Validate Password Constants
+const (
+	ValidatePasswordFormat = "ValidatePasswordFormat"
+)
+
+// Password Regex: Currently not working so unused
+const (
+	PasswordRegex = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
+)
+
 // Response Message Constants
 const (
 	ResponseMessageKey    = "message"

@@ -6,4 +6,5 @@ const (
 	AuthenticationHealthCheck = "/authentication/health-check"
 	Metrics                   = "/metrics"
 	ValidateOTP               = "/validate-otp"
+	ForgotPassword            = "/forgot-password"
 )

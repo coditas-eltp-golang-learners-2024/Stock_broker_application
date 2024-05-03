@@ -21,6 +21,17 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
+	//Dependency Injection for forgot-Password-Feature
+	repository := repositories.NewForgotPasswordRepository(postgres.GetPostGresClient().GormDb)
+	service := business.NewUsersService(repository)
+	newUsersController := handler.NewUsersController(service)
+
+	//Dependency Injection for OTP-Validation-Feature
+	connectionWithDb := postgres.GetPostGresClient().GormDb
+	userRepository := repositories.NewUserRepository(connectionWithDb)
+	otpService := business.NewOTPService(userRepository)
+	otpValidationController := handler.NewOTPValidationController(otpService)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
@@ -29,14 +40,9 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			}
 			c.JSON(http.StatusOK, response)
 		})
-		connectionWithDb := postgres.GetPostGresClient().GormDb
-		userRepository := repositories.NewUserRepository(connectionWithDb)
-		otpService := business.NewOTPService(userRepository)
 
-		// v1Routes.POST(constants.ValidateOTP, handler.NewOTPValidationController(otpService))
-
-		otpValidationController := handler.NewOTPValidationController(otpService)
 		v1Routes.POST(constants.ValidateOTP, otpValidationController.HandleOTPValidation)
+		v1Routes.POST(serviceConstant.ForgotPassword, newUsersController.HandleForgotPassword)
 
 	}
 	return router
