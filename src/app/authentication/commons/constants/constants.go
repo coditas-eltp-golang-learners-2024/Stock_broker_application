@@ -8,5 +8,5 @@ const (
 
 // Success messages for password update
 const (
-	PasswordUpdated = "Password updated successfully"
+	ForgotPasswordSuccessMessage = "Password updated successfully"
 )

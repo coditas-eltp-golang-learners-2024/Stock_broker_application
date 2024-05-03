@@ -6,21 +6,21 @@ import (
 	"gorm.io/gorm"
 )
 
-type ForgotPasswordRequest interface {
-	VerifyCredentialsAndUpdateOTP(email string, pancardNumber string, newPassword string) error
+type ForgotPasswordRepository interface {
+	VerifyAndUpdatePassword(email string, pancardNumber string, newPassword string) error
 }
 
-type UpdatePasswordRepo struct {
+type userDBRepository struct {
 	DB *gorm.DB
 }
 
-func NewforgotPasswordRepository(db *gorm.DB) ForgotPasswordRequest {
-	return &UpdatePasswordRepo{DB: db}
+func NewForgotPasswordRepository(db *gorm.DB) ForgotPasswordRepository {
+	return &userDBRepository{DB: db}
 }
 
-func (repo *UpdatePasswordRepo) VerifyCredentialsAndUpdateOTP(email string, pancardNumber string, newPassword string) error {
+func (repository *userDBRepository) VerifyAndUpdatePassword(email string, pancardNumber string, newPassword string) error {
 	// Update the password for the user if found
-	result := repo.DB.Model(&dbModels.Users{}).
+	result := repository.DB.Model(&dbModels.Users{}).
 		Where("email = ? AND pan_card = ?", email, pancardNumber).
 		Update("password", newPassword)
 
