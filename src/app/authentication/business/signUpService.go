@@ -2,9 +2,9 @@ package business
 
 import (
 	"authentication/commons/constants"
+	"authentication/models"
 	"authentication/repositories"
 	"errors"
-	"stock_broker_application/src/models"
 	"stock_broker_application/src/utils/postgres"
 )
 
@@ -18,7 +18,7 @@ func NewSignUpService(userSignUpRepository repositories.UserSignUpRepository) *S
 	}
 }
 
-func (service *SignUpService) SignUp(user *models.Users) error {
+func (service *SignUpService) SignUp(user *models.UserSignUp) error {
 	client := postgres.GetPostGresClient()
 	count, err := service.UserSignUpRepository.CheckUserExists(client.GormDb, user)
 	if err != nil {

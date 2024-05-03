@@ -3,9 +3,9 @@ package handler
 import (
 	"authentication/business"
 	"authentication/commons/constants"
+	"authentication/models"
 	"log"
 	"net/http"
-	"stock_broker_application/src/models"
 	"stock_broker_application/src/utils/validations"
 
 	"github.com/gin-gonic/gin"
@@ -22,7 +22,7 @@ func NewSignUpController(service *business.SignUpService) *signUpController {
 }
 
 func (controller *signUpController) SignUp(ctx *gin.Context) {
-	var user models.Users
+	var user models.UserSignUp
 	if err := ctx.ShouldBindJSON(&user); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return

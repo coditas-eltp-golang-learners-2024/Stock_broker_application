@@ -2,13 +2,14 @@ package validations
 
 import (
 	"context"
-	"errors"
-	"log"
+	"fmt"
 	"reflect"
+	"stock_broker_application/src/constants"
 	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/models"
 	"unicode"
 
-	"github.com/go-playground/validator"
+	"github.com/go-playground/validator/v10"
 )
 
 var custValidator *validator.Validate
@@ -17,9 +18,9 @@ func NewCustomValidator(ctx context.Context) {
 	custValidator = validator.New()
 
 	custValidator.RegisterTagNameFunc(func(field reflect.StructField) string {
-		return field.Tag.Get(genericConstants.JsonConfig)
+		return field.Tag.Get(constants.JsonConfig)
 	})
-	custValidator.RegisterValidation(genericConstants.PasswordValidation, ValidatePasswordStruct)
+	custValidator.RegisterValidation(constants.CustomPasswordValidation, ValidatePasswordStruct)
 
 }
 
@@ -34,34 +35,70 @@ func GetCustomValidator(ctx context.Context) *validator.Validate {
 func ValidatePasswordStruct(fl validator.FieldLevel) bool {
 	input := fl.Field().String()
 
-	// Perform custom password format validation
-	if err := validateCustomPasswordFormat(input); err != nil {
-		// Custom validation failed
-		log.Println("Custom password format validation error:", err)
-		return false
+	if result := isValid(input); result {
+		return true
 	}
 
-	return true
+	return false
 }
 
-// validateCustomPasswordFormat is a custom function to validate password format.
-func validateCustomPasswordFormat(input string) error {
-	hasAlpha := false
-	hasNumeric := false
+var customErrorMap = map[string]string{
+	"min":                genericConstants.MinValidationError,
+	"required":           genericConstants.RequiredValidationError,
+	"max":                genericConstants.MaxValidationError,
+	"PasswordValidation": genericConstants.GenericPasswordValidationError,
+}
 
-	// Check each character in the password
-	for _, char := range input {
-		if unicode.IsLetter(char) {
-			hasAlpha = true
-		} else if unicode.IsDigit(char) {
-			hasNumeric = true
-		}
+var SliceErrors = make([]string, 0)
 
-		// Early exit if both alphabetic and numeric characters are found
-		if hasAlpha && hasNumeric {
-			return nil
+func isValid(newPassword string) bool {
+	var (
+		hasUpper  = false
+		hasLower  = false
+		hasNumber = false
+	)
+
+	for _, char := range newPassword {
+		switch {
+		case unicode.IsUpper(char):
+			hasUpper = true
+		case unicode.IsLower(char):
+			hasLower = true
+		case unicode.IsNumber(char):
+			hasNumber = true
 		}
 	}
-	// If password does not contain both alphabetic and numeric characters
-	return errors.New(genericConstants.ErrValidatePassword)
+
+	if hasUpper && hasLower && hasNumber {
+		return true
+	}
+
+	return false
+}
+
+// FormatValidationErrors formats validation errors into a user-friendly format
+func FormatValidationErrors(ctx context.Context, validationErrors validator.ValidationErrors) []models.ErrorMessage {
+	var errorMessages []models.ErrorMessage
+
+	// Iterate over each validation error and format it
+	for _, err := range validationErrors {
+		key := err.Field()
+		message := err.Tag()
+		errorParam := err.Param()
+		var errorMessage string
+
+		if errorParam != "" {
+			errorMessage = fmt.Sprintf(customErrorMap[message], errorParam)
+		} else {
+			errorMessage = customErrorMap[message]
+		}
+
+		// Add the error message to both structured error messages and string slice
+		errorMessages = append(errorMessages, models.ErrorMessage{
+			Key:          key,
+			ErrorMessage: errorMessage,
+		})
+	}
+
+	return errorMessages
 }

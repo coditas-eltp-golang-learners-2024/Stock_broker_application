@@ -7,3 +7,8 @@ const (
 	DatabaseYamlFilePath = "resources"
 	DatabasePort         = "3306"
 )
+
+// Success messages for password update
+const (
+	ForgotPasswordSuccessMessage = "Password updated successfully"
+)

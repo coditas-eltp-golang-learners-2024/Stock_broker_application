@@ -9,6 +9,7 @@ import (
 	"authentication/handler"
 	"authentication/repositories"
 	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/utils/postgres"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,6 +28,10 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	userSignUpService := business.NewSignUpService(userRepoSignUp)
 	userSignUpController := handler.NewSignUpController(userSignUpService)
 
+	repository := repositories.NewForgotPasswordRepository(postgres.GetPostGresClient().GormDb)
+	service := business.NewUsersService(repository)
+	newUsersController := handler.NewUsersController(service)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
@@ -37,6 +42,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		})
 		//Add your routes here
 		v1Routes.POST(constants.SignUp, userSignUpController.SignUp)
+		v1Routes.POST(serviceConstant.ForgotPassword, newUsersController.HandleForgotPassword)
 	}
 	return router
 }

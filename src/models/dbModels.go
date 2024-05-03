@@ -10,11 +10,11 @@ type Users struct {
 	UserName       string    `gorm:"column:username" json:"username"`
 	Name           string    `gorm:"column:name" json:"name"`
 	Email          string    `gorm:"column:email" json:"email"`
-	PhoneNumber    uint64    `gorm:"column:phone_number" json:"phone_number"`
+	CreatedAt      time.Time `gorm:"column:created_at" json:"created_at"`
+	PhoneNumber    string    `gorm:"column:phone_number" json:"phone_number"`
 	PanCard        string    `gorm:"column:pan_card" json:"pan_card"`
 	Password       string    `gorm:"column:password" json:"password"`
 	Token          string    `gorm:"column:token" json:"token"`
-	CreatedAt      time.Time `gorm:"column:created_at" json:"created_at"`
 	OTP            int       `gorm:"column:otp" json:"otp"`
 	EpochTimestamp int64     `gorm:"column:epochtimestamp" json:"epochtimestamp"`
 }
