@@ -15,8 +15,13 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/changepassword": {
+        "/v1/change-password": {
             "patch": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
                 "description": "Change a user's password",
                 "consumes": [
                     "application/json"

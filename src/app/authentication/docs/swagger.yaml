@@ -18,7 +18,7 @@ info:
   title: Stock Broker Application
   version: "2.0"
 paths:
-  /changepassword:
+  /v1/change-password:
     patch:
       consumes:
       - application/json
@@ -45,6 +45,8 @@ paths:
           description: Internal Server Error
           schema:
             type: string
+      security:
+      - JWT: []
       summary: Change Password
       tags:
       - Authentication

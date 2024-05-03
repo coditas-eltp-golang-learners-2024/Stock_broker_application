@@ -1,6 +1,6 @@
 package models
 
 type ChangePassword struct {
-	OldPassword string `json:"oldPassword" validate:"required,passwordValidation" example:"S@nket123"`
-	NewPassword string `json:"newPassword" validate:"required,passwordValidation" example:"Coditas@18"`
+	OldPassword string `json:"oldPassword" validate:"required" example:"S@nket123"`
+	NewPassword string `json:"" validate:"required,validatePassword" example:"Coditas@18"`
 }

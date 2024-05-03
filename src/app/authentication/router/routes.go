@@ -6,13 +6,13 @@ import (
 	"authentication/docs"
 	"authentication/handler"
 	"authentication/repositories"
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/middleware/headerCheck"
 	"stock_broker_application/src/utils/postgres"
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func init() {
@@ -25,6 +25,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
+	connectionWithDb := postgres.GetPostGresClient().GormDb
+	userDatabaseRepo := repositories.NewUserDBRepository(connectionWithDb)
+	passwordService := business.NewRestPasswordService(userDatabaseRepo)
+	changePasswordHandler := handler.NewChangePasswordController(passwordService)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
@@ -33,12 +38,9 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			}
 			c.JSON(http.StatusOK, response)
 		})
-		ConnectionWithDb := postgres.GetPostGresClient().GormDb
-		userDatabaseRepo := repositories.NewUserDBRepository(ConnectionWithDb)
-		passwordService := business.NewRestPasswordService(userDatabaseRepo)
-		v1Routes.PATCH(serviceConstant.CustomerchangepasswordEndpoint,headerCheck.AuthMiddleware(),handler.HandleChangePassword(passwordService))
+		v1Routes.PATCH(serviceConstant.ChangePassword, headerCheck.AuthMiddleware(), handler.HandleChangePassword(changePasswordHandler))
 		docs.SwaggerInfo.Schemes = []string{"http", "https"}
-		v1Routes.GET(serviceConstant.DocsAnyPath, ginSwagger.WrapHandler(swaggerFiles.Handler))
+		v1Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 	return router
 }

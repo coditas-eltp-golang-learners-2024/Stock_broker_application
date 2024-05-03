@@ -6,14 +6,14 @@ const (
 	PortDefaultValue = 8080
 )
 
-// constants defining keys and messages used in the application.
+// constants defining keys
 const (
-	StatusKey                     = "Status"
-	PasswordChangedSuccessMessage = "Password changed successfully"
+	StatusKey                    = "Status"
+	ChangePasswordSuccessMessage = "Password changed successfully"
 )
 
-// database column names used in change-password
+// database column
 const (
-	UserName  = "username"
+	UserName = "username"
 	Password = "password"
 )

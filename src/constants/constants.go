@@ -690,11 +690,13 @@ const (
 	AutomationFlag                 = "AUTOMATION"
 )
 
+// validation tags
 const (
-	CustomPasswordValidationTag = "passwordValidation"
+	ValidatePassword       = "validatePassword"
+	ValidatePasswordFormat = "validatePasswordFormat"
 )
 
 //password regex expression
 const (
-	PasswordRegex = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
+	PasswordRegex = `^On.*On\s.+?wrote:`
 )

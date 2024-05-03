@@ -7,8 +7,7 @@ const (
 	Metrics                   = "/metrics"
 )
 
-// Endpoints for Swagger and change-password
+// Endpoints
 const (
-	CustomerchangepasswordEndpoint = "/change-password"
-	DocsAnyPath                    = "/docs/*any"
+	ChangePassword = "/change-password"
 )
