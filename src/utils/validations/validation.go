@@ -3,64 +3,43 @@ package validations
 import (
 	"context"
 	"fmt"
-	"github.com/go-playground/validator/v10"
 	"reflect"
-	genericConstants"stock_broker_application/src/constants"
+	"stock_broker_application/src/constants"
+	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
-	"strings"
 	"unicode"
+
+	"github.com/go-playground/validator/v10"
 )
 
-var customValidator *validator.Validate
+var custValidator *validator.Validate
 
-func NewCustomValidator(ctx context.Context) *validator.Validate {
-	if customValidator == nil {
-		customValidator = validator.New()
-		customValidator.RegisterTagNameFunc(func(field reflect.StructField) string {
-			return field.Tag.Get(genericConstants.JsonConfig)
-		})
-		customValidator.RegisterValidation(genericConstants.CustomPasswordValidation, ValidatePasswordStruct)
-	}
-	return customValidator
+func NewCustomValidator(ctx context.Context) {
+	custValidator = validator.New()
+
+	custValidator.RegisterTagNameFunc(func(field reflect.StructField) string {
+		return field.Tag.Get(constants.JsonConfig)
+	})
+	custValidator.RegisterValidation(constants.CustomPasswordValidation, ValidatePasswordStruct)
+
 }
 
 func GetCustomValidator(ctx context.Context) *validator.Validate {
-	if customValidator == nil {
-		_ = NewCustomValidator(ctx)
+	if custValidator == nil {
+		NewCustomValidator(ctx)
 	}
-	return customValidator
+	return custValidator
 }
 
 // ValidatePasswordStruct is a custom validation function for password format.
 func ValidatePasswordStruct(fl validator.FieldLevel) bool {
 	input := fl.Field().String()
-	return isValidPassword(input)
-}
 
-func isValidPassword(password string) bool {
-	if len(password) < 8 {
-		return false
+	if result := isValid(input); result {
+		return true
 	}
 
-	hasUppercase := false
-	hasLowercase := false
-	hasDigit := false
-	hasSpecialChar := false
-
-	for _, char := range password {
-		switch {
-		case unicode.IsUpper(char):
-			hasUppercase = true
-		case unicode.IsLower(char):
-			hasLowercase = true
-		case unicode.IsNumber(char):
-			hasDigit = true
-		case unicode.IsPunct(char) || unicode.IsSymbol(char):
-			hasSpecialChar = true
-		}
-	}
-
-	return hasUppercase && hasLowercase && hasDigit && hasSpecialChar
+	return false
 }
 
 var customErrorMap = map[string]string{
@@ -70,10 +49,36 @@ var customErrorMap = map[string]string{
 	"PasswordValidation": genericConstants.GenericPasswordValidationError,
 }
 
+var SliceErrors = make([]string, 0)
+
+func isValid(newPassword string) bool {
+	var (
+		hasUpper  = false
+		hasLower  = false
+		hasNumber = false
+	)
+
+	for _, char := range newPassword {
+		switch {
+		case unicode.IsUpper(char):
+			hasUpper = true
+		case unicode.IsLower(char):
+			hasLower = true
+		case unicode.IsNumber(char):
+			hasNumber = true
+		}
+	}
+
+	if hasUpper && hasLower && hasNumber {
+		return true
+	}
+
+	return false
+}
+
 // FormatValidationErrors formats validation errors into a user-friendly format
-func FormatValidationErrors(ctx context.Context, validationErrors validator.ValidationErrors) ([]models.ErrorMessage, string) {
+func FormatValidationErrors(ctx context.Context, validationErrors validator.ValidationErrors) []models.ErrorMessage {
 	var errorMessages []models.ErrorMessage
-	var errorMessagesString []string
 
 	// Iterate over each validation error and format it
 	for _, err := range validationErrors {
@@ -93,10 +98,7 @@ func FormatValidationErrors(ctx context.Context, validationErrors validator.Vali
 			Key:          key,
 			ErrorMessage: errorMessage,
 		})
-
-		errorMessagesString = append(errorMessagesString, fmt.Sprintf(customErrorMap[message], 8))
 	}
 
-	// Return both structured error messages and concatenated string
-	return errorMessages, strings.Join(errorMessagesString, ", ")
+	return errorMessages
 }

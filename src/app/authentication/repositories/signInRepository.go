@@ -14,16 +14,16 @@ type SignInRepository interface {
 	UpdateOTPAndCreationTime(email string, newOTP int) error
 }
 
-type userDBRepository struct {
+type userSignInDBRepository struct {
 	db *gorm.DB
 }
 
 // NewSignInRepositoryImpl creates a new instance of SignInRepositoryImpl
-func NewSignInRepository(db *gorm.DB) *userDBRepository {
-	return &userDBRepository{db: db}
+func NewSignInRepository(db *gorm.DB) *userSignInDBRepository {
+	return &userSignInDBRepository{db: db}
 }
 
-func (repo *userDBRepository) AuthenticateUser(username string, password string) (bool, error) {
+func (repo *userSignInDBRepository) AuthenticateUser(username string, password string) (bool, error) {
 	var user dbModels.Users
 	if err := repo.db.Where("username = ?", username).First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -37,7 +37,7 @@ func (repo *userDBRepository) AuthenticateUser(username string, password string)
 	return true, nil
 }
 
-func (repo *userDBRepository) UpdateOTPAndCreationTime(email string, newOTP int) error {
+func (repo *userSignInDBRepository) UpdateOTPAndCreationTime(email string, newOTP int) error {
 	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(genericConstants.OTP, newOTP).Error; err != nil {
 		return err
 	}

@@ -30,6 +30,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	signInService := business.NewSignInService(userDatabaseRepository)
 	signInController := handler.NewSignInController(signInService)
 
+	//Dependency Injection for forgot-Password-Feature
+	repository := repositories.NewForgotPasswordRepository(postgres.GetPostGresClient().GormDb)
+	service := business.NewUsersService(repository)
+	newUsersController := handler.NewUsersController(service)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
@@ -44,6 +49,8 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 
 		// routes
 		v1Routes.POST(serviceConstant.SignIn, signInController.HandleSignIn)
+		v1Routes.POST(serviceConstant.ForgotPassword, newUsersController.HandleForgotPassword)
+
 	}
 	return router
 }

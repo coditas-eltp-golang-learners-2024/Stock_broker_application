@@ -39,13 +39,13 @@ func (controller *signInController) HandleSignIn(context *gin.Context) {
 		context.JSON(http.StatusBadRequest, constants.ErrorBadRequest)
 		return
 	}
-	// Validate the SignInRequest struct using custom validation
 	if err := validations.GetCustomValidator(context.Request.Context()).Struct(signInRequest); err != nil {
-		validationErrors, _ := validations.FormatValidationErrors(context.Request.Context(), err.(validator.ValidationErrors))
+		validationErrors := validations.FormatValidationErrors(context.Request.Context(), err.(validator.ValidationErrors))
 		context.JSON(http.StatusBadRequest, gin.H{
 			genericConstants.GenericJSONErrorMessage: genericConstants.ValidatorError,
-			genericConstants.ValidationErrors:        validationErrors,
+			genericConstants.GenericValidationError:  validationErrors,
 		})
+
 		return
 	}
 	if err := controller.service.SignIn(signInRequest); err != nil {

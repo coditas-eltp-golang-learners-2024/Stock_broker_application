@@ -30,7 +30,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /v1/forgot-password:
+  /forgot-password:
     post:
       consumes:
       - application/json

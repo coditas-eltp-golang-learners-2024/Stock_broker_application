@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/forgot-password": {
+        "/forgot-password": {
             "post": {
                 "description": "Updates user credentials based on the provided request.",
                 "consumes": [
