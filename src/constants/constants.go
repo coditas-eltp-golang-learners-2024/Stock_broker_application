@@ -30,7 +30,7 @@ const (
 	ValidatePasswordFormat = "ValidatePasswordFormat"
 )
 
-// Password Regex
+// Password Regex: Currently not working so unused
 const (
 	PasswordRegex = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
 )

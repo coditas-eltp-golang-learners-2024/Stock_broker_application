@@ -9,17 +9,17 @@ type NewforgotPasswordService interface {
 	UpdatePassword(credentials models.ForgotPasswordRequest) error
 }
 
-type userDataService struct {
+type forgotPasswordSercvice struct {
 	userCredentialsInterface repositories.ForgotPasswordRepository
 }
 
 func NewUsersService(userData repositories.ForgotPasswordRepository) NewforgotPasswordService {
-	return &userDataService{
+	return &forgotPasswordSercvice{
 		userCredentialsInterface: userData,
 	}
 }
 
-func (service *userDataService) UpdatePassword(credentials models.ForgotPasswordRequest) error {
+func (service *forgotPasswordSercvice) UpdatePassword(userModel models.ForgotPasswordRequest) error {
 
-	return service.userCredentialsInterface.VerifyAndUpdatePassword(credentials.Email, credentials.PanCardNumber, credentials.Password)
+	return service.userCredentialsInterface.VerifyAndUpdatePassword(userModel.Email, userModel.PanCardNumber, userModel.NewPassword)
 }

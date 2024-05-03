@@ -58,8 +58,7 @@ func (controller *forgotPasswordController) UpdateUsers(context *gin.Context) {
 		return
 	}
 
-	// var request dbModels.ForgotPasswordRequest
-	err := controller.service.UpdatePassword(request) // Use 'service' instead of 'business'
+	err := controller.service.UpdatePassword(request)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.InvalidUserDataError})
 		return
