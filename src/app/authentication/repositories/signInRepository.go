@@ -3,7 +3,7 @@ package repositories
 import (
 	"errors"
 	"gorm.io/gorm"
-	"stock_broker_application/src/constants"
+	genericConstants"stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 	dbModels "stock_broker_application/src/models"
 	"time"
@@ -38,11 +38,11 @@ func (repo *userDBRepository) AuthenticateUser(username string, password string)
 }
 
 func (repo *userDBRepository) UpdateOTPAndCreationTime(email string, newOTP int) error {
-	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(constants.OTP, newOTP).Error; err != nil {
+	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(genericConstants.OTP, newOTP).Error; err != nil {
 		return err
 	}
 	otpCreationTime := time.Now().Truncate(time.Second)
-	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(constants.CreatedAt, otpCreationTime).Error; err != nil {
+	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(genericConstants.CreatedAt, otpCreationTime).Error; err != nil {
 		return err
 	}
 	return nil

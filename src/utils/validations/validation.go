@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"github.com/go-playground/validator/v10"
 	"reflect"
-	"stock_broker_application/src/constants"
+	genericConstants"stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 	"strings"
 	"unicode"
@@ -17,9 +17,9 @@ func NewCustomValidator(ctx context.Context) *validator.Validate {
 	if customValidator == nil {
 		customValidator = validator.New()
 		customValidator.RegisterTagNameFunc(func(field reflect.StructField) string {
-			return field.Tag.Get(constants.JsonConfig)
+			return field.Tag.Get(genericConstants.JsonConfig)
 		})
-		customValidator.RegisterValidation(constants.CustomPassword, ValidatePasswordStruct)
+		customValidator.RegisterValidation(genericConstants.CustomPassword, ValidatePasswordStruct)
 	}
 	return customValidator
 }
@@ -64,10 +64,10 @@ func isValidPassword(password string) bool {
 }
 
 var customErrorMap = map[string]string{
-	"min":                constants.MinValidationError,
-	"required":           constants.RequiredValidationError,
-	"max":                constants.MaxValidationError,
-	"PasswordValidation": constants.GenericPasswordValidationError,
+	"min":                genericConstants.MinValidationError,
+	"required":           genericConstants.RequiredValidationError,
+	"max":                genericConstants.MaxValidationError,
+	"PasswordValidation": genericConstants.GenericPasswordValidationError,
 }
 
 // FormatValidationErrors formats validation errors into a user-friendly format
