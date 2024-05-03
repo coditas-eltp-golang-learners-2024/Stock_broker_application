@@ -59,7 +59,8 @@
         "models.ForgotPasswordRequest": {
             "type": "object",
             "required": [
-                "NewPassword"
+                "email",
+                "panCardNumber"
             ],
             "properties": {
                 "NewPassword": {
@@ -72,7 +73,7 @@
                     "type": "string",
                     "example": "testUser@gmail.com"
                 },
-                "pancardNumber": {
+                "panCardNumber": {
                     "type": "string",
                     "example": "abgjhi6789"
                 }

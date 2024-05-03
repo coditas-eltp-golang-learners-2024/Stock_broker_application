@@ -14,7 +14,7 @@ import (
 )
 
 type NewForgetPasswordController interface {
-	UpdateUsers(ctx *gin.Context)
+	HandleForgotPassword(ctx *gin.Context)
 }
 
 type forgotPasswordController struct {
@@ -39,7 +39,7 @@ func NewUsersController(service business.NewforgotPasswordService) NewForgetPass
 // @Failure 401 {object} string "Unauthorized"
 // @Failure 500 {object} string "Internal server error"
 // @Router /forgot-password [post]
-func (controller *forgotPasswordController) UpdateUsers(context *gin.Context) {
+func (controller *forgotPasswordController) HandleForgotPassword(context *gin.Context) {
 
 	var request models.ForgotPasswordRequest
 	if err := context.ShouldBindJSON(&request); err != nil {
@@ -47,7 +47,6 @@ func (controller *forgotPasswordController) UpdateUsers(context *gin.Context) {
 		return
 	}
 
-	// Perform validation using the initialized validator
 	if err := validations.GetCustomValidator(context.Request.Context()).Struct(request); err != nil {
 		validationErrors := validations.FormatValidationErrors(context.Request.Context(), err.(validator.ValidationErrors))
 		context.JSON(http.StatusBadRequest, gin.H{
@@ -60,7 +59,7 @@ func (controller *forgotPasswordController) UpdateUsers(context *gin.Context) {
 
 	err := controller.service.UpdatePassword(request)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.InvalidUserDataError})
+		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorInvalidUserData})
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.ForgotPasswordSuccessMessage})

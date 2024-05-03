@@ -70,7 +70,8 @@ const docTemplate = `{
         "models.ForgotPasswordRequest": {
             "type": "object",
             "required": [
-                "NewPassword"
+                "email",
+                "panCardNumber"
             ],
             "properties": {
                 "NewPassword": {
@@ -83,7 +84,7 @@ const docTemplate = `{
                     "type": "string",
                     "example": "testUser@gmail.com"
                 },
-                "pancardNumber": {
+                "panCardNumber": {
                     "type": "string",
                     "example": "abgjhi6789"
                 }

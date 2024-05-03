@@ -9,11 +9,12 @@ definitions:
       email:
         example: testUser@gmail.com
         type: string
-      pancardNumber:
+      panCardNumber:
         example: abgjhi6789
         type: string
     required:
-    - NewPassword
+    - email
+    - panCardNumber
     type: object
 info:
   contact: {}

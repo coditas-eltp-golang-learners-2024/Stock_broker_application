@@ -38,7 +38,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			c.JSON(http.StatusOK, response)
 		})
 		//Add your routes here
-		v1Routes.POST(serviceConstant.ForgotPassword, newUsersController.UpdateUsers)
+		v1Routes.POST(serviceConstant.ForgotPassword, newUsersController.HandleForgotPassword)
 
 	}
 	return router

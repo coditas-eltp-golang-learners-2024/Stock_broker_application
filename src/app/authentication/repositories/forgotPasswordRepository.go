@@ -3,6 +3,8 @@ package repositories
 import (
 	dbModels "stock_broker_application/src/models"
 
+	genericConstants "stock_broker_application/src/constants"
+
 	"gorm.io/gorm"
 )
 
@@ -22,14 +24,13 @@ func (repository *userDBRepository) VerifyAndUpdatePassword(email string, pancar
 	// Update the password for the user if found
 	result := repository.DB.Model(&dbModels.Users{}).
 		Where("email = ? AND pan_card = ?", email, pancardNumber).
-		Update("password", newPassword)
+		Update(genericConstants.Password, newPassword)
 
 	if result.Error != nil {
 		return result.Error
 	}
 
 	if result.RowsAffected == 0 {
-		// No user found with the provided credentials
 		return gorm.ErrRecordNotFound
 	}
 
