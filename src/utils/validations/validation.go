@@ -19,7 +19,7 @@ func NewCustomValidator(ctx context.Context) *validator.Validate {
 		customValidator.RegisterTagNameFunc(func(field reflect.StructField) string {
 			return field.Tag.Get(genericConstants.JsonConfig)
 		})
-		customValidator.RegisterValidation(genericConstants.CustomPassword, ValidatePasswordStruct)
+		customValidator.RegisterValidation(genericConstants.CustomPasswordValidation, ValidatePasswordStruct)
 	}
 	return customValidator
 }
