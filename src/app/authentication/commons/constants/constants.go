@@ -7,6 +7,6 @@ const (
 )
 
 // success messages of otp validation
-var (
-	SuccessOTPValidation = "OTP validated successfully"
+const (
+	ValidateOTPSuccessMessage = "OTP validated successfully"
 )

@@ -30,10 +30,13 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			c.JSON(http.StatusOK, response)
 		})
 		connectionWithDb := postgres.GetPostGresClient().GormDb
-		userRepository := repositories.NewCustomerRepository(connectionWithDb)
+		userRepository := repositories.NewUserRepository(connectionWithDb)
 		otpService := business.NewOTPService(userRepository)
 
-		v1Routes.POST(constants.OTPValidationRoute, handler.NewValidateOTPHandler(otpService))
+		// v1Routes.POST(constants.ValidateOTP, handler.NewOTPValidationController(otpService))
+
+		otpValidationController := handler.NewOTPValidationController(otpService)
+		v1Routes.POST(constants.ValidateOTP, otpValidationController.HandleOTPValidation)
 
 	}
 	return router

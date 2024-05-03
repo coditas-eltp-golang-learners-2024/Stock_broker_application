@@ -1,58 +1,46 @@
 package repositories
 
 import (
-	"github.com/go-sql-driver/mysql"
+	"errors"
 	"gorm.io/gorm"
-	"log"
-	"stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
-	"time"
 )
 
-type CustomerRepository interface {
-	CheckOtp(username string, otp uint16) bool
+type UserRepository interface {
+	CheckOtp(username string, otp uint16) (bool, error)
+	CheckUserExists(username string) (bool, error)
 	UpdateUserToken(username, token string) error
 }
 
-type CustomerDBRepository struct {
+type UserDBRepository struct {
 	db *gorm.DB
 }
 
-// NewCustomerRepository creates a new instance of CustomerDBRepository.
-func NewCustomerRepository(db *gorm.DB) *CustomerDBRepository {
-	return &CustomerDBRepository{db: db}
+func NewUserRepository(db *gorm.DB) *UserDBRepository {
+	return &UserDBRepository{db: db}
 }
 
-func (repo *CustomerDBRepository) CheckOtp(username string, otp uint16) bool {
+func (repo *UserDBRepository) CheckOtp(username string, otp uint16) (bool, error) {
 	var count int64
-	var otpCreationTime mysql.NullTime
-
-	if repo.db == nil {
-		log.Printf("Database connection is nil")
-		return false
+	if err := repo.db.Model(&models.Users{}).Where("username = ? AND otp = ?", username, otp).Count(&count).Error; err != nil {
+		return false, errors.New("error checking OTP: " + err.Error())
 	}
-
-	err := repo.db.Table(constants.UserTable).Select("createdAt").Where("username = ?", username).Scan(&otpCreationTime).Error
-	if err != nil {
-		return false
-	}
-	if otpCreationTime.Valid {
-		duration := time.Since(otpCreationTime.Time)
-		if duration > 12000*time.Minute {
-			return false
-		}
-	}
-	if err := repo.db.Model(&models.Users{}).Where("username=? AND otp =?", username, otp).Count(&count).Error; err != nil {
-		return false
-	}
-	return count > 0
+	return count > 0, nil
 }
 
-func (repo *CustomerDBRepository) UpdateUserToken(username, token string) error {
+func (repo *UserDBRepository) CheckUserExists(username string) (bool, error) {
+	var count int64
+	err := repo.db.Model(&models.Users{}).Where("username = ?", username).Count(&count).Error
+	if err != nil {
+		return false, err
+	}
+	return count > 0, nil
+}
+
+func (repo *UserDBRepository) UpdateUserToken(username, token string) error {
 	result := repo.db.Model(&models.Users{}).Where("username = ?", username).Update("token", token)
 	if result.Error != nil {
-		return result.Error
+		return errors.New("error updating user token: " + result.Error.Error())
 	}
-
 	return nil
 }

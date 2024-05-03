@@ -5,5 +5,5 @@ const (
 	SwaggerRoute              = "/swagger/*any"
 	AuthenticationHealthCheck = "/authentication/health-check"
 	Metrics                   = "/metrics"
-	OTPValidationRoute        = "/validate-otp"
+	ValidateOTP               = "/validate-otp"
 )

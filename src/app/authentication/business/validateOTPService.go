@@ -5,32 +5,53 @@ import (
 	"authentication/models"
 	"authentication/repositories"
 	"errors"
+	genericModel "stock_broker_application/src/models"
 	"stock_broker_application/src/utils/authorization"
 )
 
 type OTPService struct {
-	UserRepository repositories.CustomerRepository
+	UserRepository repositories.UserRepository
 }
 
-func NewOTPService(userRepository repositories.CustomerRepository) *OTPService {
+func NewOTPService(userRepository repositories.UserRepository) *OTPService {
 	return &OTPService{
 		UserRepository: userRepository,
 	}
 }
-func (otpService *OTPService) OtpVerification(otpData models.ValidateOTPRequest) error {
-	if otpService.UserRepository.CheckOtp(otpData.UserName, otpData.OTP) {
-		return errors.New(constants.ErrorOtpVerification)
+
+func (service *OTPService) OtpVerification(otpData models.ValidateOTPRequest) error {
+	if otpData.UserName == "" {
+		return errors.New(constants.ErrorRequiredUsername)
+	}
+	if otpData.OTP < 1000 || otpData.OTP > 9999 {
+		return errors.New(constants.ErrorInvalidOtpFormat)
+	}
+
+	userExists, err := service.UserRepository.CheckUserExists(otpData.UserName)
+	if err != nil {
+		return err
+	}
+	if !userExists {
+		return errors.New(constants.ErrorInvalidUsername)
+	}
+
+	isValid, err := service.UserRepository.CheckOtp(otpData.UserName, otpData.OTP)
+	if err != nil {
+		return err
+	}
+	if !isValid {
+		return errors.New(constants.ErrorInvalidOtpFormat) // This line was updated
 	}
 	return nil
 }
 
-func (otpService *OTPService) GenerateAndStoreToken(username string) (string, error) {
-	token, err := authorization.GenerateJWTToken(username)
+func (service *OTPService) GenerateAndStoreToken(tokenData genericModel.TokenData, username string) (string, error) {
+	token, err := authorization.GenerateJWTToken(tokenData)
 	if err != nil {
 		return "", err
 	}
 
-	if err := otpService.UserRepository.UpdateUserToken(username, token); err != nil {
+	if err := service.UserRepository.UpdateUserToken(username, token); err != nil {
 		return "", err
 	}
 
