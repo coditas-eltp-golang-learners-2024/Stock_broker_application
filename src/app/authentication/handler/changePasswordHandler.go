@@ -4,11 +4,10 @@ import (
 	"authentication/business"
 	genericConstants "authentication/commons/constants"
 	"authentication/models"
-	"fmt"
 	"net/http"
 	"stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
-
+	"github.com/go-playground/validator/v10"
 	"github.com/gin-gonic/gin"
 )
 
@@ -35,18 +34,21 @@ func HandleChangePassword(service *ControllerChangePassword) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var changeRequest models.ChangePassword
 		if err := ctx.BindJSON(&changeRequest); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{constants.GenericErrorMessage: err.Error()})
+			ctx.JSON(http.StatusBadRequest, gin.H{constants.GenericJSONErrorMessage: err.Error()})
 			return
 		}
-		// Validate the change password request
-		err := validations.CustomValidator.Struct(changeRequest)
-		if err != nil {
-			fmt.Println("Validation error:", err)
+		if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(changeRequest); err != nil {
+			validationErrors := validations.FormatValidationErrors(ctx.Request.Context(), err.(validator.ValidationErrors))
+			ctx.JSON(http.StatusBadRequest, gin.H{
+				constants.GenericJSONErrorMessage: constants.ValidatorError,
+				constants.GenericValidationError:  validationErrors,
+			})
+	
 			return
 		}
 
 		if err := service.ChangePasswordController.ChangePasswordService(changeRequest, ctx); err != nil {
-			ctx.JSON(http.StatusUnauthorized, gin.H{constants.GenericErrorMessage: err.Error()})
+			ctx.JSON(http.StatusUnauthorized, gin.H{constants.GenericJSONErrorMessage: err.Error()})
 			return
 		}
 		ctx.JSON(http.StatusOK, gin.H{genericConstants.StatusKey: genericConstants.ChangePasswordSuccessMessage})

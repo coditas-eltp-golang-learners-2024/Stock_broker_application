@@ -15,6 +15,56 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/forgot-password": {
+            "post": {
+                "description": "Updates user credentials based on the provided request.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update user credentials",
+                "operationId": "update-credentials",
+                "parameters": [
+                    {
+                        "description": "Forgot Password Request JSON",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ForgotPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password updated successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/change-password": {
             "patch": {
                 "security": [
@@ -82,6 +132,29 @@ const docTemplate = `{
                 "oldPassword": {
                     "type": "string",
                     "example": "S@nket123"
+                }
+            }
+        },
+        "models.ForgotPasswordRequest": {
+            "type": "object",
+            "required": [
+                "email",
+                "panCardNumber"
+            ],
+            "properties": {
+                "NewPassword": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 8,
+                    "example": "sample11110"
+                },
+                "email": {
+                    "type": "string",
+                    "example": "testUser@gmail.com"
+                },
+                "panCardNumber": {
+                    "type": "string",
+                    "example": "abgjhi6789"
                 }
             }
         }

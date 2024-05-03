@@ -10,6 +10,7 @@ const (
 const (
 	StatusKey                    = "Status"
 	ChangePasswordSuccessMessage = "Password changed successfully"
+	ForgotPasswordSuccessMessage = "Password updated successfully"
 )
 
 // database column

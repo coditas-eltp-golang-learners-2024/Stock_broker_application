@@ -6,7 +6,6 @@ import (
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
-	"strings"
 )
 
 var SecretKey = []byte("secret_key")
@@ -15,20 +14,15 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		tokenString := ctx.GetHeader(genericConstants.Authorization)
 		if tokenString == "" {
-			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericErrorMessage: genericConstants.AuthTokenMissing})
+			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.AuthTokenMissing})
 			ctx.Abort()
 			return
 		}
-		const bearerPrefix = genericConstants.Bearer
-		if strings.HasPrefix(tokenString, bearerPrefix) {
-			tokenString = tokenString[len(bearerPrefix):]
-		}
-		tokenString = strings.TrimSpace(tokenString)
 		token, err := jwt.ParseWithClaims(tokenString, &models.TokenModel{}, func(token *jwt.Token) (interface{}, error) {
 			return SecretKey, nil
 		})
 		if err != nil {
-			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericErrorMessage: genericConstants.FailedJWTValidation})
+			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.FailedJWTValidation})
 			ctx.Abort()
 			return
 		}
@@ -36,7 +30,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			ctx.Set(genericConstants.Username, claims.UserName)
 			ctx.Next()
 		}else {
-			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericErrorMessage: genericConstants.InvalidJWT})
+			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.InvalidJWT})
 			ctx.Abort()
 			return
 		}

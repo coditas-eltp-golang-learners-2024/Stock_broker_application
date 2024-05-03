@@ -25,6 +25,17 @@ const (
 	NestMRVFalseValue = "N"
 )
 
+// Validate Password Constants
+const (
+	ValidatePassword       = "validatePassword"
+	ValidatePasswordFormat = "ValidatePasswordFormat"
+)
+
+// Password Regex: Currently not working so unused
+const (
+	PasswordRegex = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
+)
+
 // Response Message Constants
 const (
 	ResponseMessageKey    = "message"
@@ -688,15 +699,4 @@ const (
 	StocksIntradayAggrDataEndpoint = "/v1/stocks/intraday-aggr-data"
 	ChartSource                    = "CHART"
 	AutomationFlag                 = "AUTOMATION"
-)
-
-// validation tags
-const (
-	ValidatePassword       = "validatePassword"
-	ValidatePasswordFormat = "validatePasswordFormat"
-)
-
-//password regex expression
-const (
-	PasswordRegex = `^On.*On\s.+?wrote:`
 )
