@@ -7,7 +7,7 @@ require (
 	github.com/go-playground/validator/v10 v10.20.0
 	github.com/swaggo/files v1.0.1
 	github.com/swaggo/gin-swagger v1.6.0
-	github.com/swaggo/swag v1.16.3 // indirect
+	github.com/swaggo/swag v1.16.3 
 	go.uber.org/zap v1.27.0
 	gorm.io/gorm v1.25.10
 	stock_broker_application v0.0.0-00010101000000-000000000000
