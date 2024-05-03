@@ -45,5 +45,9 @@ func (repo *userDBRepository) UpdateOTPAndCreationTime(email string, newOTP int)
 	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(genericConstants.CreatedAt, otpCreationTime).Error; err != nil {
 		return err
 	}
+	epochTime := time.Now().Unix()
+	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(genericConstants.EpochTimestamp, epochTime).Error; err != nil {
+		return err
+	}
 	return nil
 }

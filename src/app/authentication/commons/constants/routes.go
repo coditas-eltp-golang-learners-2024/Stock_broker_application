@@ -5,8 +5,5 @@ const (
 	SwaggerRoute              = "/swagger/*any"
 	AuthenticationHealthCheck = "/authentication/health-check"
 	Metrics                   = "/metrics"
-)
-
-const (
-	SignIn = "/signin"
+	SignIn                    = "/signin"
 )

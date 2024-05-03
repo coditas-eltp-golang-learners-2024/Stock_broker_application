@@ -17,7 +17,6 @@ const (
 	AvailableRateLimitKey            = "Available-Limit"
 	Password                         = "password"
 	OTP                              = "otp"
-	CreatedAt                        = "created_at"
 )
 
 // Nest Request Constants
@@ -104,6 +103,8 @@ const (
 	Banners                      = "banner"
 	Properties                   = "properties"
 	SebiNumber                   = "sebi_number"
+	CreatedAt                    = "created_at"
+	EpochTimestamp               = "epochtimestamp"	
 )
 
 // SQL Query Entry Keys

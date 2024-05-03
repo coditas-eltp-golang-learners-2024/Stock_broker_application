@@ -62,10 +62,6 @@ const docTemplate = `{
     "definitions": {
         "models.SignInRequest": {
             "type": "object",
-            "required": [
-                "password",
-                "username"
-            ],
             "properties": {
                 "password": {
                     "type": "string",
@@ -73,7 +69,7 @@ const docTemplate = `{
                     "minLength": 8,
                     "example": "Goat@018"
                 },
-                "username": {
+                "userName": {
                     "type": "string",
                     "example": "virat"
                 }
