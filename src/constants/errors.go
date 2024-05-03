@@ -291,3 +291,9 @@ const (
 	GenericJSONMessage      = "message"
 	ValidationErrors        = "validation errors"
 )
+
+// Generic Password Validation Error Messages
+const (
+	GenericValidationError         = "validation error"
+	GenericPasswordValidationError = "validation failed: must contain at least one lowercase, uppercase and numeric character"
+)
