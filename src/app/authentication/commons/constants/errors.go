@@ -1,6 +1,6 @@
 package constants
 
-// changepassword errors
+// authentication errors
 const (
 	ErrorInvalidUsernameOrPassword = "invalid Username or password"
 	ErrorFailedToSetNewPassword    = "failed to set a new password"

@@ -6,30 +6,31 @@ import (
 	"authentication/repositories"
 	"errors"
 	"github.com/gin-gonic/gin"
+	genericConstants "stock_broker_application/src/constants"
 )
 
 type ChangePassword struct {
 	ChangePasswordRepository repositories.ChangePasswordRepositor
 }
 
-func NewRestPasswordService(changePasswordInstance repositories.ChangePasswordRepositor) *ChangePassword {
+func NewChangePasswordService(changePasswordInstance repositories.ChangePasswordRepositor) *ChangePassword {
 	return &ChangePassword{
 		ChangePasswordRepository: changePasswordInstance,
 	}
 }
 
 func (service *ChangePassword) ChangePasswordService(request models.ChangePassword, ctx *gin.Context) error {
-	username := ctx.Value(constants.UserName).(string)
+	username := ctx.Value(genericConstants.Username).(string)
 	userCheckQuery := map[string]interface{}{
-		constants.UserName: username,
-		constants.Password: request.OldPassword,
+		genericConstants.Username: username,
+		genericConstants.Password: request.OldPassword,
 	}
 	if !service.ChangePasswordRepository.CheckUsernameAndPassword(userCheckQuery) {
 		return errors.New(constants.ErrorInvalidUsernameOrPassword)
 	}
 	passwordChangeQuery := map[string]interface{}{
-		constants.UserName: username,
-		constants.Password: request.NewPassword,
+		genericConstants.Username: username,
+		genericConstants.Password: request.NewPassword,
 	}
 	if !service.ChangePasswordRepository.SetNewPassword(passwordChangeQuery) {
 		return errors.New(constants.ErrorFailedToSetNewPassword)

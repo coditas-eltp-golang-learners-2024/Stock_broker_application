@@ -3,6 +3,8 @@ definitions:
     properties:
       newPassword:
         example: Coditas@18
+        maxLength: 20
+        minLength: 8
         type: string
       oldPassword:
         example: S@nket123

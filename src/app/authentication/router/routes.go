@@ -2,8 +2,8 @@ package router
 
 import (
 	"authentication/business"
-	"authentication/docs"
 	serviceConstant "authentication/commons/constants"
+	"authentication/docs"
 	"authentication/handler"
 	"authentication/repositories"
 	"github.com/gin-gonic/gin"
@@ -27,7 +27,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	//Dependency Injection for change-password
 	connectionWithDb := postgres.GetPostGresClient().GormDb
 	userDatabaseRepo := repositories.NewUserDBRepository(connectionWithDb)
-	passwordService := business.NewRestPasswordService(userDatabaseRepo)
+	passwordService := business.NewChangePasswordService(userDatabaseRepo)
 	changePasswordHandler := handler.NewChangePasswordController(passwordService)
 	//Dependency Injection for forgot-Password-Feature
 	repository := repositories.NewForgotPasswordRepository(postgres.GetPostGresClient().GormDb)

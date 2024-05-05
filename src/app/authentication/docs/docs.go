@@ -127,6 +127,8 @@ const docTemplate = `{
             "properties": {
                 "newPassword": {
                     "type": "string",
+                    "maxLength": 20,
+                    "minLength": 8,
                     "example": "Coditas@18"
                 },
                 "oldPassword": {

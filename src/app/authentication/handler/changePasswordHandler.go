@@ -4,11 +4,11 @@ import (
 	"authentication/business"
 	genericConstants "authentication/commons/constants"
 	"authentication/models"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"net/http"
 	"stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
-	"github.com/go-playground/validator/v10"
-	"github.com/gin-gonic/gin"
 )
 
 type ControllerChangePassword struct {
@@ -43,7 +43,7 @@ func HandleChangePassword(service *ControllerChangePassword) gin.HandlerFunc {
 				constants.GenericJSONErrorMessage: constants.ValidatorError,
 				constants.GenericValidationError:  validationErrors,
 			})
-	
+
 			return
 		}
 
@@ -51,6 +51,6 @@ func HandleChangePassword(service *ControllerChangePassword) gin.HandlerFunc {
 			ctx.JSON(http.StatusUnauthorized, gin.H{constants.GenericJSONErrorMessage: err.Error()})
 			return
 		}
-		ctx.JSON(http.StatusOK, gin.H{genericConstants.StatusKey: genericConstants.ChangePasswordSuccessMessage})
+		ctx.JSON(http.StatusOK, gin.H{constants.BFFResponseSuccessMessage: genericConstants.ChangePasswordSuccessMessage})
 	}
 }
