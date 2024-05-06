@@ -289,7 +289,6 @@ const (
 const (
 	GenericJSONErrorMessage = "error"
 	GenericJSONMessage      = "message"
-	ValidationErrors        = "validation errors"
 )
 
 // Generic Password Validation Error Messages
