@@ -10,4 +10,5 @@ const (
 const (
 	ValidateOTPSuccessMessage    = "OTP validated successfully"
 	ForgotPasswordSuccessMessage = "Password updated successfully"
+	SignInSuccessMessage         = "user authenticated successfully"
 )

@@ -18,7 +18,7 @@ const (
 	RateLimitExceeded               = "server has reached maximum request limit"
 	ErrorInitializeTraceProvider    = "failed to initialize open telemetry trace provider: %w"
 	ErrorShoutDownTraceProvider     = "failed to shutdown open telemetry trace provider: %w"
-	ErrorValidatePassword           = "invalid Password Format, password should be alphanumeric"
+	ErrorValidatePassword           = "invalid Password Format. Password should be alphanumeric"
 )
 
 // Initialization Error Messages

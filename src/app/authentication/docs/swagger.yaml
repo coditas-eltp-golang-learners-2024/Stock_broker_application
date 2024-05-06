@@ -16,6 +16,17 @@ definitions:
     - email
     - panCardNumber
     type: object
+  models.SignInRequest:
+    properties:
+      password:
+        example: Goat@018
+        maxLength: 20
+        minLength: 8
+        type: string
+      userName:
+        example: virat
+        type: string
+    type: object
   models.ValidateOTPRequest:
     properties:
       otp:
@@ -33,7 +44,7 @@ definitions:
 info:
   contact: {}
 paths:
-  /forgot-password:
+  /v1/forgot-password:
     post:
       consumes:
       - application/json
@@ -66,6 +77,34 @@ paths:
           schema:
             type: string
       summary: Update user credentials
+  /v1/signin:
+    post:
+      consumes:
+      - application/json
+      description: Handle sign-in request and authenticate the user
+      parameters:
+      - description: Sign-in request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User authenticated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      summary: Handle sign-in request
   /validateOTP:
     post:
       consumes:

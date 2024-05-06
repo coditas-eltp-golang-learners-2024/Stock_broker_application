@@ -7,4 +7,5 @@ const (
 	Metrics                   = "/metrics"
 	ValidateOTP               = "/validate-otp"
 	ForgotPassword            = "/forgot-password"
+	SignIn                    = "/signin"
 )

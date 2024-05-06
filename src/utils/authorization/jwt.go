@@ -1,7 +1,7 @@
 package authorization
 
 import (
-	"github.com/dgrijalva/jwt-go"
+	jwt "github.com/dgrijalva/jwt-go"
 	"stock_broker_application/src/constants"
 	genericModel "stock_broker_application/src/models"
 	"stock_broker_application/src/utils/configs"
