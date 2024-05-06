@@ -6,8 +6,9 @@ const (
 	PortDefaultValue = 8080
 )
 
-// authentication success messages
+// Authentication success message
 const (
-	SignInSuccessMessage         = "user authenticated successfully"
+	ValidateOTPSuccessMessage    = "OTP validated successfully"
 	ForgotPasswordSuccessMessage = "Password updated successfully"
+	SignInSuccessMessage         = "user authenticated successfully"
 )

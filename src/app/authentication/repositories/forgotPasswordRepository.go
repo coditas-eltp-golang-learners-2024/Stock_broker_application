@@ -1,11 +1,9 @@
 package repositories
 
 import (
-	dbModels "stock_broker_application/src/models"
-
-	genericConstants "stock_broker_application/src/constants"
-
 	"gorm.io/gorm"
+	genericConstants "stock_broker_application/src/constants"
+	dbModels "stock_broker_application/src/models"
 )
 
 type ForgotPasswordRepository interface {
@@ -21,7 +19,6 @@ func NewForgotPasswordRepository(db *gorm.DB) ForgotPasswordRepository {
 }
 
 func (repository *userDBRepository) VerifyAndUpdatePassword(email string, pancardNumber string, newPassword string) error {
-	// Update the password for the user if found
 	result := repository.DB.Model(&dbModels.Users{}).
 		Where("email = ? AND pan_card = ?", email, pancardNumber).
 		Update(genericConstants.Password, newPassword)

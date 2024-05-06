@@ -3,7 +3,7 @@ package repositories
 import (
 	"errors"
 	"gorm.io/gorm"
-	genericConstants"stock_broker_application/src/constants"
+	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 	dbModels "stock_broker_application/src/models"
 	"time"

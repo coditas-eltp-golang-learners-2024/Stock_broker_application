@@ -27,6 +27,20 @@ definitions:
         example: virat
         type: string
     type: object
+  models.ValidateOTPRequest:
+    properties:
+      otp:
+        maximum: 9999
+        minimum: 1000
+        type: integer
+      username:
+        maxLength: 50
+        minLength: 6
+        type: string
+    required:
+    - otp
+    - username
+    type: object
 info:
   contact: {}
 paths:
@@ -91,4 +105,34 @@ paths:
           schema:
             type: string
       summary: Handle sign-in request
+  /validateOTP:
+    post:
+      consumes:
+      - application/json
+      description: Validates the OTP for a user
+      parameters:
+      - description: OTP Request
+        in: body
+        name: otpRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.ValidateOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OTP validated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "401":
+          description: OTP is expired or invalid
+          schema:
+            type: string
+      summary: Validate OTP
+      tags:
+      - OTP
 swagger: "2.0"

@@ -2,6 +2,7 @@ package router
 
 import (
 	"authentication/business"
+	"authentication/commons/constants"
 	serviceConstant "authentication/commons/constants"
 	"authentication/docs"
 	"authentication/handler"
@@ -18,7 +19,6 @@ func init() {
 	gin.SetMode(gin.ReleaseMode)
 }
 
-// GetRouter is used to get the router configured with the middlewares and the routes
 func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router := gin.New()
 	router.Use(middlewares...)
@@ -35,6 +35,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	service := business.NewUsersService(repository)
 	newUsersController := handler.NewUsersController(service)
 
+	//Dependency Injection for OTP-Validation-Feature
+	userRepository := repositories.NewUserRepository(connectionWithDb)
+	otpService := business.NewOTPService(userRepository)
+	otpValidationController := handler.NewOTPValidationController(otpService)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
@@ -50,6 +55,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		// routes
 		v1Routes.POST(serviceConstant.SignIn, signInController.HandleSignIn)
 		v1Routes.POST(serviceConstant.ForgotPassword, newUsersController.HandleForgotPassword)
+		v1Routes.POST(constants.ValidateOTP, otpValidationController.HandleValidateOTP)
 
 	}
 	return router
