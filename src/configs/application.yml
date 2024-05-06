@@ -3,7 +3,7 @@ swagger:
   
 
 token :
-  accessSecretKey : abcd123
+  accessSecretKey : a%6\d^h#$7s6
   refreshSecretKey: asdhtcvsgdavcasvuew
   accessTokenExpiryInDays : 1
   refreshTokenExpiryInDays: 5
