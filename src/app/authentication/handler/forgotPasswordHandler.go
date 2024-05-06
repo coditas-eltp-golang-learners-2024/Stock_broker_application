@@ -38,7 +38,7 @@ func NewUsersController(service business.NewforgotPasswordService) NewForgetPass
 // @Failure 400 {object} string "Bad request"
 // @Failure 401 {object} string "Unauthorized"
 // @Failure 500 {object} string "Internal server error"
-// @Router /forgot-password [post]
+// @Router /v1/forgot-password [post]
 func (controller *forgotPasswordController) HandleForgotPassword(context *gin.Context) {
 
 	var request models.ForgotPasswordRequest

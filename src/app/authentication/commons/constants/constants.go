@@ -6,7 +6,8 @@ const (
 	PortDefaultValue = 8080
 )
 
-// Success messages for password update
+// authentication success messages
 const (
+	SignInSuccessMessage         = "user authenticated successfully"
 	ForgotPasswordSuccessMessage = "Password updated successfully"
 )

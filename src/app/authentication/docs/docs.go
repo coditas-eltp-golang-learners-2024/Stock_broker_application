@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/forgot-password": {
+        "/v1/forgot-password": {
             "post": {
                 "description": "Updates user credentials based on the provided request.",
                 "consumes": [
@@ -64,6 +64,49 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/signin": {
+            "post": {
+                "description": "Handle sign-in request and authenticate the user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Handle sign-in request",
+                "parameters": [
+                    {
+                        "description": "Sign-in request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SignInRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User authenticated successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -87,6 +130,21 @@ const docTemplate = `{
                 "panCardNumber": {
                     "type": "string",
                     "example": "abgjhi6789"
+                }
+            }
+        },
+        "models.SignInRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 8,
+                    "example": "Goat@018"
+                },
+                "userName": {
+                    "type": "string",
+                    "example": "virat"
                 }
             }
         }

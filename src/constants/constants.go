@@ -113,6 +113,8 @@ const (
 	Banners                      = "banner"
 	Properties                   = "properties"
 	SebiNumber                   = "sebi_number"
+	CreatedAt                    = "created_at"
+	EpochTimestamp               = "epochtimestamp"	
 )
 
 // SQL Query Entry Keys
