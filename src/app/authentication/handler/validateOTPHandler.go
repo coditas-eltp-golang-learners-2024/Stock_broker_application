@@ -35,7 +35,7 @@ func NewOTPValidationController(service OTPService) *OTPValidationController {
 // @Failure 400 {string} string "Bad request"
 // @Failure 401 {string} string "OTP is expired or invalid"
 // @Router /validateOTP [post]
-func (controller *OTPValidationController) HandleOTPValidation(context *gin.Context) {
+func (controller *OTPValidationController) HandleValidateOTP(context *gin.Context) {
 	var otpValidationRequest models.ValidateOTPRequest
 
 	if err := context.ShouldBindJSON(&otpValidationRequest); err != nil {

@@ -55,7 +55,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		// routes
 		v1Routes.POST(serviceConstant.SignIn, signInController.HandleSignIn)
 		v1Routes.POST(serviceConstant.ForgotPassword, newUsersController.HandleForgotPassword)
-		v1Routes.POST(constants.ValidateOTP, otpValidationController.HandleOTPValidation)
+		v1Routes.POST(constants.ValidateOTP, otpValidationController.HandleValidateOTP)
 
 	}
 	return router
