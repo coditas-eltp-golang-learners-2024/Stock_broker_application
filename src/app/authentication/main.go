@@ -54,4 +54,5 @@ func startRouter(ctx context.Context) {
 	if err != nil {
 		log.With(zap.Error(err)).Fatal(genericConstants.ExternalServiceError)
 	}
+
 }

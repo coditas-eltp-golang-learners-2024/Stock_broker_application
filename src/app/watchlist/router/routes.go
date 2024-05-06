@@ -2,9 +2,14 @@ package router
 
 import (
 	"net/http"
+	"watchlist/business"
+	"watchlist/handler"
+	"watchlist/repositories"
 
-	serviceConstant "authentication/commons/constants"
 	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/middleware/headerCheck"
+	"stock_broker_application/src/utils/postgres"
+	serviceConstant "watchlist/commons/constants"
 
 	"github.com/gin-gonic/gin"
 )
@@ -19,6 +24,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
+	//Dependency injection for getWatchlist-feature
+	repository := repositories.NewGetWatclistsRepository(postgres.GetPostGresClient().GormDb)
+	service := business.NewUsersService(repository)
+	newGetwatchlistController := handler.NewGetWatchListController(service)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
@@ -27,7 +37,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			}
 			c.JSON(http.StatusOK, response)
 		})
-		//Add your routes here
+		v1Routes.GET(serviceConstant.GetWatchList, headerCheck.AuthMiddleware(), newGetwatchlistController.HandleGetWatchlist)
 	}
 	return router
 }

@@ -1,5 +1,11 @@
 package models
 
+import (
+	"stock_broker_application/src/constants"
+
+	"github.com/dgrijalva/jwt-go"
+)
+
 type ErrorMessage struct {
 	Key          string `json:"key,omitempty"`
 	ErrorMessage string `json:"errorMessage,omitempty"`
@@ -18,8 +24,6 @@ type Request struct {
 	Request  interface{} `json:"request,omitempty"`  // Content
 }
 
-
-
 type EncryptResponse struct {
 	EncResponse string `json:"encResponse"`
 }
@@ -33,18 +37,18 @@ type EncryptedNestAPIResponse struct {
 }
 
 type TokenData struct {
-	UserId            string       `json:"uid"`
-	UserSessionId     string       `json:"userSessionId"`
-	BFFPublicKey      string       `json:"bffPublicKey"`
-	BFFPrivateKey     string       `json:"bffPrivateKey"`
-	DevicePublicKey   string       `json:"devicePublicKey"`
-	AccountId         string       `json:"accountId"`
-	BrokerName        string       `json:"brokerName"`
-	BranchName        string       `json:"branchName"`
-	ProductAlias      string       `json:"productAlias"`
-	CriteriaAttribute []string     `json:"criteriaAttribute"`
-	ClearingOrg       string       `json:"clearingOrg"`
-	EnabledExchanges  []string     `json:"enabledExchange"`
+	UserId            string   `json:"uid"`
+	UserSessionId     string   `json:"userSessionId"`
+	BFFPublicKey      string   `json:"bffPublicKey"`
+	BFFPrivateKey     string   `json:"bffPrivateKey"`
+	DevicePublicKey   string   `json:"devicePublicKey"`
+	AccountId         string   `json:"accountId"`
+	BrokerName        string   `json:"brokerName"`
+	BranchName        string   `json:"branchName"`
+	ProductAlias      string   `json:"productAlias"`
+	CriteriaAttribute []string `json:"criteriaAttribute"`
+	ClearingOrg       string   `json:"clearingOrg"`
+	EnabledExchanges  []string `json:"enabledExchange"`
 }
 
 type ChannelResponse struct {
@@ -60,9 +64,12 @@ type HttpGoRoutineRequest struct {
 	Metadata    interface{}
 }
 
+// claim model for email
+type TokenModel struct {
+	UserID string `gorm:"column:id" json:"userID"`
+	jwt.StandardClaims
+}
 
-
-
-
-
-
+func (TokenModel) TableName() string {
+	return constants.UserTable
+}
