@@ -1,5 +1,11 @@
 package constants
 
+// Add your error constants here
+
+var (
+	ErrUserExists = "User already exists"
+)
+
 // Errors related to Forgot-Password Validations
 const (
 	ErrorOtpVerification             = "otp verification failed"

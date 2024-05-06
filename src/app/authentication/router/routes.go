@@ -7,12 +7,13 @@ import (
 	"authentication/docs"
 	"authentication/handler"
 	"authentication/repositories"
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/postgres"
+
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func init() {
@@ -23,6 +24,10 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router := gin.New()
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
+
+	userRepoSignUp := repositories.NewUserSignUpInstance()
+	userSignUpService := business.NewSignUpService(userRepoSignUp)
+	userSignUpController := handler.NewSignUpController(userSignUpService)
 
 	//dependency injection for signin
 	connectionWithDb := postgres.GetPostGresClient().GormDb
@@ -48,11 +53,14 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			}
 			c.JSON(http.StatusOK, response)
 		})
+		//Add your routes here
+
 		//  Swagger documentation setup
 		docs.SwaggerInfo.Schemes = []string{"http", "https"}
 		v1Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 
 		// routes
+		v1Routes.POST(constants.SignUp, userSignUpController.SignUp)
 		v1Routes.POST(serviceConstant.SignIn, signInController.HandleSignIn)
 		v1Routes.POST(serviceConstant.ForgotPassword, newUsersController.HandleForgotPassword)
 		v1Routes.POST(constants.ValidateOTP, otpValidationController.HandleValidateOTP)
