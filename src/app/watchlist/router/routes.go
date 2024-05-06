@@ -40,7 +40,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			c.JSON(http.StatusOK, response)
 		})
 		//Add your routes here
-		v1Routes.POST(constants.EditWatchList, editWatchListController.EditWatchList)
+		v1Routes.PUT(constants.EditWatchList, editWatchListController.EditWatchList)
 		v1Routes.DELETE(constants.DeleteWatchList, deleteWatchListController.DeleteWatchList)
 	}
 	return router

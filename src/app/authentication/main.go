@@ -11,7 +11,6 @@ import (
 	"stock_broker_application/src/utils/flags"
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
-
 	"go.uber.org/zap"
 )
 

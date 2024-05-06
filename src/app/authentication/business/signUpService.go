@@ -5,6 +5,7 @@ import (
 	"authentication/models"
 	"authentication/repositories"
 	"errors"
+	genericModels "stock_broker_application/src/models"
 	"stock_broker_application/src/utils/postgres"
 )
 
@@ -18,16 +19,25 @@ func NewSignUpService(userSignUpRepository repositories.UserSignUpRepository) *S
 	}
 }
 
-func (b *SignUpService) SignUp(user *models.User) error {
+func (service *SignUpService) SignUp(user *models.UserSignUp) error {
 	client := postgres.GetPostGresClient()
-	count, err := b.UserSignUpRepository.CheckUserExists(client.GormDb, user)
+	dbUser := genericModels.Users{
+		UserName:    user.UserName,
+		Name:        user.Name,
+		Email:       user.Email,
+		PhoneNumber: user.PhoneNumber,
+		PanCard:     user.PanCard,
+		Password:    user.Password,
+	}
+	count, err := service.UserSignUpRepository.CheckUserExists(client.GormDb, &dbUser)
 	if err != nil {
 		return err
 	}
 	if count > 0 {
 		return errors.New(constants.ErrUserExists)
 	}
-	result := b.UserSignUpRepository.InsertUserIntoDB(client.GormDb, user)
+
+	result := service.UserSignUpRepository.InsertUserIntoDB(client.GormDb, &dbUser)
 	if result != nil {
 		return result
 	}

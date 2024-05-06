@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"stock_broker_application/src/utils/validations"
 	"watchlist/business"
 	"watchlist/models"
 
@@ -24,6 +25,9 @@ func (controller *deleteWatchListController) DeleteWatchList(ctx *gin.Context) {
 	if err := ctx.ShouldBindJSON(&watchlist); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
+	}
+	if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(watchlist); err != nil {
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
 	if err := controller.service.DeleteWatchList(&watchlist); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

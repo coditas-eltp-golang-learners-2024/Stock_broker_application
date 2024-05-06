@@ -1,15 +1,12 @@
 package configs
 
 import (
-	"authentication/utils"
 	"fmt"
 	"sync"
 
 	genericConstants "stock_broker_application/src/constants"
 
 	"github.com/spf13/viper"
-	"gorm.io/driver/mysql"
-	"gorm.io/gorm"
 )
 
 type providers struct {
@@ -65,14 +62,4 @@ func Get(name string) (*viper.Viper, error) {
 	p.providers[name] = provider
 
 	return provider, nil
-}
-
-func SetupGorm() (*gorm.DB, error) {
-	database := utils.PostgresConfig()
-	dsn := fmt.Sprintf("%s:%s@tcp(%s)/%s?parseTime=true", database.User, database.Password, database.Host, database.DBName)
-	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
-	if err != nil {
-		return nil, err
-	}
-	return db, nil
 }

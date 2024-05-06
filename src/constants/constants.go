@@ -25,6 +25,16 @@ const (
 	NestMRVFalseValue = "N"
 )
 
+// Validate Password Constants
+const (
+	ValidatePasswordFormat = "ValidatePasswordFormat"
+)
+
+// Password Regex: Currently not working so unused
+const (
+	PasswordRegex = `^[a-zA-Z0-9!@#$%^&*()_+=\-[\]{};:'",.<>/?]{8,}$`
+)
+
 // Response Message Constants
 const (
 	ResponseMessageKey    = "message"
@@ -103,6 +113,8 @@ const (
 	Banners                      = "banner"
 	Properties                   = "properties"
 	SebiNumber                   = "sebi_number"
+	CreatedAt                    = "created_at"
+	EpochTimestamp               = "epochtimestamp"
 )
 
 // SQL Query Entry Keys
@@ -121,6 +133,7 @@ const (
 // Table Names Constants
 const (
 	UserTable                  = "users"
+	WatchlistTable             = "watchlist"
 	DeviceTable                = "devices"
 	BrokerTable                = "brokers"
 	StaticExchangeConfigTables = "static_exchange_config"

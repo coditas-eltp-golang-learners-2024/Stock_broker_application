@@ -1,0 +1,138 @@
+definitions:
+  models.ForgotPasswordRequest:
+    properties:
+      NewPassword:
+        example: sample11110
+        maxLength: 20
+        minLength: 8
+        type: string
+      email:
+        example: testUser@gmail.com
+        type: string
+      panCardNumber:
+        example: abgjhi6789
+        type: string
+    required:
+    - email
+    - panCardNumber
+    type: object
+  models.SignInRequest:
+    properties:
+      password:
+        example: Goat@018
+        maxLength: 20
+        minLength: 8
+        type: string
+      userName:
+        example: virat
+        type: string
+    type: object
+  models.ValidateOTPRequest:
+    properties:
+      otp:
+        maximum: 9999
+        minimum: 1000
+        type: integer
+      username:
+        maxLength: 50
+        minLength: 6
+        type: string
+    required:
+    - otp
+    - username
+    type: object
+info:
+  contact: {}
+paths:
+  /v1/forgot-password:
+    post:
+      consumes:
+      - application/json
+      description: Updates user credentials based on the provided request.
+      operationId: update-credentials
+      parameters:
+      - description: Forgot Password Request JSON
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ForgotPasswordRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password updated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+        "500":
+          description: Internal server error
+          schema:
+            type: string
+      summary: Update user credentials
+  /v1/signin:
+    post:
+      consumes:
+      - application/json
+      description: Handle sign-in request and authenticate the user
+      parameters:
+      - description: Sign-in request body
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.SignInRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User authenticated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "401":
+          description: Unauthorized
+          schema:
+            type: string
+      summary: Handle sign-in request
+  /validateOTP:
+    post:
+      consumes:
+      - application/json
+      description: Validates the OTP for a user
+      parameters:
+      - description: OTP Request
+        in: body
+        name: otpRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.ValidateOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OTP validated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "401":
+          description: OTP is expired or invalid
+          schema:
+            type: string
+      summary: Validate OTP
+      tags:
+      - OTP
+swagger: "2.0"

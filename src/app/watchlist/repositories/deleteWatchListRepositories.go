@@ -1,6 +1,7 @@
 package repositories
 
 import (
+	"log"
 	watchlistModel "stock_broker_application/src/models"
 
 	"watchlist/models"
@@ -14,12 +15,12 @@ type DeleteWatchListRepository interface {
 
 type deleteWatchListRepository struct{}
 
-func NewDeleteWatchListRepository() *editWatchListRepository {
-	return &editWatchListRepository{}
+func NewDeleteWatchListRepository() *deleteWatchListRepository {
+	return &deleteWatchListRepository{}
 }
 
-func (repo *editWatchListRepository) DeleteWatchlist(client *gorm.DB, watchlist *models.WatchlistDeleteModel) error {
-
+func (repo *deleteWatchListRepository) DeleteWatchlist(client *gorm.DB, watchlist *models.WatchlistDeleteModel) error {
+	log.Println("Before deleting")
 	err := client.Model(&watchlistModel.Watchlist{}).Where("watchlist_name = ?", watchlist.WatchlistName).Delete(&watchlistModel.Watchlist{}).Error
 	if err != nil {
 		return err
