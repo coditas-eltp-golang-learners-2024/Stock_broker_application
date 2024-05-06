@@ -8,7 +8,9 @@ const (
 	DatabasePort         = "3306"
 )
 
-// Success messages for password update
+// Authentication success message
 const (
+	ValidateOTPSuccessMessage    = "OTP validated successfully"
 	ForgotPasswordSuccessMessage = "Password updated successfully"
+	SignInSuccessMessage         = "user authenticated successfully"
 )

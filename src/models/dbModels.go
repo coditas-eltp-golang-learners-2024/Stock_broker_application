@@ -15,6 +15,7 @@ type Users struct {
 	PanCard        string    `gorm:"column:pan_card" json:"panCard"`
 	Password       string    `gorm:"column:password" json:"password"`
 	Token          string    `gorm:"column:token" json:"token"`
+	CreationTime   time.Time `gorm:"column:created_at" json:"created_at"`
 	OTP            uint16    `gorm:"column:otp" json:"otp"`
 	EpochTimestamp int64     `gorm:"column:epochtimestamp" json:"epochtimestamp"`
 }
