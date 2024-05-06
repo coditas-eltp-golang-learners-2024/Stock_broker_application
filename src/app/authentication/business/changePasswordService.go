@@ -20,16 +20,16 @@ func NewChangePasswordService(changePasswordInstance repositories.ChangePassword
 }
 
 func (service *ChangePassword) ChangePasswordService(request models.ChangePassword, ctx *gin.Context) error {
-	username := ctx.Value(genericConstants.Username).(string)
+	userID := ctx.Value(genericConstants.Id).(string)
 	userCheckQuery := map[string]interface{}{
-		genericConstants.Username: username,
+		genericConstants.Id:       userID,
 		genericConstants.Password: request.OldPassword,
 	}
-	if !service.ChangePasswordRepository.CheckUsernameAndPassword(userCheckQuery) {
-		return errors.New(constants.ErrorInvalidUsernameOrPassword)
+	if !service.ChangePasswordRepository.CheckUserIDAndPassword(userCheckQuery) {
+		return errors.New(constants.ErrorInvalidUserIDOrPassword)
 	}
 	passwordChangeQuery := map[string]interface{}{
-		genericConstants.Username: username,
+		genericConstants.Id:       userID,
 		genericConstants.Password: request.NewPassword,
 	}
 	if !service.ChangePasswordRepository.SetNewPassword(passwordChangeQuery) {

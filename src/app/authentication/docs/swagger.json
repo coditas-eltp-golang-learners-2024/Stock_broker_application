@@ -8,56 +8,6 @@
     },
     "host": "localhost:8080",
     "paths": {
-        "/forgot-password": {
-            "post": {
-                "description": "Updates user credentials based on the provided request.",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "summary": "Update user credentials",
-                "operationId": "update-credentials",
-                "parameters": [
-                    {
-                        "description": "Forgot Password Request JSON",
-                        "name": "request",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/models.ForgotPasswordRequest"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Password updated successfully",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad request",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "401": {
-                        "description": "Unauthorized",
-                        "schema": {
-                            "type": "string"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal server error",
-                        "schema": {
-                            "type": "string"
-                        }
-                    }
-                }
-            }
-        },
         "/v1/change-password": {
             "patch": {
                 "security": [
@@ -108,6 +58,145 @@
                     }
                 }
             }
+        },
+        "/v1/forgot-password": {
+            "post": {
+                "description": "Updates user credentials based on the provided request.",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Update user credentials",
+                "operationId": "update-credentials",
+                "parameters": [
+                    {
+                        "description": "Forgot Password Request JSON",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ForgotPasswordRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password updated successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/signin": {
+            "post": {
+                "description": "Handle sign-in request and authenticate the user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Handle sign-in request",
+                "parameters": [
+                    {
+                        "description": "Sign-in request body",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.SignInRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User authenticated successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "Unauthorized",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/validateOTP": {
+            "post": {
+                "description": "Validates the OTP for a user",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "OTP"
+                ],
+                "summary": "Validate OTP",
+                "parameters": [
+                    {
+                        "description": "OTP Request",
+                        "name": "otpRequest",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ValidateOTPRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OTP validated successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "401": {
+                        "description": "OTP is expired or invalid",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -150,6 +239,40 @@
                 "panCardNumber": {
                     "type": "string",
                     "example": "abgjhi6789"
+                }
+            }
+        },
+        "models.SignInRequest": {
+            "type": "object",
+            "properties": {
+                "password": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 8,
+                    "example": "Goat@018"
+                },
+                "userName": {
+                    "type": "string",
+                    "example": "virat"
+                }
+            }
+        },
+        "models.ValidateOTPRequest": {
+            "type": "object",
+            "required": [
+                "otp",
+                "username"
+            ],
+            "properties": {
+                "otp": {
+                    "type": "integer",
+                    "maximum": 9999,
+                    "minimum": 1000
+                },
+                "username": {
+                    "type": "string",
+                    "maxLength": 50,
+                    "minLength": 6
                 }
             }
         }

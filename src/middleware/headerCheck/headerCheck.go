@@ -1,12 +1,14 @@
 package headerCheck
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 	"stock_broker_application/src/utils/configs"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 func AuthMiddleware() gin.HandlerFunc {
@@ -27,7 +29,9 @@ func AuthMiddleware() gin.HandlerFunc {
 			return
 		}
 		if claims, ok := token.Claims.(*models.TokenModel); ok && token.Valid {
-			ctx.Set(genericConstants.Username, claims.UserName)
+			ctx.Set(genericConstants.Id, claims.UserId)
+			sanket:=ctx.Value(genericConstants.Id)
+			fmt.Println(sanket)
 			ctx.Next()
 		} else {
 			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.InvalidJWT})

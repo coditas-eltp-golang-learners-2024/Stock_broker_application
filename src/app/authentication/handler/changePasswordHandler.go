@@ -43,10 +43,8 @@ func HandleChangePassword(service *ControllerChangePassword) gin.HandlerFunc {
 				constants.GenericJSONErrorMessage: constants.ValidatorError,
 				constants.GenericValidationError:  validationErrors,
 			})
-
 			return
 		}
-
 		if err := service.ChangePasswordController.ChangePasswordService(changeRequest, ctx); err != nil {
 			ctx.JSON(http.StatusUnauthorized, gin.H{constants.GenericJSONErrorMessage: err.Error()})
 			return

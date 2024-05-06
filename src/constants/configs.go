@@ -64,6 +64,8 @@ const (
 	DataOfBirthConfig        = "DateOfBirthValidaton"
 	PANConfig                = "PANValidation"
 	BidLengthValidation      = "BidLengthValidation"
+	PasswordValidation       = "PasswordValidation"
+	ErrValidatePassword      = "ErrValidatePassword"
 	CustomPasswordValidation = "PasswordValidation"
 )
 

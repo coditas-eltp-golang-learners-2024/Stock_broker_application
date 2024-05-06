@@ -4,11 +4,9 @@ import (
 	"context"
 	"fmt"
 	"reflect"
-	"stock_broker_application/src/constants"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 	"unicode"
-
 	"github.com/go-playground/validator/v10"
 )
 
@@ -18,9 +16,9 @@ func NewCustomValidator(ctx context.Context) {
 	custValidator = validator.New()
 
 	custValidator.RegisterTagNameFunc(func(field reflect.StructField) string {
-		return field.Tag.Get(constants.JsonConfig)
+		return field.Tag.Get(genericConstants.JsonConfig)
 	})
-	custValidator.RegisterValidation(constants.CustomPasswordValidation, ValidatePasswordStruct)
+	custValidator.RegisterValidation(genericConstants.CustomPasswordValidation, ValidatePasswordStruct)
 
 }
 
