@@ -1,9 +1,64 @@
 {
     "swagger": "2.0",
     "info": {
-        "contact": {}
+        "description": "api for Stock Broker using gin and gorm",
+        "title": "Stock Broker Application",
+        "contact": {},
+        "version": "2.0"
     },
+    "host": "localhost:8080",
     "paths": {
+        "/v1/change-password": {
+            "patch": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Change a user's password",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Authentication"
+                ],
+                "summary": "Change Password",
+                "parameters": [
+                    {
+                        "description": "Change Password Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.ChangePassword"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Password changed successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/forgot-password": {
             "post": {
                 "description": "Updates user credentials based on the provided request.",
@@ -97,7 +152,7 @@
                 }
             }
         },
-        "/validateOTP": {
+        "/v1/validateOTP": {
             "post": {
                 "description": "Validates the OTP for a user",
                 "consumes": [
@@ -145,6 +200,25 @@
         }
     },
     "definitions": {
+        "models.ChangePassword": {
+            "type": "object",
+            "required": [
+                "newPassword",
+                "oldPassword"
+            ],
+            "properties": {
+                "newPassword": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 8,
+                    "example": "Coditas@18"
+                },
+                "oldPassword": {
+                    "type": "string",
+                    "example": "S@nket123"
+                }
+            }
+        },
         "models.ForgotPasswordRequest": {
             "type": "object",
             "required": [
@@ -201,6 +275,13 @@
                     "minLength": 6
                 }
             }
+        }
+    },
+    "securityDefinitions": {
+        "JWT": {
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
         }
     }
 }

@@ -2,7 +2,6 @@ package repositories
 
 import (
 	dbModels "stock_broker_application/src/models"
-
 	"gorm.io/gorm"
 )
 

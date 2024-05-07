@@ -1,5 +1,11 @@
 package models
 
+import (
+	"stock_broker_application/src/constants"
+
+	"github.com/dgrijalva/jwt-go"
+)
+
 type ErrorMessage struct {
 	Key          string `json:"key,omitempty"`
 	ErrorMessage string `json:"errorMessage,omitempty"`
@@ -30,6 +36,20 @@ type EncryptedNestAPIResponse struct {
 	EncryptedResponse string `json:"jEncResp,omitempty"`
 }
 
+// type TokenData struct {
+// 	UserId            string   `json:"uid"`
+// 	UserSessionId     string   `json:"userSessionId"`
+// 	BFFPublicKey      string   `json:"bffPublicKey"`
+// 	BFFPrivateKey     string   `json:"bffPrivateKey"`
+// 	DevicePublicKey   string   `json:"devicePublicKey"`
+// 	AccountId         string   `json:"accountId"`
+// 	BrokerName        string   `json:"brokerName"`
+// 	BranchName        string   `json:"branchName"`
+// 	ProductAlias      string   `json:"productAlias"`
+// 	CriteriaAttribute []string `json:"criteriaAttribute"`
+// 	ClearingOrg       string   `json:"clearingOrg"`
+// 	EnabledExchanges  []string `json:"enabledExchange"`
+// }
 
 type ChannelResponse struct {
 	ApiEndpoint string
@@ -44,6 +64,12 @@ type HttpGoRoutineRequest struct {
 	Metadata    interface{}
 }
 
+// claim model for email
 type TokenData struct {
-	Username string `json:"username"`
+	UserId string `gorm:"column:id" json:"id"`
+	jwt.StandardClaims
+}
+
+func (TokenData) TableName() string {
+	return constants.UserTable
 }

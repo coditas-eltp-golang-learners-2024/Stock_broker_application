@@ -8,5 +8,6 @@ const (
 	SignUp                    = "/signup"
 	ValidateOTP               = "/validate-otp"
 	ForgotPassword            = "/forgot-password"
+	ChangePassword            = "/change-password"
 	SignIn                    = "/signin"
 )

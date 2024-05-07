@@ -27,6 +27,7 @@ const (
 
 // Validate Password Constants
 const (
+	ValidatePassword       = "validatePassword"
 	ValidatePasswordFormat = "ValidatePasswordFormat"
 )
 
@@ -114,7 +115,7 @@ const (
 	Properties                   = "properties"
 	SebiNumber                   = "sebi_number"
 	CreatedAt                    = "created_at"
-	EpochTimestamp               = "epochtimestamp"	
+	EpochTimestamp               = "epochtimestamp"
 )
 
 // SQL Query Entry Keys
