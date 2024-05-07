@@ -65,11 +65,11 @@ type HttpGoRoutineRequest struct {
 }
 
 // claim model for email
-type TokenModel struct {
+type TokenData struct {
 	UserId string `gorm:"column:id" json:"id"`
 	jwt.StandardClaims
 }
 
-func (TokenModel) TableName() string {
+func (TokenData) TableName() string {
 	return constants.UserTable
 }

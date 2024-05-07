@@ -8,7 +8,7 @@ import (
 	"time"
 )
 
-func GenerateJWTToken(tokenData genericModel.TokenModel) (string, error) {
+func GenerateJWTToken(tokenData genericModel.TokenData) (string, error) {
 
 	secretKey := configs.GetApplicationConfig().Token.SecretKey
 

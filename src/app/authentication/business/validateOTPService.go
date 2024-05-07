@@ -45,7 +45,7 @@ func (service *OTPService) OtpVerification(otpData models.ValidateOTPRequest) er
 	return nil
 }
 
-func (service *OTPService) GenerateAndStoreToken(tokenData genericModel.TokenModel, userID string) (string, error) {
+func (service *OTPService) GenerateAndStoreToken(tokenData genericModel.TokenData, userID string) (string, error) {
 	token, err := authorization.GenerateJWTToken(tokenData)
 	if err != nil {
 		return "", err

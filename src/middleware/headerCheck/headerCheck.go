@@ -18,7 +18,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
-		token, err := jwt.ParseWithClaims(tokenString, &models.TokenModel{}, func(token *jwt.Token) (interface{}, error) {
+		token, err := jwt.ParseWithClaims(tokenString, &models.TokenData{}, func(token *jwt.Token) (interface{}, error) {
 			return []byte(secretKey), nil
 		})
 		if err != nil {
@@ -26,7 +26,7 @@ func AuthMiddleware() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
-		if claims, ok := token.Claims.(*models.TokenModel); ok && token.Valid {
+		if claims, ok := token.Claims.(*models.TokenData); ok && token.Valid {
 			ctx.Set(genericConstants.Id, claims.UserId)
 			ctx.Next()
 		} else {

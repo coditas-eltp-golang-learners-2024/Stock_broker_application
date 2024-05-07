@@ -11,7 +11,7 @@ import (
 
 type OTPService interface {
 	OtpVerification(otpData models.ValidateOTPRequest) error
-	GenerateAndStoreToken(tokenData genericModel.TokenModel, username string) (string, error)
+	GenerateAndStoreToken(tokenData genericModel.TokenData, username string) (string, error)
 }
 
 type OTPValidationController struct {
@@ -45,7 +45,7 @@ func (controller *OTPValidationController) HandleValidateOTP(context *gin.Contex
 		context.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-	tokenData := genericModel.TokenModel{
+	tokenData := genericModel.TokenData{
 		UserId: otpValidationRequest.UserID,
 	}
 	token, err := controller.Service.GenerateAndStoreToken(tokenData, otpValidationRequest.UserID)
