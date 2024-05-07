@@ -7,7 +7,7 @@ import (
 )
 
 type NewGetWatchlistService interface {
-	NewGetWatchlistService(ctx *gin.Context) (string, error)
+	NewGetWatchlistService(ctx *gin.Context) ([]string, error)
 }
 
 type getWatchListSercvice struct {
@@ -20,7 +20,7 @@ func NewUsersService(userData repositories.GetWatchlistsRepository) NewGetWatchl
 	}
 }
 
-func (repository *getWatchListSercvice) NewGetWatchlistService(ctx *gin.Context) (string, error) {
+func (repository *getWatchListSercvice) NewGetWatchlistService(ctx *gin.Context) ([]string, error) {
 
 	return repository.getWatchlistInterface.GetWatchlists(ctx)
 }

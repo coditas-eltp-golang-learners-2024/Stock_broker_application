@@ -29,15 +29,15 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	service := business.NewUsersService(repository)
 	newGetwatchlistController := handler.NewGetWatchListController(service)
 
-	v1Routes := router.Group(genericConstants.RouterV1Config)
+	v2Routes := router.Group(genericConstants.RouterV1Config)
 	{
-		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
+		v2Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
 			response := map[string]string{
 				genericConstants.ResponseMessageKey: genericConstants.BFFResponseSuccessMessage,
 			}
 			c.JSON(http.StatusOK, response)
 		})
-		v1Routes.GET(serviceConstant.GetWatchList, headerCheck.AuthMiddleware(), newGetwatchlistController.HandleGetWatchlist)
+		v2Routes.GET(serviceConstant.GetWatchList, headerCheck.AuthMiddleware(), newGetwatchlistController.HandleGetWatchlist)
 	}
 	return router
 }
