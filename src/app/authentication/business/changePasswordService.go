@@ -9,17 +9,17 @@ import (
 	genericConstants "stock_broker_application/src/constants"
 )
 
-type ChangePassword struct {
-	ChangePasswordRepository repositories.ChangePasswordRepositor
+type ChangePasswordService struct {
+	ChangePasswordRepository repositories.ChangePasswordRepository
 }
 
-func NewChangePasswordService(changePasswordInstance repositories.ChangePasswordRepositor) *ChangePassword {
-	return &ChangePassword{
+func NewChangePasswordService(changePasswordInstance repositories.ChangePasswordRepository) *ChangePasswordService {
+	return &ChangePasswordService{
 		ChangePasswordRepository: changePasswordInstance,
 	}
 }
 
-func (service *ChangePassword) ChangePasswordService(request models.ChangePassword, ctx *gin.Context) error {
+func (service *ChangePasswordService) ChangePasswordService(request models.ChangePassword, ctx *gin.Context) error {
 	userID := ctx.Value(genericConstants.Id).(string)
 	userCheckQuery := map[string]interface{}{
 		genericConstants.Id:       userID,

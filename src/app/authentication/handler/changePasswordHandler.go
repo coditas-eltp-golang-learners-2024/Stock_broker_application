@@ -11,12 +11,12 @@ import (
 	"stock_broker_application/src/utils/validations"
 )
 
-type ControllerChangePassword struct {
-	ChangePasswordController *business.ChangePassword
+type ChangePasswordController struct {
+	ChangePasswordController *business.ChangePasswordService
 }
 
-func NewChangePasswordController(service *business.ChangePassword) *ControllerChangePassword {
-	return &ControllerChangePassword{ChangePasswordController: service}
+func NewChangePasswordController(service *business.ChangePasswordService) *ChangePasswordController {
+	return &ChangePasswordController{ChangePasswordController: service}
 }
 
 // @Summary Change Password
@@ -29,8 +29,8 @@ func NewChangePasswordController(service *business.ChangePassword) *ControllerCh
 // @Success 200 {string} string "Password changed successfully"
 // @Failure 400 {string} string "Bad Request"
 // @Failure 500 {string} string "Internal Server Error"
-// @Router /v1/change-password [patch]
-func HandleChangePassword(service *ControllerChangePassword) gin.HandlerFunc {
+// @Router /change-password [patch]
+func HandleChangePassword(service *ChangePasswordController) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var changeRequest models.ChangePassword
 		if err := ctx.BindJSON(&changeRequest); err != nil {

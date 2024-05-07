@@ -6,7 +6,7 @@ import (
 	"stock_broker_application/src/models"
 )
 
-type ChangePasswordRepositor interface {
+type ChangePasswordRepository interface {
 	CheckUserIDAndPassword(condition map[string]interface{}) bool
 	SetNewPassword(PasswordUpdateSQLCondition map[string]interface{}) bool
 }

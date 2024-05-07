@@ -28,7 +28,7 @@ func NewSignUpController(service *business.SignUpService) *signUpController {
 // @Param user body models.UserSignUp true "User details"
 // @Success 200 {string} string "User created successfully"
 // @Failure 400 {object} ErrorResponse "Error details"
-// @Router /v1/signup [post]
+// @Router /signup [post]
 func (controller *signUpController) SignUp(ctx *gin.Context) {
 	var user models.UserSignUp
 	if err := ctx.ShouldBindJSON(&user); err != nil {
