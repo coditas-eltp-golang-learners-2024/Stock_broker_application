@@ -137,6 +137,9 @@ const (
 	BrokerTable                = "brokers"
 	StaticExchangeConfigTables = "static_exchange_config"
 	NewsAndFeedTable           = "news_and_feeds"
+	StockTable                 = "stocks"
+	WatchlistTable             = "watchlist"
+	WatchlistStockTable        = "watchlist_stock"
 )
 
 // JSON Names
