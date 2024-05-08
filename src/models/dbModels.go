@@ -1,6 +1,9 @@
 package models
 
-import "stock_broker_application/src/constants"
+import (
+	"stock_broker_application/src/constants"
+	"time"
+)
 
 type Watchlist struct {
 	ID            int    `gorm:"column:id" json:"id"`
@@ -11,10 +14,6 @@ type Watchlist struct {
 func (Watchlist) TableName() string {
 	return constants.Watchlist
 }
-import (
-	"stock_broker_application/src/constants"
-	"time"
-)
 
 type Users struct {
 	Id             int       `gorm:"primary_key;auto_increment" json:"id"`

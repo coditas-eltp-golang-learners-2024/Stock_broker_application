@@ -36,7 +36,7 @@ type EncryptedNestAPIResponse struct {
 	EncryptedResponse string `json:"jEncResp,omitempty"`
 }
 
-type TokenData struct {
+type CompleteTokenData struct {
 	UserId            string   `json:"uid"`
 	UserSessionId     string   `json:"userSessionId"`
 	BFFPublicKey      string   `json:"bffPublicKey"`
@@ -50,21 +50,6 @@ type TokenData struct {
 	ClearingOrg       string   `json:"clearingOrg"`
 	EnabledExchanges  []string `json:"enabledExchange"`
 }
-
-// type TokenData struct {
-// 	UserId            string   `json:"uid"`
-// 	UserSessionId     string   `json:"userSessionId"`
-// 	BFFPublicKey      string   `json:"bffPublicKey"`
-// 	BFFPrivateKey     string   `json:"bffPrivateKey"`
-// 	DevicePublicKey   string   `json:"devicePublicKey"`
-// 	AccountId         string   `json:"accountId"`
-// 	BrokerName        string   `json:"brokerName"`
-// 	BranchName        string   `json:"branchName"`
-// 	ProductAlias      string   `json:"productAlias"`
-// 	CriteriaAttribute []string `json:"criteriaAttribute"`
-// 	ClearingOrg       string   `json:"clearingOrg"`
-// 	EnabledExchanges  []string `json:"enabledExchange"`
-// }
 
 type ChannelResponse struct {
 	ApiEndpoint string
