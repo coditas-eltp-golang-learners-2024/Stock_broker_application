@@ -2,8 +2,8 @@ package router
 
 import (
 	"net/http"
-
 	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/middleware/headerCheck"
 	"watchlist/business"
 	"watchlist/commons/constants"
 	serviceConstant "watchlist/commons/constants"
@@ -40,8 +40,8 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			c.JSON(http.StatusOK, response)
 		})
 		//Add your routes here
-		v1Routes.PUT(constants.EditWatchList, editWatchListController.EditWatchList)
-		v1Routes.DELETE(constants.DeleteWatchList, deleteWatchListController.DeleteWatchList)
+		v1Routes.PUT(constants.EditWatchList, headerCheck.AuthMiddleware(), editWatchListController.EditWatchList)
+		v1Routes.DELETE(constants.DeleteWatchList, headerCheck.AuthMiddleware(), deleteWatchListController.DeleteWatchList)
 	}
 	return router
 }

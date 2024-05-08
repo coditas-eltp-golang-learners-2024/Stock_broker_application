@@ -30,7 +30,7 @@ func (controller *editWatchListController) EditWatchList(ctx *gin.Context) {
 		})
 		return
 	}
-	if err := controller.service.EditWatchList(&watchlist); err != nil {
+	if err := controller.service.EditWatchList(&watchlist, ctx); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

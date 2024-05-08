@@ -27,6 +27,7 @@ const (
 
 // Validate Password Constants
 const (
+	ValidatePassword       = "validatePassword"
 	ValidatePasswordFormat = "ValidatePasswordFormat"
 )
 

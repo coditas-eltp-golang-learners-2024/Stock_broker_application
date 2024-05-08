@@ -34,7 +34,7 @@ func (service *SignUpService) SignUp(user *models.UserSignUp) error {
 		return err
 	}
 	if count > 0 {
-		return errors.New(constants.ErrUserExists)
+		return errors.New(constants.ErrorUserExists)
 	}
 
 	result := service.UserSignUpRepository.InsertUserIntoDB(client.GormDb, &dbUser)

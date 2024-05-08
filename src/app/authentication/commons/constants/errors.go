@@ -1,19 +1,16 @@
 package constants
 
-// Add your error constants here
-
-var (
-	ErrUserExists = "User already exists"
-)
-
-// Errors related to Forgot-Password Validations
+// authentication errors
 const (
+	ErrorUserExists                  = "user already exists"
+	ErrorInvalidUserIDOrPassword     = "invalid UserID or password"
+	ErrorFailedToSetNewPassword      = "failed to set a new password"
 	ErrorOtpVerification             = "otp verification failed"
 	ErrorGenToken                    = "failed to generate token"
-	ErrorRequiredUsername            = "username is required"
+	ErrorRequiredUserID              = "userID is required"
 	ErrorInvalidOtpFormat            = "invalid otp format"
 	ErrorInvalidOTP                  = "invalid otp"
-	ErrorInvalidUsername             = "invalid username"
+	ErrorInvalidUserID               = "invalid userid"
 	ErrorCheckingOtp                 = "failed to check otp"
 	ErrorCheckUserExists             = "failed to check user exists"
 	ErrorUpdateUserToken             = "failed to update user token"

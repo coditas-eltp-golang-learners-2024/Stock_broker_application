@@ -285,8 +285,10 @@ const (
 	UnexpectedResponseError = "Body content did not match with %v"
 )
 
-// Generic Error Messages
 const (
+	AuthTokenMissing        = "Authorization token is missing"
+	FailedJWTValidation     = "failed to parse or validate JWT token"
+	InvalidJWT              = "invalid JWT token"
 	GenericJSONErrorMessage = "error"
 	GenericJSONMessage      = "message"
 	GenericTokenMessage     = "token"

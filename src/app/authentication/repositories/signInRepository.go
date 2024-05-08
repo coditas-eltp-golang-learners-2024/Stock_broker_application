@@ -4,7 +4,6 @@ import (
 	"errors"
 	"gorm.io/gorm"
 	genericConstants "stock_broker_application/src/constants"
-	"stock_broker_application/src/models"
 	dbModels "stock_broker_application/src/models"
 	"time"
 )
@@ -38,15 +37,15 @@ func (repo *userSignInDBRepository) AuthenticateUser(username string, password s
 }
 
 func (repo *userSignInDBRepository) UpdateOTPAndCreationTime(email string, newOTP int) error {
-	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(genericConstants.OTP, newOTP).Error; err != nil {
+	if err := repo.db.Model(&dbModels.Users{}).Where("username = ?", email).Update(genericConstants.OTP, newOTP).Error; err != nil {
 		return err
 	}
 	otpCreationTime := time.Now().Truncate(time.Second)
-	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(genericConstants.CreatedAt, otpCreationTime).Error; err != nil {
+	if err := repo.db.Model(&dbModels.Users{}).Where("username = ?", email).Update(genericConstants.CreatedAt, otpCreationTime).Error; err != nil {
 		return err
 	}
 	epochTime := time.Now().Unix()
-	if err := repo.db.Model(&models.Users{}).Where("username = ?", email).Update(genericConstants.EpochTimestamp, epochTime).Error; err != nil {
+	if err := repo.db.Model(&dbModels.Users{}).Where("username = ?", email).Update(genericConstants.EpochTimestamp, epochTime).Error; err != nil {
 		return err
 	}
 	return nil

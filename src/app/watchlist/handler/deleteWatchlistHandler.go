@@ -29,7 +29,7 @@ func (controller *deleteWatchListController) DeleteWatchList(ctx *gin.Context) {
 	if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(watchlist); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 	}
-	if err := controller.service.DeleteWatchList(&watchlist); err != nil {
+	if err := controller.service.DeleteWatchList(&watchlist, ctx); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

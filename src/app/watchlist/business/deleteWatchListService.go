@@ -1,9 +1,12 @@
 package business
 
 import (
+	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/postgres"
 	"watchlist/models"
 	"watchlist/repositories"
+
+	"github.com/gin-gonic/gin"
 )
 
 type DeleteWatchListService struct {
@@ -16,10 +19,11 @@ func NewDeleteWatchListService(deleteWatchListRepository repositories.DeleteWatc
 	}
 }
 
-func (service *DeleteWatchListService) DeleteWatchList(watchlist *models.WatchlistDeleteModel) error {
+func (service *DeleteWatchListService) DeleteWatchList(watchlist *models.WatchlistDeleteModel, ctx *gin.Context) error {
 
 	client := postgres.GetPostGresClient()
-	err := service.deleteWatchListRepository.DeleteWatchlist(client.GormDb, watchlist)
+	userId := ctx.GetString(genericConstants.Id)
+	err := service.deleteWatchListRepository.DeleteWatchlist(client.GormDb, watchlist, userId)
 	if err != nil {
 		return err
 	}

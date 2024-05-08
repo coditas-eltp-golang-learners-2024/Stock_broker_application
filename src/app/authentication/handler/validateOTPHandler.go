@@ -37,26 +37,21 @@ func NewOTPValidationController(service OTPService) *OTPValidationController {
 // @Router /validateOTP [post]
 func (controller *OTPValidationController) HandleValidateOTP(context *gin.Context) {
 	var otpValidationRequest models.ValidateOTPRequest
-
 	if err := context.ShouldBindJSON(&otpValidationRequest); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorInvalidRequest})
 		return
 	}
-
 	if err := controller.Service.OtpVerification(otpValidationRequest); err != nil {
 		context.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-
 	tokenData := genericModel.TokenData{
-		Username: otpValidationRequest.UserName,
+		UserId: otpValidationRequest.UserID,
 	}
-
-	token, err := controller.Service.GenerateAndStoreToken(tokenData, otpValidationRequest.UserName)
+	token, err := controller.Service.GenerateAndStoreToken(tokenData, otpValidationRequest.UserID)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorGenToken})
 		return
 	}
-
 	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.ValidateOTPSuccessMessage, genericConstants.GenericTokenMessage: token})
 }
