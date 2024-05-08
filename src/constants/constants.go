@@ -139,7 +139,7 @@ const (
 	NewsAndFeedTable           = "news_and_feeds"
 	StockTable                 = "stocks"
 	WatchlistTable             = "watchlist"
-	WatchlistStockTable        = "watchlist_stock"
+	WatchlistStockTable        = "watchlist_stocks"
 )
 
 // JSON Names

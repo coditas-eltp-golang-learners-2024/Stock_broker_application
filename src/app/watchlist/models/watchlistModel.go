@@ -1,5 +1,5 @@
 package models
 
-type watchlistWithScripsRequest struct {
+type WatchlistWithScripsRequest struct {
 	WatchlistName string `json:"watchlist_name"`
 }

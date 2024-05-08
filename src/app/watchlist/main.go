@@ -1,8 +1,8 @@
 package main
 
 import (
-	serviceConstants "authentication/commons/constants"
-	"authentication/router"
+	serviceConstants "watchlist/commons/constants"
+	"watchlist/router"
 	"context"
 	"fmt"
 	genericConstants "stock_broker_application/src/constants"

@@ -44,7 +44,6 @@ func initLogger(ctx context.Context) {
 	}
 	logger.SetupLogging(LoggerConfig.GetString(genericConstants.LogLevelKey))
 }
-
 func startRouter(ctx context.Context) {
 	log := logger.GetLoggerWithoutContext()
 	router := router.GetRouter(loggerMiddleware.Logger())

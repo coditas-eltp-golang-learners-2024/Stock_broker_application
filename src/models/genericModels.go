@@ -1,10 +1,6 @@
 package models
 
-import (
-	genericConstants "stock_broker_application/src/constants"
 
-	"github.com/golang-jwt/jwt"
-)
 
 type ErrorMessage struct {
 	Key          string `json:"key,omitempty"`
@@ -36,20 +32,20 @@ type EncryptedNestAPIResponse struct {
 	EncryptedResponse string `json:"jEncResp,omitempty"`
 }
 
-type TokenData struct {
-	UserId            string   `json:"uid"`
-	UserSessionId     string   `json:"userSessionId"`
-	BFFPublicKey      string   `json:"bffPublicKey"`
-	BFFPrivateKey     string   `json:"bffPrivateKey"`
-	DevicePublicKey   string   `json:"devicePublicKey"`
-	AccountId         string   `json:"accountId"`
-	BrokerName        string   `json:"brokerName"`
-	BranchName        string   `json:"branchName"`
-	ProductAlias      string   `json:"productAlias"`
-	CriteriaAttribute []string `json:"criteriaAttribute"`
-	ClearingOrg       string   `json:"clearingOrg"`
-	EnabledExchanges  []string `json:"enabledExchange"`
-}
+// type TokenData struct {
+// 	UserId            string   `json:"uid"`
+// 	UserSessionId     string   `json:"userSessionId"`
+// 	BFFPublicKey      string   `json:"bffPublicKey"`
+// 	BFFPrivateKey     string   `json:"bffPrivateKey"`
+// 	DevicePublicKey   string   `json:"devicePublicKey"`
+// 	AccountId         string   `json:"accountId"`
+// 	BrokerName        string   `json:"brokerName"`
+// 	BranchName        string   `json:"branchName"`
+// 	ProductAlias      string   `json:"productAlias"`
+// 	CriteriaAttribute []string `json:"criteriaAttribute"`
+// 	ClearingOrg       string   `json:"clearingOrg"`
+// 	EnabledExchanges  []string `json:"enabledExchange"`
+// }
 
 type ChannelResponse struct {
 	ApiEndpoint string
@@ -65,11 +61,7 @@ type HttpGoRoutineRequest struct {
 }
 
 // claim model for email
-type TokenModel struct {
-	UserId string `gorm:"column:id" json:"id"`
-	jwt.StandardClaims
-}
-
-func (TokenModel) TableName() string {
-	return genericConstants.UserTable
+type TokenData struct {
+	UserId uint16 `gorm:"column:id" json:"id"`
+	
 }
