@@ -286,7 +286,7 @@ const (
 )
 
 const (
-	AuthTokenMissing        = "Authorization token is missing"
+	AuthTokenMissing        = "authorization token is missing"
 	FailedJWTValidation     = "failed to parse or validate JWT token"
 	InvalidJWT              = "invalid JWT token"
 	GenericJSONErrorMessage = "error"

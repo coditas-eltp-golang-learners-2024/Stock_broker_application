@@ -22,13 +22,13 @@ func NewSignUpController(service *business.SignUpService) *signUpController {
 
 // @Summary Create a new user
 // @Description Create a new user with the provided details
-// @Tags users
+// @Tags SignUP
 // @Accept json
 // @Produce json
 // @Param user body models.UserSignUp true "User details"
 // @Success 200 {string} string "User created successfully"
-// @Failure 400 {object} ErrorResponse "Error details"
-// @Router /signup [post]
+// @Failure 400 {string} string "Bad request"
+// @Router /v1/signup [post]
 func (controller *signUpController) SignUp(ctx *gin.Context) {
 	var user models.UserSignUp
 	if err := ctx.ShouldBindJSON(&user); err != nil {
