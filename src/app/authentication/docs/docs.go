@@ -30,7 +30,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "Authentication"
+                    "Change Password"
                 ],
                 "summary": "Change Password",
                 "parameters": [
@@ -74,6 +74,9 @@ const docTemplate = `{
                 ],
                 "produces": [
                     "application/json"
+                ],
+                "tags": [
+                    "Forgot Password"
                 ],
                 "summary": "Update user credentials",
                 "operationId": "update-credentials",
@@ -125,6 +128,9 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "SignIN"
+                ],
                 "summary": "Handle sign-in request",
                 "parameters": [
                     {
@@ -159,7 +165,47 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/validateOTP": {
+        "/v1/signup": {
+            "post": {
+                "description": "Create a new user with the provided details",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "SignUP"
+                ],
+                "summary": "Create a new user",
+                "parameters": [
+                    {
+                        "description": "User details",
+                        "name": "user",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.UserSignUp"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "User created successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/validate-otp": {
             "post": {
                 "description": "Validates the OTP for a user",
                 "consumes": [
@@ -169,7 +215,7 @@ const docTemplate = `{
                     "application/json"
                 ],
                 "tags": [
-                    "OTP"
+                    "Validate OTP"
                 ],
                 "summary": "Validate OTP",
                 "parameters": [
@@ -264,22 +310,55 @@ const docTemplate = `{
                 }
             }
         },
-        "models.ValidateOTPRequest": {
+        "models.UserSignUp": {
             "type": "object",
             "required": [
-                "otp",
+                "email",
+                "name",
+                "panCard",
+                "password",
+                "phoneNumber",
                 "username"
             ],
             "properties": {
+                "email": {
+                    "type": "string"
+                },
+                "name": {
+                    "type": "string"
+                },
+                "panCard": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string",
+                    "maxLength": 20,
+                    "minLength": 8
+                },
+                "phoneNumber": {
+                    "type": "integer",
+                    "maximum": 9999999999,
+                    "minimum": 1000000000
+                },
+                "username": {
+                    "type": "string"
+                }
+            }
+        },
+        "models.ValidateOTPRequest": {
+            "type": "object",
+            "required": [
+                "id",
+                "otp"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
                 "otp": {
                     "type": "integer",
                     "maximum": 9999,
                     "minimum": 1000
-                },
-                "username": {
-                    "type": "string",
-                    "maxLength": 50,
-                    "minLength": 6
                 }
             }
         }
@@ -287,7 +366,7 @@ const docTemplate = `{
     "securityDefinitions": {
         "JWT": {
             "type": "apiKey",
-            "name": "token",
+            "name": "Authorization",
             "in": "header"
         }
     }

@@ -9,18 +9,14 @@ import (
 )
 
 func GenerateJWTToken(tokenData genericModel.TokenData) (string, error) {
-
-	secretKey := configs.GetApplicationConfig().Token.SecretKey
-
+	secretKey := configs.GetApplicationConfig().Token.AccessTokenSecretKey
 	claims := jwt.MapClaims{}
 	claims[constants.TokenPayload] = tokenData
-	claims["exp"] = time.Now().Add(time.Hour * time.Duration(configs.GetApplicationConfig().Token.AccessTokenExpiryInDays)).Unix()
-
+	claims[constants.TokenExpiration] = time.Now().Add(24 * time.Hour * time.Duration(configs.GetApplicationConfig().Token.AccessTokenExpiryInDays)).Unix()
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
-
 	tokenString, err := token.SignedString([]byte(secretKey))
 	if err != nil {
-		return "", err
+		return constants.EmptySpace, err
 	}
 	return tokenString, nil
 }

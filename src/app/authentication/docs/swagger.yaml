@@ -41,19 +41,43 @@ definitions:
         example: virat
         type: string
     type: object
+  models.UserSignUp:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      panCard:
+        type: string
+      password:
+        maxLength: 20
+        minLength: 8
+        type: string
+      phoneNumber:
+        maximum: 9999999999
+        minimum: 1000000000
+        type: integer
+      username:
+        type: string
+    required:
+    - email
+    - name
+    - panCard
+    - password
+    - phoneNumber
+    - username
+    type: object
   models.ValidateOTPRequest:
     properties:
+      id:
+        type: integer
       otp:
         maximum: 9999
         minimum: 1000
         type: integer
-      username:
-        maxLength: 50
-        minLength: 6
-        type: string
     required:
+    - id
     - otp
-    - username
     type: object
 host: localhost:8080
 info:
@@ -93,7 +117,7 @@ paths:
       - JWT: []
       summary: Change Password
       tags:
-      - Authentication
+      - Change Password
   /v1/forgot-password:
     post:
       consumes:
@@ -127,6 +151,8 @@ paths:
           schema:
             type: string
       summary: Update user credentials
+      tags:
+      - Forgot Password
   /v1/signin:
     post:
       consumes:
@@ -155,7 +181,35 @@ paths:
           schema:
             type: string
       summary: Handle sign-in request
-  /v1/validateOTP:
+      tags:
+      - SignIN
+  /v1/signup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the provided details
+      parameters:
+      - description: User details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserSignUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User created successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      summary: Create a new user
+      tags:
+      - SignUP
+  /v1/validate-otp:
     post:
       consumes:
       - application/json
@@ -184,10 +238,10 @@ paths:
             type: string
       summary: Validate OTP
       tags:
-      - OTP
+      - Validate OTP
 securityDefinitions:
   JWT:
     in: header
-    name: token
+    name: Authorization
     type: apiKey
 swagger: "2.0"
