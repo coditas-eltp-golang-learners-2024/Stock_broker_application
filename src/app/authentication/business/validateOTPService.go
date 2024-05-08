@@ -5,6 +5,7 @@ import (
 	"authentication/models"
 	"authentication/repositories"
 	"errors"
+	genericConstants "stock_broker_application/src/constants"
 	genericModel "stock_broker_application/src/models"
 	"stock_broker_application/src/utils/authorization"
 )
@@ -20,7 +21,7 @@ func NewOTPService(userRepository repositories.UserRepository) *OTPService {
 }
 
 func (service *OTPService) OtpVerification(otpData models.ValidateOTPRequest) error {
-	if otpData.UserID == "" {
+	if otpData.UserID == 0 {
 		return errors.New(constants.ErrorRequiredUserID)
 	}
 	if otpData.OTP < 1000 || otpData.OTP > 9999 {
@@ -45,14 +46,14 @@ func (service *OTPService) OtpVerification(otpData models.ValidateOTPRequest) er
 	return nil
 }
 
-func (service *OTPService) GenerateAndStoreToken(tokenData genericModel.TokenData, userID string) (string, error) {
+func (service *OTPService) GenerateAndStoreToken(tokenData genericModel.TokenData, userID uint16) (string, error) {
 	token, err := authorization.GenerateJWTToken(tokenData)
 	if err != nil {
-		return "", err
+		return genericConstants.EmptySpace, err
 	}
 
 	if err := service.UserRepository.UpdateUserToken(userID, token); err != nil {
-		return "", err
+		return genericConstants.EmptySpace, err
 	}
 
 	return token, nil

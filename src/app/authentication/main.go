@@ -11,6 +11,7 @@ import (
 	"stock_broker_application/src/utils/flags"
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
+
 	"go.uber.org/zap"
 )
 
@@ -20,7 +21,8 @@ import (
 // @host localhost:8080
 // @securityDefinitions.apiKey JWT
 // @in header
-// @name token
+// @name Authorization
+// @BasePath /
 func main() {
 	ctx := context.Background()
 	initConfigs(ctx)

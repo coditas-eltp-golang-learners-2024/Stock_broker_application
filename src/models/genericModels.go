@@ -1,11 +1,5 @@
 package models
 
-import (
-	"stock_broker_application/src/constants"
-
-	"github.com/dgrijalva/jwt-go"
-)
-
 type ErrorMessage struct {
 	Key          string `json:"key,omitempty"`
 	ErrorMessage string `json:"errorMessage,omitempty"`
@@ -66,10 +60,5 @@ type HttpGoRoutineRequest struct {
 
 // claim model for email
 type TokenData struct {
-	UserId string `gorm:"column:id" json:"id"`
-	jwt.StandardClaims
-}
-
-func (TokenData) TableName() string {
-	return constants.UserTable
+	UserId uint16 `json:"id"`
 }

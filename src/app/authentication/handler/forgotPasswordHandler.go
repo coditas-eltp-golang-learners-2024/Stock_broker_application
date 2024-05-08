@@ -28,6 +28,7 @@ func NewUsersController(service business.NewforgotPasswordService) NewForgetPass
 // UpdateCredentialsHandler updates the user's credentials.
 // @Summary Update user credentials
 // @Description Updates user credentials based on the provided request.
+// @Tags Forgot Password
 // @ID update-credentials
 // @Accept  json
 // @Produce  json
@@ -36,7 +37,7 @@ func NewUsersController(service business.NewforgotPasswordService) NewForgetPass
 // @Failure 400 {object} string "Bad request"
 // @Failure 401 {object} string "Unauthorized"
 // @Failure 500 {object} string "Internal server error"
-// @Router /forgot-password [post]
+// @Router /v1/forgot-password [post]
 func (controller *forgotPasswordController) HandleForgotPassword(context *gin.Context) {
 	var request models.ForgotPasswordRequest
 	if err := context.ShouldBindJSON(&request); err != nil {

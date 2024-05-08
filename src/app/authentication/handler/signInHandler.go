@@ -24,13 +24,14 @@ func NewSignInController(service *business.SignInService) *signInController {
 // SignInHandler handles the sign-in request
 // @Summary Handle sign-in request
 // @Description Handle sign-in request and authenticate the user
+// @Tags SignIN
 // @Accept json
 // @Produce json
 // @Param request body models.SignInRequest true "Sign-in request body"
 // @Success 200 {object} string "User authenticated successfully"
 // @Failure 400 {object} string "Bad request"
 // @Failure 401 {object} string "Unauthorized"
-// @Router /signin [post]
+// @Router /v1/signin [post]
 func (controller *signInController) HandleSignIn(context *gin.Context) {
 	var signInRequest models.SignInRequest
 
