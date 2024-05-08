@@ -24,6 +24,12 @@ func NewGetWatchListController(service business.NewGetWatchlistService) NewGetWa
 	}
 }
 
+// @Summary Retrieve user's watchlist
+// @Description Handler function to fetch the user's watchlist data.
+// @Produce json
+// @Success 200 {object} map[string]interface{} "Returns the user's watchlist data"
+// @Failure 500 {object} map[string]string "Internal server error"
+// @Router /get-watchlist [get]
 func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Context) {
 
 	watchlistData, err := controller.service.NewGetWatchlistService(context)

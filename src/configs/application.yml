@@ -1,12 +1,9 @@
 swagger:
   swaggerHost: ""
-  
 
-token :
-  accessSecretKey : a%6\d^h#$7s6
+token:
+  accessSecretKey: a%6\d^h#$7s6
   refreshSecretKey: asdhtcvsgdavcasvuew
-  accessTokenExpiryInDays : 1
+  accessTokenExpiryInDays: 1
   refreshTokenExpiryInDays: 5
-  secretKey : secret_key
-
-
+  secretKey: secret_key

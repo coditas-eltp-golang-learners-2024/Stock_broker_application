@@ -1,0 +1,46 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "description": "WatchList API for Stock Broker using Gin and Gorm",
+        "title": "Stock Broker Application",
+        "contact": {},
+        "version": "2.0"
+    },
+    "host": "localhost:8080",
+    "paths": {
+        "/get-watchlist": {
+            "get": {
+                "description": "Handler function to fetch the user's watchlist data.",
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Retrieve user's watchlist",
+                "responses": {
+                    "200": {
+                        "description": "Returns the user's watchlist data",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": true
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "securityDefinitions": {
+        "JWT": {
+            "type": "apiKey",
+            "name": "token",
+            "in": "header"
+        }
+    }
+}

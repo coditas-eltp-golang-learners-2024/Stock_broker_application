@@ -51,6 +51,21 @@ type TokenData struct {
 	EnabledExchanges  []string `json:"enabledExchange"`
 }
 
+// type TokenData struct {
+// 	UserId            string   `json:"uid"`
+// 	UserSessionId     string   `json:"userSessionId"`
+// 	BFFPublicKey      string   `json:"bffPublicKey"`
+// 	BFFPrivateKey     string   `json:"bffPrivateKey"`
+// 	DevicePublicKey   string   `json:"devicePublicKey"`
+// 	AccountId         string   `json:"accountId"`
+// 	BrokerName        string   `json:"brokerName"`
+// 	BranchName        string   `json:"branchName"`
+// 	ProductAlias      string   `json:"productAlias"`
+// 	CriteriaAttribute []string `json:"criteriaAttribute"`
+// 	ClearingOrg       string   `json:"clearingOrg"`
+// 	EnabledExchanges  []string `json:"enabledExchange"`
+// }
+
 type ChannelResponse struct {
 	ApiEndpoint string
 	Response    []byte
@@ -71,5 +86,15 @@ type TokenModel struct {
 }
 
 func (TokenModel) TableName() string {
+	return constants.UserTable
+}
+
+// claim model for email
+type TokenData struct {
+	UserId string `gorm:"column:id" json:"id"`
+	jwt.StandardClaims
+}
+
+func (TokenData) TableName() string {
 	return constants.UserTable
 }

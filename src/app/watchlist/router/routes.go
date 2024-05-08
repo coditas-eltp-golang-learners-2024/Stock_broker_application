@@ -1,8 +1,8 @@
 package router
 
 import (
-	"net/http"
 	"watchlist/business"
+	"watchlist/docs"
 	"watchlist/handler"
 	"watchlist/repositories"
 
@@ -11,6 +11,9 @@ import (
 	"stock_broker_application/src/utils/postgres"
 	serviceConstant "watchlist/commons/constants"
 
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -18,7 +21,6 @@ func init() {
 	gin.SetMode(gin.ReleaseMode)
 }
 
-// GetRouter is used to get the router configured with the middlewares and the routes
 func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router := gin.New()
 	router.Use(middlewares...)
@@ -29,15 +31,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	service := business.NewUsersService(repository)
 	newGetwatchlistController := handler.NewGetWatchListController(service)
 
-	v2Routes := router.Group(genericConstants.RouterV1Config)
+	v2Routes := router.Group(genericConstants.RouterV2Config)
 	{
-		v2Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
-			response := map[string]string{
-				genericConstants.ResponseMessageKey: genericConstants.BFFResponseSuccessMessage,
-			}
-			c.JSON(http.StatusOK, response)
-		})
+		docs.SwaggerInfo.Schemes = []string{"http", "https"}
 		v2Routes.GET(serviceConstant.GetWatchList, headerCheck.AuthMiddleware(), newGetwatchlistController.HandleGetWatchlist)
+		v2Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 	return router
 }

@@ -1,0 +1,31 @@
+host: localhost:8080
+info:
+  contact: {}
+  description: WatchList API for Stock Broker using Gin and Gorm
+  title: Stock Broker Application
+  version: "2.0"
+paths:
+  /get-watchlist:
+    get:
+      description: Handler function to fetch the user's watchlist data.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns the user's watchlist data
+          schema:
+            additionalProperties: true
+            type: object
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Retrieve user's watchlist
+securityDefinitions:
+  JWT:
+    in: header
+    name: token
+    type: apiKey
+swagger: "2.0"
