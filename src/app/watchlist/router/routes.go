@@ -31,11 +31,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	service := business.NewUsersService(repository)
 	newGetwatchlistController := handler.NewGetWatchListController(service)
 
-	v2Routes := router.Group(genericConstants.RouterV2Config)
+	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		docs.SwaggerInfo.Schemes = []string{"http", "https"}
-		v2Routes.GET(serviceConstant.GetWatchList, headerCheck.AuthMiddleware(), newGetwatchlistController.HandleGetWatchlist)
-		v2Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
+		v1Routes.GET(serviceConstant.GetWatchList, headerCheck.AuthMiddleware(), newGetwatchlistController.HandleGetWatchlist)
+		v1Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 	return router
 }

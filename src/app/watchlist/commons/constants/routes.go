@@ -9,5 +9,5 @@ const (
 
 // getWatchlist route Constants
 const (
-	GetWatchList = "/get-watchlist"
+	GetWatchList = "/watchlist/list"
 )
