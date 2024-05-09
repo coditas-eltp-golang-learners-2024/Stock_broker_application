@@ -1,10 +1,12 @@
 package headerCheck
 
 import (
+	"log"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 	"stock_broker_application/src/utils/configs"
+	"time"
 
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
@@ -14,6 +16,7 @@ func AuthMiddleware() gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		secretKey := configs.GetApplicationConfig().Token.AccessTokenSecretKey
 		tokenString := ctx.GetHeader(genericConstants.Authorization)
+		log.Println("The current time is:     ", time.Now().Unix())
 		if tokenString == "" {
 			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.AuthTokenMissing})
 			ctx.Abort()
@@ -27,8 +30,9 @@ func AuthMiddleware() gin.HandlerFunc {
 			ctx.Abort()
 			return
 		}
+
 		if claims, ok := token.Claims.(*models.TokenModel); ok && token.Valid {
-			ctx.Set(genericConstants.UserID, claims.UserID)
+			ctx.Set(genericConstants.UserID, claims.TokenPayload.ID)
 			ctx.Next()
 		} else {
 			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.InvalidJWT})

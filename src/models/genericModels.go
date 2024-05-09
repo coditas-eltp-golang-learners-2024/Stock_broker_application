@@ -64,10 +64,12 @@ type HttpGoRoutineRequest struct {
 	Metadata    interface{}
 }
 
-// claim model for email
 type TokenModel struct {
-	UserID string `gorm:"column:id" json:"id"`
 	jwt.StandardClaims
+	// ExpirationAt int64 `json:"exp"`
+	TokenPayload struct {
+		ID int `json:"id"`
+	} `json:"tokenPayload"`
 }
 
 func (TokenModel) TableName() string {
