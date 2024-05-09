@@ -11,7 +11,7 @@ import (
 
 type OTPService interface {
 	OtpVerification(otpData models.ValidateOTPRequest) error
-	GenerateAndStoreToken(tokenData genericModel.TokenData, username string) (string, error)
+	GenerateAndStoreToken(tokenData genericModel.TokenData, userID uint16) (string, error)
 }
 
 type OTPValidationController struct {
@@ -27,14 +27,14 @@ func NewOTPValidationController(service OTPService) *OTPValidationController {
 // NewValidateOTPHandler handles the OTP validation request
 // @Summary Validate OTP
 // @Description Validates the OTP for a user
-// @Tags OTP
+// @Tags Validate OTP
 // @Accept json
 // @Produce json
 // @Param otpRequest body models.ValidateOTPRequest true "OTP Request"
 // @Success 200 {string} string "OTP validated successfully"
 // @Failure 400 {string} string "Bad request"
 // @Failure 401 {string} string "OTP is expired or invalid"
-// @Router /validateOTP [post]
+// @Router /v1/validate-otp [post]
 func (controller *OTPValidationController) HandleValidateOTP(context *gin.Context) {
 	var otpValidationRequest models.ValidateOTPRequest
 	if err := context.ShouldBindJSON(&otpValidationRequest); err != nil {

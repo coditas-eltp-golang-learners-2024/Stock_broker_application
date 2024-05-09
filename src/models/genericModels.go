@@ -2,8 +2,6 @@ package models
 
 import (
 	"stock_broker_application/src/constants"
-
-	"github.com/dgrijalva/jwt-go"
 )
 
 type ErrorMessage struct {
@@ -64,24 +62,22 @@ type HttpGoRoutineRequest struct {
 	Metadata    interface{}
 }
 
-type TokenModel struct {
-	jwt.StandardClaims
-	// ExpirationAt int64 `json:"exp"`
-	TokenPayload struct {
-		ID int `json:"id"`
-	} `json:"tokenPayload"`
-}
+// type TokenModel struct {
+// 	jwt.StandardClaims
+// 	// ExpirationAt int64 `json:"exp"`
+// 	TokenPayload struct {
+// 		ID int `json:"id"`
+// 	} `json:"tokenPayload"`
+// }
 
-func (TokenModel) TableName() string {
-	return constants.UserTable
-}
+// func (TokenModel) TableName() string {
+// 	return constants.UserTable
+// }
 
-// claim model for email
 type TokenData struct {
-	UserId string `gorm:"column:id" json:"id"`
-	jwt.StandardClaims
+	UserId uint16 `json:"id"`
 }
 
 func (TokenData) TableName() string {
-	return constants.UserTable
+	return constants.Watchlist
 }

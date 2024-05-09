@@ -23,9 +23,9 @@ func NewGetWatclistsRepository(db *gorm.DB) GetWatchlistsRepository {
 func (repository *userDBRepository) GetWatchlists(ctx *gin.Context) ([]string, error) {
 	var watchlistSlice []models.Watchlist
 	var watchlistNames []string
-	userID := ctx.Value(genericConstants.UserID)
+	userID := ctx.Value(genericConstants.Id)
 
-	if err := repository.DB.Model(&models.Watchlist{}).Where("user_id = ?", userID).Find(&watchlistSlice).Error; err != nil {
+	if err := repository.DB.Model(&models.TokenData{}).Where("user_id = ?", userID).Find(&watchlistSlice).Error; err != nil {
 		return watchlistNames, err
 	}
 

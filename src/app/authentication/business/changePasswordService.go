@@ -20,7 +20,7 @@ func NewChangePasswordService(changePasswordInstance repositories.ChangePassword
 }
 
 func (service *ChangePasswordService) ChangePasswordService(request models.ChangePassword, ctx *gin.Context) error {
-	userID := ctx.Value(genericConstants.Id).(string)
+	userID := ctx.Value(genericConstants.Id).(uint16)
 	userCheckQuery := map[string]interface{}{
 		genericConstants.Id:       userID,
 		genericConstants.Password: request.OldPassword,

@@ -37,6 +37,6 @@ func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Contex
 		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.WatchlistNotFound})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: watchlistData})
+	context.JSON(http.StatusOK, gin.H{genericConstants.Watchlist: watchlistData})
 
 }
