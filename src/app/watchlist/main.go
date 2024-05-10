@@ -21,7 +21,8 @@ import (
 // @host localhost:8080
 // @securityDefinitions.apiKey JWT
 // @in header
-// @name token
+// @name Authorization
+// @BasePath /
 func main() {
 	ctx := context.Background()
 	initConfigs(ctx)

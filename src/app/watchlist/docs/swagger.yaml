@@ -5,7 +5,7 @@ info:
   title: Stock Broker Application
   version: "2.0"
 paths:
-  /get-watchlist:
+  /v1/watchlist/list:
     get:
       description: Handler function to fetch the user's watchlist data.
       produces:
@@ -22,10 +22,12 @@ paths:
             additionalProperties:
               type: string
             type: object
+      security:
+      - JWT: []
       summary: Retrieve user's watchlist
 securityDefinitions:
   JWT:
     in: header
-    name: token
+    name: Authorization
     type: apiKey
 swagger: "2.0"
