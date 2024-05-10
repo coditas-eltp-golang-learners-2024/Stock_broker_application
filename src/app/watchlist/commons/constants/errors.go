@@ -1,7 +1,8 @@
 package constants
 
+// Watchlist Errors
 const (
-	CreateWatchlistAlreadyExistsError = "watchlist already exists"
-	CreateWatchlistIsNotAddedError    = "failed to create new watchlist"
-	CreateWatchlistWrongScripError    = "no such script is registered"
+	WatchlistAlreadyExistsError = "watchlist already exists"
+	WatchlistIsNotAddedError    = "failed to create new watchlist"
+	WatchlistWrongScripError    = "no such script is registered"
 )

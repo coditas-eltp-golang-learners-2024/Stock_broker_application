@@ -26,13 +26,13 @@ func (service *CreateWatchlistService) CreateWatchlistService(serviceModel servi
 		genericConstants.WatchlistName: serviceModel.WatchlistName,
 	}
 	if service.CreateWatchlistRepository.IsWatchlistExists(condition) {
-		return errors.New(serviceConstants.CreateWatchlistAlreadyExistsError)
+		return errors.New(serviceConstants.WatchlistAlreadyExistsError)
 	}
 	if !service.CreateWatchlistRepository.CreateWatchlist(condition) {
-		return errors.New(serviceConstants.CreateWatchlistIsNotAddedError)
+		return errors.New(serviceConstants.WatchlistIsNotAddedError)
 	}
 	if !service.CreateWatchlistRepository.IsScripsAdded(condition, serviceModel) {
-		return errors.New(serviceConstants.CreateWatchlistWrongScripError)
+		return errors.New(serviceConstants.WatchlistWrongScripError)
 	}
 
 	return nil

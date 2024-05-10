@@ -40,5 +40,5 @@ func (controller *CreateWatchlistController) HandleCreateWatchlist(ctx *gin.Cont
 		ctx.Abort()
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{genericConstants.BFFResponseSuccessMessage: serviceConstants.CreatedWatchlistSuccessfully})
+	ctx.JSON(http.StatusOK, gin.H{genericConstants.BFFResponseSuccessMessage: serviceConstants.WatchlistCreatedSuccessfully})
 }
