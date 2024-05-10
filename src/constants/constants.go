@@ -116,6 +116,8 @@ const (
 	SebiNumber                   = "sebi_number"
 	CreatedAt                    = "created_at"
 	EpochTimestamp               = "epochtimestamp"
+	WatchlistName                = "watchlist_name"
+	UserId                       = "user_id"
 )
 
 // SQL Query Entry Keys

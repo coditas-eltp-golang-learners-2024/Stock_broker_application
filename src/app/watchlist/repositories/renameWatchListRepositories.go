@@ -1,7 +1,8 @@
 package repositories
 
 import (
-	"fmt"
+	"errors"
+	genericConstants "stock_broker_application/src/constants"
 	watchlistModel "stock_broker_application/src/models"
 	"watchlist/commons/constants"
 	"watchlist/models"
@@ -20,12 +21,12 @@ func NewEditWatchListRepository() *editWatchListRepository {
 }
 
 func (repo *editWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *models.WatchlistRenameModel, userId string) error {
-	err := db.Model(&watchlistModel.Watchlist{}).Where("watchlist_name = ? and user_id=?", watchlist.WatchlistName, userId).Update("watchlist_name", watchlist.NewWatchlistName)
+	err := db.Model(&watchlistModel.Watchlist{}).Where(genericConstants.WatchlistName+" = ? and "+genericConstants.UserId+"=?", watchlist.WatchlistName, userId).Update(genericConstants.WatchlistName, watchlist.NewWatchlistName)
 	if err.Error != nil {
 		return err.Error
 	}
 	if err.RowsAffected == 0 {
-		return fmt.Errorf(constants.ErrNoWatchlist)
+		return errors.New(constants.ErrNoWatchlist)
 	}
 	return nil
 }
