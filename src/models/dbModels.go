@@ -23,3 +23,33 @@ type Users struct {
 func (Users) TableName() string {
 	return constants.UserTable
 }
+
+type Stocks struct {
+	ID     uint   `gorm:"column:id;primary_key" json:"id"`
+	Token  uint   `gorm:"column:token" json:"token"`
+	Symbol string `gorm:"column:symbol" json:"symbol"`
+}
+
+func (Stocks) TableName() string {
+	return constants.StockTable
+}
+
+type Watchlist struct {
+	ID            uint   `gorm:"column:id;primary_key" json:"id"`
+	UserID        uint16 `gorm:"column:user_id" json:"user_id"`
+	WatchlistName string `gorm:"column:watchlist_name" json:"watchlist_name"`
+}
+
+func (Watchlist) TableName() string {
+	return constants.WatchlistTable
+}
+
+type WatchlistStock struct {
+	ID          uint `gorm:"column:id;primary_key" json:"id"`
+	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlist_id"`
+	StockID     uint `gorm:"column:stocks_id" json:"stock_id"`
+}
+
+func (WatchlistStock) TableName() string {
+	return constants.WatchlistStockTable
+}
