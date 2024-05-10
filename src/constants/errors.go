@@ -285,19 +285,16 @@ const (
 	UnexpectedResponseError = "Body content did not match with %v"
 )
 
-// Generic Error Messages
 const (
-		AuthTokenMissing        = "Authorization token is missing"
-		FailedJWTValidation     = "failed to parse or validate JWT token"
-		InvalidJWT              = "invalid JWT token"
-		GenericJSONErrorMessage = "error"
-		GenericJSONMessage      = "message"
-		GenericTokenMessage     = "token"
-	
+	AuthTokenMissing        = "authorization token is missing"
+	FailedJWTValidation     = "failed to parse or validate JWT token"
+	InvalidJWT              = "invalid JWT token"
+	GenericJSONErrorMessage = "error"
+	GenericJSONMessage      = "message"
+	GenericTokenMessage     = "token"
 )
-
-// Generic Password Validation Error Messages
 const (
 	GenericValidationError         = "validation error"
-	GenericPasswordValidationError = "validation failed: must contain at least one lowercase, uppercase and numeric character"
+	GenericPasswordValidationError = "validation failed: must contain atleast one lowercase, uppercase and numeWric character"
+	WatchlistNameRequiredError     = "watchlist_name is required"
 )

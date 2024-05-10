@@ -39,4 +39,3 @@ func (service *SignInService) GenerateAndSaveOTP(username string) error {
 	}
 	return nil
 }
-

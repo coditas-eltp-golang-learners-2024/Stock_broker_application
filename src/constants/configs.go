@@ -58,12 +58,14 @@ const (
 
 // Custom validaton constants
 const (
-	ValidateEnumConfig     = "ValidateEnum"
-	RetentionDateConfig    = "RetentionDateValidation"
-	ScannerTypeValueConfig = "ScannerTypeValueValidation"
-	DataOfBirthConfig      = "DateOfBirthValidaton"
-	PANConfig              = "PANValidation"
-	BidLengthValidation    = "BidLengthValidation"
+	ValidateEnumConfig       = "ValidateEnum"
+	RetentionDateConfig      = "RetentionDateValidation"
+	ScannerTypeValueConfig   = "ScannerTypeValueValidation"
+	DataOfBirthConfig        = "DateOfBirthValidaton"
+	PANConfig                = "PANValidation"
+	BidLengthValidation      = "BidLengthValidation"
+	PasswordValidation       = "PasswordValidation"
+	ErrValidatePassword      = "ErrValidatePassword"
 	CustomPasswordValidation = "PasswordValidation"
 )
 

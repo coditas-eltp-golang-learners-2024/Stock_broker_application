@@ -62,6 +62,5 @@ type HttpGoRoutineRequest struct {
 
 // claim model for email
 type TokenData struct {
-	UserId uint16 `gorm:"column:id" json:"id"`
-	
+	UserId uint16 `json:"id"`
 }

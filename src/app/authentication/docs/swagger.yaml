@@ -1,4 +1,18 @@
 definitions:
+  models.ChangePassword:
+    properties:
+      newPassword:
+        example: Coditas@18
+        maxLength: 20
+        minLength: 8
+        type: string
+      oldPassword:
+        example: S@nket123
+        type: string
+    required:
+    - newPassword
+    - oldPassword
+    type: object
   models.ForgotPasswordRequest:
     properties:
       NewPassword:
@@ -27,9 +41,83 @@ definitions:
         example: virat
         type: string
     type: object
+  models.UserSignUp:
+    properties:
+      email:
+        type: string
+      name:
+        type: string
+      panCard:
+        type: string
+      password:
+        maxLength: 20
+        minLength: 8
+        type: string
+      phoneNumber:
+        maximum: 9999999999
+        minimum: 1000000000
+        type: integer
+      username:
+        type: string
+    required:
+    - email
+    - name
+    - panCard
+    - password
+    - phoneNumber
+    - username
+    type: object
+  models.ValidateOTPRequest:
+    properties:
+      id:
+        type: integer
+      otp:
+        maximum: 9999
+        minimum: 1000
+        type: integer
+    required:
+    - id
+    - otp
+    type: object
+host: localhost:8080
 info:
   contact: {}
+  description: api for Stock Broker using gin and gorm
+  title: Stock Broker Application
+  version: "2.0"
 paths:
+  /v1/change-password:
+    patch:
+      consumes:
+      - application/json
+      description: Change a user's password
+      parameters:
+      - description: Change Password Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.ChangePassword'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Password changed successfully
+          schema:
+            type: string
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+        "500":
+          description: Internal Server Error
+          schema:
+            type: string
+      security:
+      - JWT: []
+      summary: Change Password
+      tags:
+      - Change Password
   /v1/forgot-password:
     post:
       consumes:
@@ -63,6 +151,8 @@ paths:
           schema:
             type: string
       summary: Update user credentials
+      tags:
+      - Forgot Password
   /v1/signin:
     post:
       consumes:
@@ -91,4 +181,67 @@ paths:
           schema:
             type: string
       summary: Handle sign-in request
+      tags:
+      - SignIN
+  /v1/signup:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the provided details
+      parameters:
+      - description: User details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.UserSignUp'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User created successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      summary: Create a new user
+      tags:
+      - SignUP
+  /v1/validate-otp:
+    post:
+      consumes:
+      - application/json
+      description: Validates the OTP for a user
+      parameters:
+      - description: OTP Request
+        in: body
+        name: otpRequest
+        required: true
+        schema:
+          $ref: '#/definitions/models.ValidateOTPRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OTP validated successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+        "401":
+          description: OTP is expired or invalid
+          schema:
+            type: string
+      summary: Validate OTP
+      tags:
+      - Validate OTP
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
 swagger: "2.0"

@@ -11,9 +11,18 @@ import (
 	"stock_broker_application/src/utils/flags"
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
+
 	"go.uber.org/zap"
 )
 
+// @title Stock Broker Application
+// @description   api for Stock Broker using gin and gorm
+// @version 2.0
+// @host localhost:8080
+// @securityDefinitions.apiKey JWT
+// @in header
+// @name Authorization
+// @BasePath /
 func main() {
 	ctx := context.Background()
 	initConfigs(ctx)

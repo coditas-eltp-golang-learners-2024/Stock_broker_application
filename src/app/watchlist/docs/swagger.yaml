@@ -1,0 +1,48 @@
+definitions:
+  models.Scrip:
+    properties:
+      symbol:
+        type: string
+      token:
+        type: integer
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: api for Stock Broker using gin and gorm
+  title: Stock Broker Application
+  version: "2.0"
+paths:
+  /v1/watchlist/scrips/list:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the list of scrips for a given watchlist
+      parameters:
+      - description: Name of the watchlist
+        in: query
+        name: watchlist_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            $ref: '#/definitions/models.Scrip'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - JWT: []
+      summary: Get watchlist scrips
+      tags:
+      - Get Watchlist Scrips
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -27,6 +27,7 @@ const (
 
 // Validate Password Constants
 const (
+	ValidatePassword       = "validatePassword"
 	ValidatePasswordFormat = "ValidatePasswordFormat"
 )
 
@@ -114,7 +115,8 @@ const (
 	Properties                   = "properties"
 	SebiNumber                   = "sebi_number"
 	CreatedAt                    = "created_at"
-	EpochTimestamp               = "epochtimestamp"	
+	EpochTimestamp               = "epochtimestamp"
+	WatchlistName                = "watchlist_name"
 )
 
 // SQL Query Entry Keys
@@ -703,4 +705,7 @@ const (
 	StocksIntradayAggrDataEndpoint = "/v1/stocks/intraday-aggr-data"
 	ChartSource                    = "CHART"
 	AutomationFlag                 = "AUTOMATION"
+)
+const(
+	ScripsKey = "scrips"
 )

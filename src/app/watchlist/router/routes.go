@@ -6,10 +6,12 @@ import (
 	"stock_broker_application/src/utils/postgres"
 	"watchlist/business"
 	serviceConstant "watchlist/commons/constants"
+	"watchlist/docs"
 	"watchlist/handler"
 	"watchlist/repositories"
-
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func init() {
@@ -22,20 +24,19 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
-	//dependency injection for signin
+	//dependency injection for getWatchlistScrips
 	connectionWithDb := postgres.GetPostGresClient().GormDb
 	userDatabaseRepository := repositories.NewWatchlistRepository(connectionWithDb)
-	watchlistService := business.NewWatchlistService(userDatabaseRepository)
+	watchlistService := business.NewWatchlistScripsService(userDatabaseRepository)
 	watchlistController := handler.NewWatchlistController(watchlistService)
 
-	
-
-	v2Routes := router.Group(genericConstants.RouterV2Config)
+	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
-	
-		// routes
-		v2Routes.GET(serviceConstant.GetWatchList, headerCheck.AuthMiddleware(), watchlistController.HandleWatchlist)
-		
+
+		docs.SwaggerInfo.Schemes = []string{"http", "https"}
+		v1Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
+		v1Routes.GET(serviceConstant.GetWatchList, headerCheck.AuthMiddleware(), watchlistController.HandleWatchlistScrips)
+
 	}
 	return router
 }

@@ -4,12 +4,11 @@ import (
 	"authentication/business"
 	"authentication/commons/constants"
 	"authentication/models"
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
-
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 )
 
 type signInController struct {
@@ -25,6 +24,7 @@ func NewSignInController(service *business.SignInService) *signInController {
 // SignInHandler handles the sign-in request
 // @Summary Handle sign-in request
 // @Description Handle sign-in request and authenticate the user
+// @Tags SignIN
 // @Accept json
 // @Produce json
 // @Param request body models.SignInRequest true "Sign-in request body"
