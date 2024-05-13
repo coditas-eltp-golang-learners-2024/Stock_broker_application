@@ -1,6 +1,7 @@
 package router
 
 import (
+	"authentication/docs"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/middleware/headerCheck"
@@ -9,6 +10,9 @@ import (
 	serviceConstant "watchlist/commons/constants"
 	"watchlist/handler"
 	"watchlist/repositories"
+
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 
 	"github.com/gin-gonic/gin"
 )
@@ -40,8 +44,10 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 			c.JSON(http.StatusOK, response)
 		})
 		//Add your routes here
+		docs.SwaggerInfo.Schemes = []string{"http"}
 		v1Routes.PUT(constants.EditWatchList, headerCheck.AuthMiddleware(), editWatchListController.EditWatchList)
 		v1Routes.DELETE(constants.DeleteWatchList, headerCheck.AuthMiddleware(), deleteWatchListController.DeleteWatchList)
+		v1Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 	return router
 }
