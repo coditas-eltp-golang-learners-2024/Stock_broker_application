@@ -1,12 +1,10 @@
 package handler
 
 import (
-	"log"
 	"net/http"
 
 	genericConstants "stock_broker_application/src/constants"
 	"watchlist/business"
-	"watchlist/commons/constants"
 
 	"github.com/gin-gonic/gin"
 )
@@ -36,8 +34,7 @@ func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Contex
 
 	watchlistData, err := controller.service.NewGetWatchlistsService(context)
 	if len(watchlistData) == 0 {
-		log.Println("watchlist not found")
-		context.JSON(http.StatusNotFound, gin.H{genericConstants.GenericJSONErrorMessage: constants.WatchlistNotFoundError})
+		context.JSON(http.StatusNotFound, gin.H{genericConstants.WatchlistTable: watchlistData})
 		return
 	}
 
