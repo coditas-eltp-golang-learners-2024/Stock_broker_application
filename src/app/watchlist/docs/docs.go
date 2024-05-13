@@ -82,14 +82,20 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
-                        "description": "Watchlist scrips deleted successfully",
+                    "204": {
+                        "description": "No Content",
                         "schema": {
                             "type": "string"
                         }
                     },
                     "400": {
                         "description": "Invalid request payload",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "Failed to delete scrips",
                         "schema": {
                             "type": "string"
                         }
@@ -135,13 +141,13 @@ const docTemplate = `{
                         "type": "integer"
                     },
                     "example": [
-                        44,
-                        22
+                        1,
+                        3
                     ]
                 },
                 "watchlist_name": {
                     "type": "string",
-                    "example": "Mid Watchlist"
+                    "example": "Mid watchists"
                 }
             }
         }

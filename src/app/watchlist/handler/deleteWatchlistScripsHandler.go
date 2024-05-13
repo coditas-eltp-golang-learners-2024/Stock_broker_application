@@ -25,8 +25,9 @@ func NewDeleteWatchlistScripsHandler(service *business.DeleteWatchlistService) *
 // @Accept  json
 // @Produce  json
 // @Param request body models.DeleteWatchlistScripsRequest true "Delete Watchlist Scrips Request"
-// @Success 200 {string} string "Watchlist scrips deleted successfully"
+// @Success 204 {string} string "No Content"
 // @Failure 400 {string} string "Invalid request payload"
+// @Failure 500 {string} string "Failed to delete scrips"
 // @Router /v1/watchlist/scrips [delete]
 func (controller *DeleteWatchlistScripsHandler) HandleDeleteWatchlistScrips(context *gin.Context) {
 	var deleteWatchlistScripsRequest models.DeleteWatchlistScripsRequest
@@ -35,7 +36,7 @@ func (controller *DeleteWatchlistScripsHandler) HandleDeleteWatchlistScrips(cont
 		return
 	}
 	if deleteWatchlistScripsRequest.WatchlistName == "" || len(deleteWatchlistScripsRequest.Scrips) == 0 {
-		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONMessage: constants.WatchlistNameAndScripsRequiredError})
+		context.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONMessage: constants.WatchlistNameAndScripsRequiredError})
 		return
 	}
 	// Call the service to delete scrips from the watchlist
