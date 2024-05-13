@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"log"
 	"net/http"
 
 	genericConstants "stock_broker_application/src/constants"
@@ -15,10 +16,10 @@ type NewGetWatchlistController interface {
 }
 
 type getWatchlistController struct {
-	service business.NewGetWatchlistService
+	service business.NewGetWatchlistsService
 }
 
-func NewGetWatchListController(service business.NewGetWatchlistService) NewGetWatchlistController {
+func NewGetWatchListController(service business.NewGetWatchlistsService) NewGetWatchlistController {
 	return &getWatchlistController{
 		service: service,
 	}
@@ -33,11 +34,18 @@ func NewGetWatchListController(service business.NewGetWatchlistService) NewGetWa
 // @Router /v1/watchlist/list [get]
 func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Context) {
 
-	watchlistData, err := controller.service.NewGetWatchlistService(context)
-	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.WatchlistNotFoundError})
+	watchlistData, err := controller.service.NewGetWatchlistsService(context)
+	if len(watchlistData) == 0 {
+		log.Println("watchlist not found")
+		context.JSON(http.StatusNotFound, gin.H{genericConstants.GenericJSONErrorMessage: constants.WatchlistNotFoundError})
+		//context.JSON(http.StatusNoContent, gin.H{"error": "Watchlist not found"})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{genericConstants.Watchlist: watchlistData})
+
+	if err != nil {
+		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
+		return
+	}
+	context.JSON(http.StatusOK, gin.H{genericConstants.WatchlistTable: watchlistData})
 
 }

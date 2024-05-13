@@ -5,3 +5,7 @@ const (
 	ServiceName      = "watchlist"
 	PortDefaultValue = 8081
 )
+
+const (
+	WatchlistCreatedSuccessfully = "new watchlist is created successfully"
+)

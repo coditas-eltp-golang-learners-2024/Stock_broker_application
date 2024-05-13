@@ -1,7 +1,6 @@
 package repositories
 
 import (
-	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 
 	"github.com/gin-gonic/gin"
@@ -9,7 +8,7 @@ import (
 )
 
 type GetWatchlistsRepository interface {
-	GetWatchlists(ctx *gin.Context) ([]string, error)
+	GetWatchlists(ctx *gin.Context, condition map[string]interface{}) ([]string, error)
 }
 
 type userDBRepository struct {
@@ -20,12 +19,11 @@ func NewGetWatclistsRepository(db *gorm.DB) GetWatchlistsRepository {
 	return &userDBRepository{DB: db}
 }
 
-func (repository *userDBRepository) GetWatchlists(ctx *gin.Context) ([]string, error) {
+func (repository *userDBRepository) GetWatchlists(ctx *gin.Context, condition map[string]interface{}) ([]string, error) {
 	var watchlistSlice []models.Watchlist
 	var watchlistNames []string
-	userID := ctx.Value(genericConstants.Id)
-
-	if err := repository.DB.Model(&models.TokenData{}).Where("user_id = ?", userID).Find(&watchlistSlice).Error; err != nil {
+	var err error
+	if err = repository.DB.Model(&models.Watchlist{}).Where(condition).Find(&watchlistSlice).Error; err != nil {
 		return watchlistNames, err
 	}
 

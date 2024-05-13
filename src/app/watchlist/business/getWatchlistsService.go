@@ -1,26 +1,30 @@
 package business
 
 import (
+	genericConstants "stock_broker_application/src/constants"
 	"watchlist/repositories"
 
 	"github.com/gin-gonic/gin"
 )
 
-type NewGetWatchlistService interface {
-	NewGetWatchlistService(ctx *gin.Context) ([]string, error)
+type NewGetWatchlistsService interface {
+	NewGetWatchlistsService(ctx *gin.Context) ([]string, error)
 }
 
 type getWatchListSercvice struct {
-	getWatchlistInterface repositories.GetWatchlistsRepository
+	getWatchlistsRepository repositories.GetWatchlistsRepository
 }
 
-func NewUsersService(userData repositories.GetWatchlistsRepository) NewGetWatchlistService {
+func NewUsersService(getWatchlistRepository repositories.GetWatchlistsRepository) NewGetWatchlistsService {
 	return &getWatchListSercvice{
-		getWatchlistInterface: userData,
+		getWatchlistsRepository: getWatchlistRepository,
 	}
 }
 
-func (repository *getWatchListSercvice) NewGetWatchlistService(ctx *gin.Context) ([]string, error) {
-
-	return repository.getWatchlistInterface.GetWatchlists(ctx)
+func (service *getWatchListSercvice) NewGetWatchlistsService(ctx *gin.Context) ([]string, error) {
+	id := ctx.Value(genericConstants.Id).(uint16)
+	condition := map[string]interface{}{
+		genericConstants.UserId: id,
+	}
+	return service.getWatchlistsRepository.GetWatchlists(ctx, condition)
 }

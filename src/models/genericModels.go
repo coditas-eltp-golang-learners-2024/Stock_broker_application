@@ -1,9 +1,5 @@
 package models
 
-import (
-	"stock_broker_application/src/constants"
-)
-
 type ErrorMessage struct {
 	Key          string `json:"key,omitempty"`
 	ErrorMessage string `json:"errorMessage,omitempty"`
@@ -64,8 +60,4 @@ type HttpGoRoutineRequest struct {
 
 type TokenData struct {
 	UserId uint16 `json:"id"`
-}
-
-func (TokenData) TableName() string {
-	return constants.Watchlist
 }
