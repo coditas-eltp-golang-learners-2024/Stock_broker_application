@@ -18,6 +18,17 @@ func NewDeleteWatchlistScripsHandler(service business.DeleteWatchlistService) *D
 	}
 }
 
+// HandleDeleteWatchlistScrips handles HTTP DELETE requests for deleting scrips from a watchlist.
+// @Summary Delete scrips from a watchlist
+// @Description Delete scrips from a watchlist based on the provided watchlist name and scrips
+// @ID delete-watchlist-scrips
+// @Accept  json
+// @Produce  json
+// @Param request body DeleteWatchlistScripsRequest true "Delete Watchlist Scrips Request"
+// @Success 200 {object} gin.H{"message": "Watchlist scrips deleted successfully"}
+// @Failure 400 {object} gin.H{"message": "Invalid request payload"}
+// @Failure 500 {object} gin.H{"message": "Failed to delete watchlist scrips"}
+// @Router /watchlist/scrips [delete]
 func (controller *DeleteWatchlistScripsHandler) HandleDeleteWatchlistScrips(context *gin.Context) {
 	request := struct {
 		WatchlistName string   `json:"watchlist_name"`
@@ -37,4 +48,3 @@ func (controller *DeleteWatchlistScripsHandler) HandleDeleteWatchlistScrips(cont
 	}
 	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.DeletedWatchlistScrips})
 }
-

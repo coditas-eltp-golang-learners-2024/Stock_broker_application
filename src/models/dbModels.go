@@ -23,34 +23,29 @@ type Users struct {
 func (Users) TableName() string {
 	return constants.UserTable
 }
-
 type DeleteWatchlistScripsRequest struct {
 	WatchlistName string   `gorm:"column:watchlist_name" json:"watchlist_name"`
 	Scrips        []string `gorm:"column:symbol" json:"scrips"`
 }
 
-// func (DeleteWatchlistScripsRequest) TableName() string {
-// 	return constants.Stocks
-// }
-
-type Watchlist struct {
-	ID            int    `gorm:"column:id" json:"id"`
-	UserID        int    `gorm:"column:user_id" json:"userID"`
-	WatchlistName string `gorm:"column:watchlist_name" json:"watchlistName"`
-}
-
-func (Watchlist) TableName() string {
-	return constants.Watchlist
-}
-
-type Stock struct {
+type Stocks struct {
 	ID     uint   `gorm:"column:id;primary_key" json:"id"`
 	Token  uint   `gorm:"column:token" json:"token"`
 	Symbol string `gorm:"column:symbol" json:"symbol"`
 }
 
-func (Stock) TableName() string {
-	return constants.Stocks
+func (Stocks) TableName() string {
+	return constants.StockTable
+}
+
+type Watchlist struct {
+	ID            uint   `gorm:"column:id;primary_key" json:"id"`
+	UserID        uint16 `gorm:"column:user_id" json:"user_id"`
+	WatchlistName string `gorm:"column:watchlist_name" json:"watchlist_name"`
+}
+
+func (Watchlist) TableName() string {
+	return constants.WatchlistTable
 }
 
 type WatchlistStock struct {
@@ -60,5 +55,5 @@ type WatchlistStock struct {
 }
 
 func (WatchlistStock) TableName() string {
-	return "watchlist_stocks"
+	return constants.WatchlistStockTable
 }

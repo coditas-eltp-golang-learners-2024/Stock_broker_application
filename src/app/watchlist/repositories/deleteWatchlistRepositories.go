@@ -41,7 +41,7 @@ func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlis
 
 	for _, symbol := range scrips {
 
-		if err := repository.DB.Model(&models.Stock{}).
+		if err := repository.DB.Model(&models.Stocks{}).
 			Where("symbol = ?", symbol).Pluck("id", &result).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return errors.New("stock not found")
@@ -52,19 +52,11 @@ func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlis
 	}
 
 	// Delete entries from watchlist_stocks table
-
 	if err := repository.DB.Where("watchlist_id = ? AND stocks_id = ?", watchListID, result).Delete(&models.WatchlistStock{}).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return errors.New(constants.ErrorWatchlistNotFound)
 		}
 		return errors.New(constants.ErrorFailedToDeleteScrips)
 	}
-
-	// // If all scripts are deleted, update the watchlist name to be empty
-	// if len(scrips) == 0 {
-	// 	if err := repository.DB.Model(&models.Watchlist{}).Where("id = ?", watchListID).Update("watchlist_name", "").Error; err != nil {
-	// 		return errors.New(constants.ErrorUpdateWatchlist)
-	// 	}
-	// }
 	return nil
 }

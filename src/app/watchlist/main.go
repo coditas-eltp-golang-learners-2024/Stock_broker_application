@@ -1,19 +1,29 @@
 package main
 
 import (
+	serviceConstants "watchlist/commons/constants"
+	"watchlist/router"
+
 	"context"
 	"fmt"
-	"go.uber.org/zap"
 	genericConstants "stock_broker_application/src/constants"
 	loggerMiddleware "stock_broker_application/src/middleware/logger"
 	"stock_broker_application/src/utils/configs"
 	"stock_broker_application/src/utils/flags"
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
-	serviceConstants "watchlist/commons/constants"
-	"watchlist/router"
+
+	"go.uber.org/zap"
 )
 
+// @title Stock Broker Application
+// @description   api for Stock Broker using gin and gorm
+// @version 2.0
+// @host localhost:8081
+// @securityDefinitions.apiKey JWT
+// @in header
+// @name Authorization
+// @BasePath /
 func main() {
 	ctx := context.Background()
 	initConfigs(ctx)

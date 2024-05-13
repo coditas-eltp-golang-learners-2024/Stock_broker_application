@@ -1,0 +1,58 @@
+definitions:
+  models.CreateWatchlist:
+    properties:
+      scrips:
+        example:
+        - 44
+        - 22
+        items:
+          type: integer
+        type: array
+      watchlistName:
+        example: Mid Watchlist
+        type: string
+    required:
+    - scrips
+    - watchlistName
+    type: object
+host: localhost:8081
+info:
+  contact: {}
+  description: api for Stock Broker using gin and gorm
+  title: Stock Broker Application
+  version: "2.0"
+paths:
+  /v1/watchlist/create:
+    post:
+      consumes:
+      - application/json
+      description: Create a new user with the provided details
+      parameters:
+      - description: User details
+        in: body
+        name: user
+        required: true
+        schema:
+          $ref: '#/definitions/models.CreateWatchlist'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: User created successfully
+          schema:
+            type: string
+        "400":
+          description: Bad request
+          schema:
+            type: string
+      security:
+      - JWT: []
+      summary: Create a new user
+      tags:
+      - CreateWatchlist
+securityDefinitions:
+  JWT:
+    in: header
+    name: Authorization
+    type: apiKey
+swagger: "2.0"

@@ -1,11 +1,12 @@
 package constants
 
-// authentication NEST API URL Keys
+// watchlist NEST API URL Keys
 const (
-	ServiceName      = "authentication"
-	PortDefaultValue = 8080
+	ServiceName      = "watchlist"
+	PortDefaultValue = 8081
 )
 
-const(
-	DeletedWatchlistScrips = "scrips deleted from watchlist successfully"
+const (
+	WatchlistCreatedSuccessfully = "new watchlist is created successfully"
+	DeletedWatchlistScrips       = "scrips deleted from watchlist successfully"
 )
