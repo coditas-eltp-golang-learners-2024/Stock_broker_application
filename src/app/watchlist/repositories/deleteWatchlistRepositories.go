@@ -2,11 +2,10 @@ package repositories
 
 import (
 	"errors"
-	genericConstants "stock_broker_application/src/constants"
-	"stock_broker_application/src/models"
-
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
+	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/models"
 	"watchlist/commons/constants"
 )
 
@@ -25,38 +24,39 @@ func NewDeleteWatchlistRepository(db *gorm.DB) DeleteWatchlistRepository {
 func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int) error {
 	userID, exists := ctx.Get(genericConstants.Id)
 	if !exists {
-		return errors.New(constants.ErrorUserIDNotFound)
+		return errors.New(constants.UserIDNotFoundError)
 	}
 
 	// Find watchlist ID
 	var watchListID uint
 	if err := repository.DB.Model(&models.Watchlist{}).Where("user_id = ? AND watchlist_name = ?", userID, watchlistName).Select("id").First(&watchListID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return errors.New(constants.ErrorWatchlistNotFound)
+			return errors.New(constants.WatchlistNotFoundError)
 		}
-		return err
+		return errors.New(constants.FailedtoFindWatchlistError)
 	}
 
-	var result uint
-
-	for _, symbol := range scrips {
-
+	var result []uint
+	for _, stocksID := range scrips {
+		var stockID []uint
 		if err := repository.DB.Model(&models.Stocks{}).
-			Where("symbol = ?", symbol).Pluck("id", &result).Error; err != nil {
+			Where("id = ?", stocksID).Pluck("id", &stockID).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return errors.New("stock not found")
+				return errors.New(constants.StockwithSymbolNotFoundError)
 			}
-
-			return err
+			return errors.New(constants.StockNotFoundError)
 		}
+		result = append(result, stockID...)
 	}
 
 	// Delete entries from watchlist_stocks table
-	if err := repository.DB.Where("watchlist_id = ? AND stocks_id = ?", watchListID, result).Delete(&models.WatchlistStock{}).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			return errors.New(constants.ErrorWatchlistNotFound)
+	for _, stockID := range result { // Loop through result slice to delete each stock entry
+		if err := repository.DB.Where("watchlist_id = ? AND stocks_id = ?", watchListID, stockID).Delete(&models.WatchlistStock{}).Error; err != nil {
+			if errors.Is(err, gorm.ErrRecordNotFound) {
+				return errors.New(constants.WatchlistNotFoundError)
+			}
+			return errors.New(constants.FailToDeleteScripsError)
 		}
-		return errors.New(constants.ErrorFailedToDeleteScrips)
 	}
 	return nil
 }

@@ -3,6 +3,7 @@ package business
 import (
 	"errors"
 	"github.com/gin-gonic/gin"
+	"watchlist/commons/constants"
 	"watchlist/repositories"
 )
 
@@ -18,12 +19,11 @@ func NewDeleteWatchlistService(deleteWatchlistRepository repositories.DeleteWatc
 
 func (service *DeleteWatchlistService) DeleteScripsFromWatchlist(ctx *gin.Context, watchlistName string, scrips []int) error {
 	if watchlistName == "" || len(scrips) == 0 {
-		return errors.New("watchlistName and scrips are required")
+		return errors.New(constants.WatchlistNameAndScripsRequiredError)
 	}
-
 	err := service.deleteWatchlistRepository.DeleteScrips(ctx, watchlistName, scrips)
 	if err != nil {
-		return err
+		return errors.New(constants.FailedToDeleteScripsfromWatchlistError)
 	}
 
 	return nil

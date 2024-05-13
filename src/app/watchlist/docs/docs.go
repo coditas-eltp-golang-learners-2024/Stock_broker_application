@@ -59,6 +59,43 @@ const docTemplate = `{
                     }
                 }
             }
+        },
+        "/v1/watchlist/scrips": {
+            "delete": {
+                "description": "Delete scrips from a watchlist based on the provided watchlist name and scrips",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "summary": "Delete scrips from a watchlist",
+                "parameters": [
+                    {
+                        "description": "Delete Watchlist Scrips Request",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/models.DeleteWatchlistScripsRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Watchlist scrips deleted successfully",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "Invalid request payload",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
         }
     },
     "definitions": {
@@ -80,6 +117,29 @@ const docTemplate = `{
                     ]
                 },
                 "watchlistName": {
+                    "type": "string",
+                    "example": "Mid Watchlist"
+                }
+            }
+        },
+        "models.DeleteWatchlistScripsRequest": {
+            "type": "object",
+            "required": [
+                "scrips",
+                "watchlist_name"
+            ],
+            "properties": {
+                "scrips": {
+                    "type": "array",
+                    "items": {
+                        "type": "integer"
+                    },
+                    "example": [
+                        44,
+                        22
+                    ]
+                },
+                "watchlist_name": {
                     "type": "string",
                     "example": "Mid Watchlist"
                 }

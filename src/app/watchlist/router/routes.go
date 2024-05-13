@@ -30,7 +30,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 
 	deleteWatchlistRepository := repositories.NewDeleteWatchlistRepository(connectionWithDb)
 	deleteWatchlistScripsService := business.NewDeleteWatchlistService(deleteWatchlistRepository)
-	deleteWatchlistScripsHandler := handler.NewDeleteWatchlistScripsHandler(*deleteWatchlistScripsService)
+	deleteWatchlistScripsHandler := handler.NewDeleteWatchlistScripsHandler(deleteWatchlistScripsService)
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
