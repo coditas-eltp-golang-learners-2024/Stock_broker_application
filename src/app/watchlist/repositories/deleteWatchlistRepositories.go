@@ -27,7 +27,6 @@ func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlis
 		return errors.New(constants.UserIDNotFoundError)
 	}
 
-	// Find watchlist ID
 	var watchListID uint
 	if err := repository.DB.Model(&models.Watchlist{}).Where("user_id = ? AND watchlist_name = ?", userID, watchlistName).Select("id").First(&watchListID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -50,7 +49,7 @@ func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlis
 	}
 
 	// Delete entries from watchlist_stocks table
-	for _, stockID := range result { // Loop through result slice to delete each stock entry
+	for _, stockID := range result {
 		if err := repository.DB.Where("watchlist_id = ? AND stocks_id = ?", watchListID, stockID).Delete(&models.WatchlistStock{}).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return errors.New(constants.WatchlistNotFoundError)
