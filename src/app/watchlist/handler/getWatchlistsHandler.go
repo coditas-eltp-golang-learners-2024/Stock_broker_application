@@ -38,7 +38,6 @@ func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Contex
 	if len(watchlistData) == 0 {
 		log.Println("watchlist not found")
 		context.JSON(http.StatusNotFound, gin.H{genericConstants.GenericJSONErrorMessage: constants.WatchlistNotFoundError})
-		//context.JSON(http.StatusNoContent, gin.H{"error": "Watchlist not found"})
 		return
 	}
 
