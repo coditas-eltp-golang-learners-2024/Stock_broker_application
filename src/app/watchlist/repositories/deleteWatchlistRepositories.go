@@ -11,7 +11,7 @@ import (
 )
 
 type DeleteWatchlistRepository interface {
-	DeleteScrips(ctx *gin.Context, watchlistName string, scrips []string) error
+	DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int) error
 }
 
 type watchlistDBRepository struct {
@@ -22,7 +22,7 @@ func NewDeleteWatchlistRepository(db *gorm.DB) DeleteWatchlistRepository {
 	return &watchlistDBRepository{DB: db}
 }
 
-func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlistName string, scrips []string) error {
+func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int) error {
 	userID, exists := ctx.Get(genericConstants.Id)
 	if !exists {
 		return errors.New(constants.ErrorUserIDNotFound)

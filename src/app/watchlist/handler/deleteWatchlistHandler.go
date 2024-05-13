@@ -31,8 +31,8 @@ func NewDeleteWatchlistScripsHandler(service business.DeleteWatchlistService) *D
 // @Router /watchlist/scrips [delete]
 func (controller *DeleteWatchlistScripsHandler) HandleDeleteWatchlistScrips(context *gin.Context) {
 	request := struct {
-		WatchlistName string   `json:"watchlist_name"`
-		Scrips        []string `json:"scrips"`
+		WatchlistName string `json:"watchlist_name"`
+		Scrips        []int  `json:"scrips"`
 	}{}
 
 	if err := context.ShouldBindJSON(&request); err != nil {

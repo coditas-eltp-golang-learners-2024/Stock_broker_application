@@ -16,7 +16,7 @@ func NewDeleteWatchlistService(deleteWatchlistRepository repositories.DeleteWatc
 	}
 }
 
-func (service *DeleteWatchlistService) DeleteScripsFromWatchlist(ctx *gin.Context, watchlistName string, scrips []string) error {
+func (service *DeleteWatchlistService) DeleteScripsFromWatchlist(ctx *gin.Context, watchlistName string, scrips []int) error {
 	if watchlistName == "" || len(scrips) == 0 {
 		return errors.New("watchlistName and scrips are required")
 	}

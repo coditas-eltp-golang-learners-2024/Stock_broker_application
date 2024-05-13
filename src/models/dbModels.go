@@ -23,9 +23,10 @@ type Users struct {
 func (Users) TableName() string {
 	return constants.UserTable
 }
+
 type DeleteWatchlistScripsRequest struct {
-	WatchlistName string   `gorm:"column:watchlist_name" json:"watchlist_name"`
-	Scrips        []string `gorm:"column:symbol" json:"scrips"`
+	WatchlistName string `gorm:"column:watchlist_name" json:"watchlist_name"`
+	Scrips        []int  `gorm:"column:symbol" json:"scrips"`
 }
 
 type Stocks struct {
