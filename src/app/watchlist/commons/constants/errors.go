@@ -1,6 +1,6 @@
 package constants
 
-// Get Watchlist Errors
+// Watchlist Errors
 const (
-	WatchlistNotFound = "watchlist not found"
+	WatchlistNotFoundError = "watchlist not found"
 )

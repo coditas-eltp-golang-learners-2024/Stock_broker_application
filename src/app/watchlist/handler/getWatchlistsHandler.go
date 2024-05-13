@@ -24,7 +24,7 @@ func NewGetWatchListController(service business.NewGetWatchlistService) NewGetWa
 	}
 }
 
-// @Summary Retrieve user's watchlist
+// @Summary Get the list of WatchLists
 // @Description Handler function to fetch the user's watchlist data.
 // @Produce json
 // @Success 200 {object} map[string]interface{} "Returns the user's watchlist data"
@@ -35,7 +35,7 @@ func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Contex
 
 	watchlistData, err := controller.service.NewGetWatchlistService(context)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.WatchlistNotFound})
+		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.WatchlistNotFoundError})
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{genericConstants.Watchlist: watchlistData})

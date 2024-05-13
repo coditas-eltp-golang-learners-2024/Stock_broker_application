@@ -1,5 +1,5 @@
 package models
 
-type GetWatchListRequest struct {
+type GetWatchListsRequest struct {
 	UserId int `json:"userID" validate:"required" example:"5" `
 }

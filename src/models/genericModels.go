@@ -62,18 +62,6 @@ type HttpGoRoutineRequest struct {
 	Metadata    interface{}
 }
 
-// type TokenModel struct {
-// 	jwt.StandardClaims
-// 	// ExpirationAt int64 `json:"exp"`
-// 	TokenPayload struct {
-// 		ID int `json:"id"`
-// 	} `json:"tokenPayload"`
-// }
-
-// func (TokenModel) TableName() string {
-// 	return constants.UserTable
-// }
-
 type TokenData struct {
 	UserId uint16 `json:"id"`
 }
