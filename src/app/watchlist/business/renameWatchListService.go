@@ -21,8 +21,7 @@ func NewEditWatchListService(editWatchListRepository repositories.EditWatchListR
 
 func (service *EditWatchListService) EditWatchList(watchlist *models.WatchlistRenameModel, ctx *gin.Context) error {
 	client := postgres.GetPostGresClient()
-	userId := ctx.GetString(genericConstants.Id)
-
+	userId := ctx.Value(genericConstants.Id).(uint16)
 	err := service.EditWatchListRepository.RenameWatchlist(client.GormDb, watchlist, userId)
 	if err != nil {
 		return err

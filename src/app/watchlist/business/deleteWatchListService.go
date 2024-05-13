@@ -22,7 +22,7 @@ func NewDeleteWatchListService(deleteWatchListRepository repositories.DeleteWatc
 func (service *DeleteWatchListService) DeleteWatchList(watchlist *models.WatchlistDeleteModel, ctx *gin.Context) error {
 
 	client := postgres.GetPostGresClient()
-	userId := ctx.GetString(genericConstants.Id)
+	userId := ctx.Value(genericConstants.Id).(uint16)
 	err := service.deleteWatchListRepository.DeleteWatchlist(client.GormDb, watchlist, userId)
 	if err != nil {
 		return err

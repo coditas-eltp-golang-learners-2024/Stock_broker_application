@@ -11,7 +11,7 @@ import (
 )
 
 type EditWatchListRepository interface {
-	RenameWatchlist(client *gorm.DB, watchlist *models.WatchlistRenameModel, userId string) error
+	RenameWatchlist(client *gorm.DB, watchlist *models.WatchlistRenameModel, userId uint16) error
 }
 
 type editWatchListRepository struct{}
@@ -20,7 +20,7 @@ func NewEditWatchListRepository() *editWatchListRepository {
 	return &editWatchListRepository{}
 }
 
-func (repo *editWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *models.WatchlistRenameModel, userId string) error {
+func (repo *editWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *models.WatchlistRenameModel, userId uint16) error {
 	err := db.Model(&watchlistModel.Watchlist{}).Where(genericConstants.WatchlistName+" = ? and "+genericConstants.UserId+"=?", watchlist.WatchlistName, userId).Update(genericConstants.WatchlistName, watchlist.NewWatchlistName)
 	if err.Error != nil {
 		return err.Error
