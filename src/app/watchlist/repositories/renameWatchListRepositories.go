@@ -10,17 +10,17 @@ import (
 	"gorm.io/gorm"
 )
 
-type EditWatchListRepository interface {
+type RenameWatchListRepository interface {
 	RenameWatchlist(client *gorm.DB, watchlist *models.WatchlistRenameModel, userId uint16) error
 }
 
-type editWatchListRepository struct{}
+type renameWatchListRepository struct{}
 
-func NewEditWatchListRepository() *editWatchListRepository {
-	return &editWatchListRepository{}
+func NewRenameWatchListRepository() *renameWatchListRepository {
+	return &renameWatchListRepository{}
 }
 
-func (repo *editWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *models.WatchlistRenameModel, userId uint16) error {
+func (repo *renameWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *models.WatchlistRenameModel, userId uint16) error {
 	err := db.Model(&watchlistModel.Watchlist{}).Where(genericConstants.WatchlistName+" = ? and "+genericConstants.UserId+"=?", watchlist.WatchlistName, userId).Update(genericConstants.WatchlistName, watchlist.NewWatchlistName)
 	if err.Error != nil {
 		return err.Error

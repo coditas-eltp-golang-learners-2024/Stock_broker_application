@@ -5,6 +5,6 @@ const (
 	SwaggerRoute              = "/swagger/*any"
 	AuthenticationHealthCheck = "/authentication/health-check"
 	Metrics                   = "/metrics"
-	EditWatchList             = "/edit-watchlist"
+	RenameWatchList           = "/rename-watchlist"
 	DeleteWatchList           = "/delete-watchlist"
 )

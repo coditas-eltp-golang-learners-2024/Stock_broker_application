@@ -2,7 +2,7 @@ package constants
 
 // authentication NEST API URL Keys
 const (
-	ServiceName      = "authentication"
+	ServiceName      = "watchlist"
 	PortDefaultValue = 8081
 )
 

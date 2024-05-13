@@ -9,20 +9,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-type EditWatchListService struct {
-	EditWatchListRepository repositories.EditWatchListRepository
+type RenameWatchListService struct {
+	RenameWatchListRepository repositories.RenameWatchListRepository
 }
 
-func NewEditWatchListService(editWatchListRepository repositories.EditWatchListRepository) *EditWatchListService {
-	return &EditWatchListService{
-		EditWatchListRepository: editWatchListRepository,
+func NewRenameWatchListService(renameWatchListRepository repositories.RenameWatchListRepository) *RenameWatchListService {
+	return &RenameWatchListService{
+		RenameWatchListRepository: renameWatchListRepository,
 	}
 }
 
-func (service *EditWatchListService) EditWatchList(watchlist *models.WatchlistRenameModel, ctx *gin.Context) error {
+func (service *RenameWatchListService) RenameWatchList(watchlist *models.WatchlistRenameModel, ctx *gin.Context) error {
 	client := postgres.GetPostGresClient()
 	userId := ctx.Value(genericConstants.Id).(uint16)
-	err := service.EditWatchListRepository.RenameWatchlist(client.GormDb, watchlist, userId)
+	err := service.RenameWatchListRepository.RenameWatchlist(client.GormDb, watchlist, userId)
 	if err != nil {
 		return err
 	}

@@ -27,13 +27,13 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
-	editWatchList := repositories.NewEditWatchListRepository()
-	editWatchListService := business.NewEditWatchListService(editWatchList)
-	editWatchListController := handler.NewEditWatchListController(editWatchListService)
+	editWatchList := repositories.NewRenameWatchListRepository()
+	editWatchListService := business.NewRenameWatchListService(editWatchList)
+	editWatchListController := handler.NewRenameWatchListController(editWatchListService)
 
 	deleteWatchList := repositories.NewDeleteWatchListRepository()
 	deleteWatchListService := business.NewDeleteWatchListService(deleteWatchList)
-	deleteWatchListController := handler.NewEditWatchListDeleteController(deleteWatchListService)
+	deleteWatchListController := handler.NewDeleteWatchListDeleteController(deleteWatchListService)
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
@@ -45,7 +45,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		})
 		//Add your routes here
 		docs.SwaggerInfo.Schemes = []string{"http"}
-		v1Routes.PUT(constants.EditWatchList, headerCheck.AuthMiddleware(), editWatchListController.EditWatchList)
+		v1Routes.PUT(constants.RenameWatchList, headerCheck.AuthMiddleware(), editWatchListController.EditWatchList)
 		v1Routes.DELETE(constants.DeleteWatchList, headerCheck.AuthMiddleware(), deleteWatchListController.DeleteWatchList)
 		v1Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}

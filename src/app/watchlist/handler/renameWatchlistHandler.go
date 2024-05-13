@@ -2,20 +2,22 @@ package handler
 
 import (
 	"net/http"
+	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
 	"watchlist/business"
 	constants "watchlist/commons/constants"
 	"watchlist/models"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
-type editWatchListController struct {
-	service *business.EditWatchListService
+type renameWatchListController struct {
+	service *business.RenameWatchListService
 }
 
-func NewEditWatchListController(service *business.EditWatchListService) *editWatchListController {
-	return &editWatchListController{
+func NewRenameWatchListController(service *business.RenameWatchListService) *renameWatchListController {
+	return &renameWatchListController{
 		service: service,
 	}
 }
@@ -31,19 +33,21 @@ func NewEditWatchListController(service *business.EditWatchListService) *editWat
 // @Success 200 {string} string "Watchlist edited successfully"
 // @Failure 400 {string} string "Bad request"
 // @Router /v1/edit-watchlist [put]
-func (controller *editWatchListController) EditWatchList(ctx *gin.Context) {
+func (controller *renameWatchListController) EditWatchList(ctx *gin.Context) {
 	var watchlist models.WatchlistRenameModel
 	if err := ctx.ShouldBindJSON(&watchlist); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
 	if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(watchlist); err != nil {
+		validationErrors := validations.FormatValidationErrors(ctx.Request.Context(), err.(validator.ValidationErrors))
 		ctx.JSON(http.StatusBadRequest, gin.H{
-			"error": err.Error(),
+			"error":                                 err.Error(),
+			genericConstants.GenericValidationError: validationErrors,
 		})
 		return
 	}
-	if err := controller.service.EditWatchList(&watchlist, ctx); err != nil {
+	if err := controller.service.RenameWatchList(&watchlist, ctx); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}

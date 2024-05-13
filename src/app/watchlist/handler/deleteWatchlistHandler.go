@@ -2,19 +2,21 @@ package handler
 
 import (
 	"net/http"
+	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
 	"watchlist/business"
 	"watchlist/commons/constants"
 	"watchlist/models"
 
 	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type deleteWatchListController struct {
 	service *business.DeleteWatchListService
 }
 
-func NewEditWatchListDeleteController(service *business.DeleteWatchListService) *deleteWatchListController {
+func NewDeleteWatchListDeleteController(service *business.DeleteWatchListService) *deleteWatchListController {
 	return &deleteWatchListController{
 		service: service,
 	}
@@ -39,9 +41,16 @@ func (controller *deleteWatchListController) DeleteWatchList(ctx *gin.Context) {
 		return
 	}
 	if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(watchlist); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		validationErrors := validations.FormatValidationErrors(ctx.Request.Context(), err.(validator.ValidationErrors))
+		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error(),
+			genericConstants.GenericValidationError: validationErrors,
+		})
 	}
 	if err := controller.service.DeleteWatchList(&watchlist, ctx); err != nil {
+		if err.Error() == constants.ErrNoWatchlist {
+			ctx.JSON(http.StatusNoContent, gin.H{"error": err.Error()})
+			return
+		}
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
