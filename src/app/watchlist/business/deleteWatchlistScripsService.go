@@ -18,9 +18,6 @@ func NewDeleteWatchlistService(deleteWatchlistRepository repositories.DeleteWatc
 }
 
 func (service *DeleteWatchlistService) DeleteScripsFromWatchlist(ctx *gin.Context, watchlistName string, scrips []int) error {
-	if watchlistName == "" || len(scrips) == 0 {
-		return errors.New(constants.WatchlistNameAndScripsRequiredError)
-	}
 	err := service.deleteWatchlistRepository.DeleteScrips(ctx, watchlistName, scrips)
 	if err != nil {
 		return errors.New(constants.FailedToDeleteScripsfromWatchlistError)

@@ -29,14 +29,17 @@ func NewDeleteWatchlistScripsHandler(service *business.DeleteWatchlistService) *
 // @Failure 400 {string} string "Invalid request payload"
 // @Router /v1/watchlist/scrips [delete]
 func (controller *DeleteWatchlistScripsHandler) HandleDeleteWatchlistScrips(context *gin.Context) {
-	var request models.DeleteWatchlistScripsRequest
-	if err := context.ShouldBindJSON(&request); err != nil {
+	var deleteWatchlistScripsRequest models.DeleteWatchlistScripsRequest
+	if err := context.ShouldBindJSON(&deleteWatchlistScripsRequest); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONMessage: constants.InvalidRequestPayloadError})
 		return
 	}
-
+	if deleteWatchlistScripsRequest.WatchlistName == "" || len(deleteWatchlistScripsRequest.Scrips) == 0 {
+		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONMessage: constants.WatchlistNameAndScripsRequiredError})
+		return
+	}
 	// Call the service to delete scrips from the watchlist
-	err := controller.deleteWatchlistService.DeleteScripsFromWatchlist(context, request.WatchlistName, request.Scrips)
+	err := controller.deleteWatchlistService.DeleteScripsFromWatchlist(context, deleteWatchlistScripsRequest.WatchlistName, deleteWatchlistScripsRequest.Scrips)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONMessage: constants.FailedToDeleteScripsError})
 		return
