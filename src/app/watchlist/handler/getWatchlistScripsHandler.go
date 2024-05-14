@@ -11,7 +11,7 @@ type watchlistScripsController struct {
 	service *business.WatchlistScripsService
 }
 
-func NewWatchlistController(service *business.WatchlistScripsService) *watchlistScripsController {
+func NewWatchlistScripController(service *business.WatchlistScripsService) *watchlistScripsController {
 	return &watchlistScripsController{
 		service: service,
 	}
@@ -30,12 +30,10 @@ func NewWatchlistController(service *business.WatchlistScripsService) *watchlist
 // @Router /v1/watchlist/scrips/list [get]
 func (controller *watchlistScripsController) HandleWatchlistScrips(context *gin.Context) {
 	watchlistName := context.Query(genericConstants.WatchlistName)
-
 	if watchlistName == "" {
-	    context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage:genericConstants.WatchlistNameRequiredError})
+	    context.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONErrorMessage:genericConstants.WatchlistNameRequiredError})
 	    return
 	}
-
 	scrips, err := controller.service.GetScrips(context, watchlistName)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})

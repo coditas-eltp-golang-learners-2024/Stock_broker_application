@@ -4,8 +4,6 @@ package constants
 const (
 	ServiceName          = "authentication"
 	PortDefaultValue     = 8080
-	DatabaseYamlFilePath = "resources"
-	DatabasePort         = "3306"
 )
 
 // Authentication success message

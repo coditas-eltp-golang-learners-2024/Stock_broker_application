@@ -16,7 +16,7 @@ import (
 // @title Stock Broker Application
 // @description   api for Stock Broker using gin and gorm
 // @version 2.0
-// @host localhost:8080
+// @host localhost:8081
 // @securityDefinitions.apiKey JWT
 // @in header
 // @name Authorization

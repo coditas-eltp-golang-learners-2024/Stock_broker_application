@@ -65,6 +65,7 @@ const (
 
 // Column Name Constants
 const (
+	UserId                       = "user_id"
 	Id                           = "id"
 	Username                     = "username"
 	EmailId                      = "email"
@@ -117,6 +118,9 @@ const (
 	CreatedAt                    = "created_at"
 	EpochTimestamp               = "epochtimestamp"
 	WatchlistName                = "watchlist_name"
+	WatchlistID                  = "watchlist_id"
+	StocksID                     = "stocks_id"
+	Token                        = "token"
 )
 
 // SQL Query Entry Keys
