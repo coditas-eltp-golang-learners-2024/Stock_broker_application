@@ -47,7 +47,7 @@ func (controller *deleteWatchListController) DeleteWatchList(ctx *gin.Context) {
 		})
 	}
 	if err := controller.service.DeleteWatchList(&watchlist, ctx); err != nil {
-		if err.Error() == constants.ErrNoWatchlist {
+		if err.Error() == constants.NoWatchlistError {
 			ctx.JSON(http.StatusNoContent, gin.H{"error": err.Error()})
 			return
 		}

@@ -21,15 +21,36 @@ type Users struct {
 }
 
 type Watchlist struct {
+	ID            uint   `gorm:"column:id;primary_key" json:"id"`
 	UserId        uint64 `json:"userId" validate:"required" gorm:"column:user_id"`
 	WatchlistName string `json:"watchlistName" validate:"required" gorm:"column:watchlist_name"`
 	StockId       uint64 `json:"stockId" validate:"required" gorm:"column:stock_id"`
 }
 
-func (Users) TableName() string {
-	return constants.UserTable
+type WatchlistStock struct {
+	ID          uint `gorm:"column:id;primary_key" json:"id"`
+	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlist_id"`
+	StockID     uint `gorm:"column:stocks_id" json:"stock_id"`
 }
 
-func (*Watchlist) TableName() string {
+type Stocks struct {
+	ID     uint   `gorm:"column:id;primary_key" json:"id"`
+	Token  uint   `gorm:"column:token" json:"token"`
+	Symbol string `gorm:"column:symbol" json:"symbol"`
+}
+
+func (Stocks) TableName() string {
+	return constants.StockTable
+}
+
+func (Watchlist) TableName() string {
 	return constants.WatchlistTable
+}
+
+func (WatchlistStock) TableName() string {
+	return constants.WatchlistStockTable
+}
+
+func (Users) TableName() string {
+	return constants.UserTable
 }

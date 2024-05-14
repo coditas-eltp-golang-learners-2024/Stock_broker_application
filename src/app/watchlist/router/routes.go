@@ -7,12 +7,14 @@ import (
 	"stock_broker_application/src/middleware/headerCheck"
 	"watchlist/business"
 	"watchlist/commons/constants"
-	serviceConstant "watchlist/commons/constants"
 	"watchlist/handler"
 	"watchlist/repositories"
 
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
+
+	"stock_broker_application/src/utils/postgres"
+	serviceConstants "watchlist/commons/constants"
 
 	"github.com/gin-gonic/gin"
 )
@@ -27,6 +29,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 
+	connectionWithDb := postgres.GetPostGresClient().GormDb
+	userDatabaseRepository := repositories.NewUserDBRepository(connectionWithDb)
+	createWatchlistHandler := business.NewCreateWatchlistService(userDatabaseRepository)
+	createWatchlistController := handler.NewWatchlistController(createWatchlistHandler)
+
 	editWatchList := repositories.NewRenameWatchListRepository()
 	editWatchListService := business.NewRenameWatchListService(editWatchList)
 	editWatchListController := handler.NewRenameWatchListController(editWatchListService)
@@ -37,17 +44,19 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
-		v1Routes.GET(serviceConstant.AuthenticationHealthCheck, func(c *gin.Context) {
+		v1Routes.GET(serviceConstants.AuthenticationHealthCheck, func(c *gin.Context) {
 			response := map[string]string{
 				genericConstants.ResponseMessageKey: genericConstants.BFFResponseSuccessMessage,
 			}
 			c.JSON(http.StatusOK, response)
 		})
-		//Add your routes here
-		docs.SwaggerInfo.Schemes = []string{"http"}
+
+		docs.SwaggerInfo.Schemes = []string{"http", "https"}
+
+		v1Routes.GET(serviceConstants.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
+		v1Routes.POST(serviceConstants.CreateWatchlist, headerCheck.AuthMiddleware(), createWatchlistController.HandleCreateWatchlist)
 		v1Routes.PUT(constants.RenameWatchList, headerCheck.AuthMiddleware(), editWatchListController.EditWatchList)
 		v1Routes.DELETE(constants.DeleteWatchList, headerCheck.AuthMiddleware(), deleteWatchListController.DeleteWatchList)
-		v1Routes.GET(serviceConstant.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 	}
 	return router
 }

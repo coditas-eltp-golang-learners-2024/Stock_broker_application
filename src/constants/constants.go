@@ -118,6 +118,9 @@ const (
 	EpochTimestamp               = "epochtimestamp"
 	WatchlistName                = "watchlist_name"
 	UserId                       = "user_id"
+	WatchlistID                  = "watchlist_id"
+	StocksID                     = "stocks_id"
+	Token                        = "token"
 )
 
 // SQL Query Entry Keys
@@ -141,6 +144,8 @@ const (
 	BrokerTable                = "brokers"
 	StaticExchangeConfigTables = "static_exchange_config"
 	NewsAndFeedTable           = "news_and_feeds"
+	StockTable                 = "stocks"
+	WatchlistStockTable        = "watchlist_stocks"
 )
 
 // JSON Names

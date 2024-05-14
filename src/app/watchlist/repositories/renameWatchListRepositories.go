@@ -26,7 +26,7 @@ func (repo *renameWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *m
 		return err.Error
 	}
 	if err.RowsAffected == 0 {
-		return errors.New(constants.ErrNoWatchlist)
+		return errors.New(constants.NoWatchlistError)
 	}
 	return nil
 }

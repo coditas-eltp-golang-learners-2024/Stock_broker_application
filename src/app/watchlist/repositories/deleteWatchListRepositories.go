@@ -26,7 +26,7 @@ func (repo *deleteWatchListRepository) DeleteWatchlist(client *gorm.DB, watchlis
 		return err.Error
 	}
 	if err.RowsAffected == 0 {
-		return errors.New(constants.ErrNoWatchlist)
+		return errors.New(constants.NoWatchlistError)
 	}
 	return nil
 }
