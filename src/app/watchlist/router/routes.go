@@ -1,6 +1,9 @@
 package router
 
 import (
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/middleware/headerCheck"
@@ -10,23 +13,18 @@ import (
 	"watchlist/docs"
 	"watchlist/handler"
 	"watchlist/repositories"
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func init() {
 	gin.SetMode(gin.ReleaseMode)
 }
 
-
-
 func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router := gin.New()
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 	connectionWithDb := postgres.GetPostGresClient().GormDb
-	
+
 	userDatabaseRepository := repositories.NewUserDBRepository(connectionWithDb)
 	createWatchlistHandler := business.NewCreateWatchlistService(userDatabaseRepository)
 	createWatchlistController := handler.NewWatchlistController(createWatchlistHandler)

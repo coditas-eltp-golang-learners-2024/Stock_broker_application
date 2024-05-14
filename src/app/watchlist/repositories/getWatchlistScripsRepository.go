@@ -1,9 +1,9 @@
 package repositories
 
 import (
+	"gorm.io/gorm"
 	dbmodels "stock_broker_application/src/models"
 	"watchlist/models"
-	"gorm.io/gorm"
 )
 
 type WatchlistScripsRepository interface {

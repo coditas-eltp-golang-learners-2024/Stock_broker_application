@@ -1,10 +1,10 @@
 package handler
 
 import (
-	"net/http"
-	"watchlist/business"
-	genericConstants "stock_broker_application/src/constants"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	genericConstants "stock_broker_application/src/constants"
+	"watchlist/business"
 )
 
 type watchlistScripsController struct {
@@ -31,8 +31,8 @@ func NewWatchlistScripController(service *business.WatchlistScripsService) *watc
 func (controller *watchlistScripsController) HandleWatchlistScrips(context *gin.Context) {
 	watchlistName := context.Query(genericConstants.WatchlistName)
 	if watchlistName == "" {
-	    context.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONErrorMessage:genericConstants.WatchlistNameRequiredError})
-	    return
+		context.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.WatchlistNameRequiredError})
+		return
 	}
 	scrips, err := controller.service.GetScrips(context, watchlistName)
 	if err != nil {
