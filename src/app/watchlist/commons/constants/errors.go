@@ -6,6 +6,6 @@ const (
 	WatchlistAlreadyExistsError = "watchlist already exists"
 	WatchlistIsNotAddedError    = "failed to create new watchlist"
 	WatchlistWrongScripError    = "no such script is registered"
-	InternalServerError         = "Internal server error"
-	NoWatchlistError            = "No watchlist found"
+	InternalServerError         = "internal server error"
+	NoWatchlistError            = "no watchlist found"
 )
