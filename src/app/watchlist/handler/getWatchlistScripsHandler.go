@@ -31,13 +31,19 @@ func NewWatchlistScripController(service *business.WatchlistScripsService) *watc
 func (controller *watchlistScripsController) HandleWatchlistScrips(context *gin.Context) {
 	watchlistName := context.Query(genericConstants.WatchlistName)
 	if watchlistName == "" {
-		context.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.WatchlistNameRequiredError})
+		context.JSON(http.StatusNoContent, gin.H{})
 		return
 	}
+
 	scrips, err := controller.service.GetScrips(context, watchlistName)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{genericConstants.ScripsKey: scrips})
+
+	if len(scrips) > 0 {
+		context.JSON(http.StatusOK, gin.H{genericConstants.ScripsKey: scrips})
+	} else {
+		context.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.ScripsNotFoundError})
+	}
 }
