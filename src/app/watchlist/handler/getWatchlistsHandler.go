@@ -34,7 +34,7 @@ func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Contex
 
 	watchlistData, err := controller.service.NewGetWatchlistsService(context)
 	if len(watchlistData) == 0 {
-		context.JSON(http.StatusNotFound, gin.H{genericConstants.WatchlistTable: watchlistData})
+		context.JSON(http.StatusNoContent, gin.H{})
 		return
 	}
 

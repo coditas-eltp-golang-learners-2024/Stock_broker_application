@@ -1,31 +1,45 @@
 # Use an official Golang runtime as a parent image
 FROM golang:1.20
 
-# Set the Current Working Directory inside the container
+# Set the working directory to /app
 WORKDIR /app
 
+# Copy go.mod and go.sum files to the workspace
+COPY ./ /app
+
+RUN pwd
+
+#List the files in the directory
+RUN ls -a
+
+# Set the environment variable
+ARG MICROSERVICE=auth
+ARG PORT= 8080
+
+
+# Remove other microservices' folders
+#RUN find /app/src/app/ -mindepth 1 -maxdepth 1 -type d ! -name "$MICROSERVICE" -exec rm -r {} \;
+
+
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
+WORKDIR /app/src/app/$MICROSERVICE
+
+# Copy go mod and sum files
 RUN go mod tidy
 
+RUN pwd
+RUN ls -a /app/src/app/$MICROSERVICE
 
 
+# Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
+RUN go install .
 
 
-# Copy go.mod and go.sum files to the workspace
-# COPY src/app/authentication/go.mod src/app/authentication/
-# COPY src/app/watchlist/go.mod src/app/watchlist/
+#Expose port to outside world
+EXPOSE $PORT
 
-# # Download all dependencies. Dependencies will be cached if the go.mod and go.sum files are not changed
-# RUN go mod download
+# Build the Go app
+RUN go build -o main .
 
-# # Copy the entire source code into the container
-# COPY . .
-
-# # Build the Go apps separately
-# RUN go build -o authentication ./src/app/authentication
-# RUN go build -o watchlist ./src/app/watchlist
-
-# # Expose port 8080 to the outside world (assuming authentication uses 8080)
-# EXPOSE 8080
-
-# # Command to run the authentication service
-# CMD ["./authentication"]
+# Command to run the executable
+CMD ["./main"]
