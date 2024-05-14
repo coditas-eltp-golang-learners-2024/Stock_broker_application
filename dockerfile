@@ -13,7 +13,7 @@ RUN pwd
 RUN ls -a
 
 # Set the environment variable
-ARG MICROSERVICE=auth
+ARG MICROSERVICE=authentication
 ARG PORT= 8080
 
 
