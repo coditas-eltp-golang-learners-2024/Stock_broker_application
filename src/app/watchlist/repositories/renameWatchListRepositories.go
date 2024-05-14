@@ -20,7 +20,7 @@ func NewRenameWatchListRepository() *renameWatchListRepository {
 	return &renameWatchListRepository{}
 }
 
-func (repo *renameWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *models.WatchlistRenameModel, userId uint16) error {
+func (repository *renameWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *models.WatchlistRenameModel, userId uint16) error {
 	err := db.Model(&watchlistModel.Watchlist{}).Where(genericConstants.WatchlistName+" = ? and "+genericConstants.UserId+"=?", watchlist.WatchlistName, userId).Update(genericConstants.WatchlistName, watchlist.NewWatchlistName)
 	if err.Error != nil {
 		return err.Error

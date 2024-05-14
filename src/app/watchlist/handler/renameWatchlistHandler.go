@@ -22,7 +22,6 @@ func NewRenameWatchListController(service *business.RenameWatchListService) *ren
 	}
 }
 
-// EditWatchList godoc
 // @Summary Edit a watchlist
 // @Description Edit a watchlist with the provided details
 // @Tags EditWatchlist

@@ -44,7 +44,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
-		v1Routes.GET(serviceConstants.AuthenticationHealthCheck, func(c *gin.Context) {
+		v1Routes.GET(serviceConstants.WatchlistHealthCheck, func(c *gin.Context) {
 			response := map[string]string{
 				genericConstants.ResponseMessageKey: genericConstants.BFFResponseSuccessMessage,
 			}

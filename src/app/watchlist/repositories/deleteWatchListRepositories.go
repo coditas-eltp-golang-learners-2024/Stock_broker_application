@@ -20,7 +20,7 @@ func NewDeleteWatchListRepository() *deleteWatchListRepository {
 	return &deleteWatchListRepository{}
 }
 
-func (repo *deleteWatchListRepository) DeleteWatchlist(client *gorm.DB, watchlist *models.WatchlistDeleteModel, userId uint16) error {
+func (repository *deleteWatchListRepository) DeleteWatchlist(client *gorm.DB, watchlist *models.WatchlistDeleteModel, userId uint16) error {
 	err := client.Model(&watchlistModel.Watchlist{}).Where(genericConstants.WatchlistName+"= ? and "+genericConstants.UserId+"=?", watchlist.WatchlistName, userId).Delete(&watchlistModel.Watchlist{})
 	if err.Error != nil {
 		return err.Error
