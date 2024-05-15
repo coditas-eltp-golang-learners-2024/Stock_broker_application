@@ -4,11 +4,12 @@ import (
 	"authentication/business"
 	"authentication/commons/constants"
 	"authentication/models"
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type NewForgetPasswordController interface {
@@ -37,7 +38,7 @@ func NewUsersController(service business.NewforgotPasswordService) NewForgetPass
 // @Failure 400 {object} string "Bad request"
 // @Failure 401 {object} string "Unauthorized"
 // @Failure 500 {object} string "Internal server error"
-// @Router /v1/forgot-password [post]
+// @Router /v1/auth/forgot-password [post]
 func (controller *forgotPasswordController) HandleForgotPassword(context *gin.Context) {
 	var request models.ForgotPasswordRequest
 	if err := context.ShouldBindJSON(&request); err != nil {

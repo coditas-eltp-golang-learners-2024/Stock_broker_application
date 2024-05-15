@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/change-password": {
+        "/v1/auth/change-password": {
             "patch": {
                 "security": [
                     {

@@ -8,7 +8,7 @@
     },
     "host": "localhost:8080",
     "paths": {
-        "/v1/change-password": {
+        "/v1/auth/change-password": {
             "patch": {
                 "security": [
                     {
