@@ -9,13 +9,13 @@ import (
 	"watchlist/models"
 )
 
-type DeleteWatchlistScripsHandler struct {
-	deleteWatchlistService *business.DeleteWatchlistService
+type DeleteWatchlistScripsController struct {
+	service *business.DeleteWatchlistScripsService
 }
 
-func NewDeleteWatchlistScripsHandler(service *business.DeleteWatchlistService) *DeleteWatchlistScripsHandler {
-	return &DeleteWatchlistScripsHandler{
-		deleteWatchlistService: service,
+func NewDeleteWatchlistScripsController(service *business.DeleteWatchlistScripsService) *DeleteWatchlistScripsController {
+	return &DeleteWatchlistScripsController{
+		service: service,
 	}
 }
 
@@ -25,25 +25,22 @@ func NewDeleteWatchlistScripsHandler(service *business.DeleteWatchlistService) *
 // @Accept  json
 // @Produce  json
 // @Param request body models.DeleteWatchlistScripsRequest true "Delete Watchlist Scrips Request"
-// @Success 204 {string} string "No Content"
+// @Success 200 {string} string "OK"
 // @Failure 400 {string} string "Invalid request payload"
 // @Failure 500 {string} string "Failed to delete scrips"
 // @Router /v1/watchlist/scrips [delete]
-func (controller *DeleteWatchlistScripsHandler) HandleDeleteWatchlistScrips(context *gin.Context) {
-	var deleteWatchlistScripsRequest models.DeleteWatchlistScripsRequest
-	if err := context.ShouldBindJSON(&deleteWatchlistScripsRequest); err != nil {
+func (controller *DeleteWatchlistScripsController) HandleDeleteWatchlistScrips(context *gin.Context) {
+	var request models.DeleteWatchlistScripsRequest
+	if err := context.ShouldBindJSON(&request); err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONMessage: constants.InvalidRequestPayloadError})
 		return
 	}
-	if deleteWatchlistScripsRequest.WatchlistName == "" || len(deleteWatchlistScripsRequest.Scrips) == 0 {
-		context.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONMessage: constants.WatchlistNameAndScripsRequiredError})
-		return
-	}
-	// Call the service to delete scrips from the watchlist
-	err := controller.deleteWatchlistService.DeleteScripsFromWatchlist(context, deleteWatchlistScripsRequest.WatchlistName, deleteWatchlistScripsRequest.Scrips)
+
+	err := controller.service.DeleteScripsFromWatchlist(context, request.WatchlistName, request.Scrips)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONMessage: constants.FailedToDeleteScripsError})
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.DeletedWatchlistScrips})
+
+	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.DeletedWatchlistScripsSuccessMessage})
 }

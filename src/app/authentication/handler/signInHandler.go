@@ -31,7 +31,7 @@ func NewSignInController(service *business.SignInService) *signInController {
 // @Success 200 {object} string "User authenticated successfully"
 // @Failure 400 {object} string "Bad request"
 // @Failure 401 {object} string "Unauthorized"
-// @Router /v1/signin [post]
+// @Router /v1/auth/signin [post]
 func (controller *signInController) HandleSignIn(context *gin.Context) {
 	var signInRequest models.SignInRequest
 

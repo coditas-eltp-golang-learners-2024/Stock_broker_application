@@ -7,6 +7,6 @@ const (
 )
 
 const (
-	WatchlistCreatedSuccessfully = "new watchlist is created successfully"
-	DeletedWatchlistScrips       = "scrips deleted from watchlist successfully"
+	WatchlistCreatedSuccessMessage       = "new watchlist is created successfully"
+	DeletedWatchlistScripsSuccessMessage = "scrips deleted from watchlist successfully"
 )

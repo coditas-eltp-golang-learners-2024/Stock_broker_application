@@ -10,7 +10,7 @@ import (
 )
 
 type DeleteWatchlistRepository interface {
-	DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int) error
+	DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int, watchlistCondition map[string]interface{}) error
 }
 
 type watchlistDBRepository struct {
@@ -21,36 +21,22 @@ func NewDeleteWatchlistRepository(db *gorm.DB) DeleteWatchlistRepository {
 	return &watchlistDBRepository{DB: db}
 }
 
-func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int) error {
-	userID, exists := ctx.Get(genericConstants.Id)
-	if !exists {
-		return errors.New(constants.UserIDNotFoundError)
-	}
+func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int, watchlistCondition map[string]interface{}) error {
 
 	var watchListID uint
-	if err := repository.DB.Model(&models.Watchlist{}).Where("user_id = ? AND watchlist_name = ?", userID, watchlistName).Select("id").First(&watchListID).Error; err != nil {
+	if err := repository.DB.Model(&models.Watchlist{}).Where(watchlistCondition).Pluck(genericConstants.Id, &watchListID).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			return errors.New(constants.WatchlistNotFoundError)
 		}
 		return errors.New(constants.FailedtoFindWatchlistError)
 	}
 
-	var result []uint
-	for _, stocksID := range scrips {
-		var stockID []uint
-		if err := repository.DB.Model(&models.Stocks{}).
-			Where("id = ?", stocksID).Pluck("id", &stockID).Error; err != nil {
-			if errors.Is(err, gorm.ErrRecordNotFound) {
-				return errors.New(constants.StockwithSymbolNotFoundError)
-			}
-			return errors.New(constants.StockNotFoundError)
+	for _, stockID := range scrips {
+		deleteScripsCondition := map[string]interface{}{
+			genericConstants.WatchlistID: watchListID,
+			genericConstants.StocksID:    stockID,
 		}
-		result = append(result, stockID...)
-	}
-
-	// Delete entries from watchlist_stocks table
-	for _, stockID := range result {
-		if err := repository.DB.Where("watchlist_id = ? AND stocks_id = ?", watchListID, stockID).Delete(&models.WatchlistStock{}).Error; err != nil {
+		if err := repository.DB.Where(deleteScripsCondition).Delete(&models.WatchlistStock{}).Error; err != nil {
 			if errors.Is(err, gorm.ErrRecordNotFound) {
 				return errors.New(constants.WatchlistNotFoundError)
 			}
