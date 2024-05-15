@@ -7,7 +7,7 @@ import (
 
 type Users struct {
 	Id             uint16    `gorm:"primary_key;auto_increment" json:"id"`
-	UserName       string    `gorm:"column:username" json:"username"`
+	UserName       string    `gorm:"column:username" json:"userName"`
 	Name           string    `gorm:"column:name" json:"name"`
 	Email          string    `gorm:"column:email" json:"email"`
 	CreatedAt      time.Time `gorm:"column:created_at" json:"createdAt"`
@@ -15,9 +15,8 @@ type Users struct {
 	PanCard        string    `gorm:"column:pan_card" json:"panCard"`
 	Password       string    `gorm:"column:password" json:"password"`
 	Token          string    `gorm:"column:token" json:"token"`
-	CreationTime   time.Time `gorm:"column:created_at" json:"created_at"`
 	OTP            uint16    `gorm:"column:otp" json:"otp"`
-	EpochTimestamp int64     `gorm:"column:epochtimestamp" json:"epochtimestamp"`
+	EpochTimestamp int64     `gorm:"column:epochtimestamp" json:"epochTimeStamp"`
 }
 
 func (Users) TableName() string {
@@ -36,8 +35,8 @@ func (Stocks) TableName() string {
 
 type Watchlist struct {
 	ID            uint   `gorm:"column:id;primary_key" json:"id"`
-	UserID        uint16 `gorm:"column:user_id" json:"user_id"`
-	WatchlistName string `gorm:"column:watchlist_name" json:"watchlist_name"`
+	UserID        uint16 `gorm:"column:user_id" json:"userId"`
+	WatchlistName string `gorm:"column:watchlist_name" json:"watchlistName"`
 }
 
 func (Watchlist) TableName() string {
@@ -46,8 +45,8 @@ func (Watchlist) TableName() string {
 
 type WatchlistStock struct {
 	ID          uint `gorm:"column:id;primary_key" json:"id"`
-	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlist_id"`
-	StockID     uint `gorm:"column:stocks_id" json:"stock_id"`
+	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlistId"`
+	StockID     uint `gorm:"column:stocks_id" json:"stockId"`
 }
 
 func (WatchlistStock) TableName() string {
