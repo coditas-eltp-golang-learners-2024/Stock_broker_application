@@ -710,6 +710,6 @@ const (
 	ChartSource                    = "CHART"
 	AutomationFlag                 = "AUTOMATION"
 )
-const(
+const (
 	ScripsKey = "scrips"
 )

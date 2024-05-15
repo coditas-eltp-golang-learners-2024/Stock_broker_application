@@ -20,14 +20,18 @@ func NewWatchlistScripsService(watchlistRepository repositories.WatchlistScripsR
 }
 func (service *WatchlistScripsService) GetScrips(context *gin.Context, watchlistName string) ([]models.Scrip, error) {
 	userID := context.Value(genericConstants.Id).(uint16)
-	watchlistExists, err := service.watchlistRepository.CheckWatchlistExists(userID, watchlistName)
+	condition := map[string]interface{}{
+		genericConstants.UserId:        userID,
+		genericConstants.WatchlistName: watchlistName,
+	}
+	watchlistExists, err := service.watchlistRepository.CheckWatchlistExists(condition)
 	if err != nil {
 		return nil, err
 	}
 	if !watchlistExists {
 		return nil, errors.New(serviceConstants.WatchlistNotFoundError)
 	}
-	watchlistID, err := service.watchlistRepository.GetWatchlistsByUserID(userID, watchlistName)
+	watchlistID, err := service.watchlistRepository.GetWatchlistsByUserID(condition)
 	if err != nil {
 		return nil, err
 	}
