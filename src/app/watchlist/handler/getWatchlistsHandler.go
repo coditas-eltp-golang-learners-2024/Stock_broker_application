@@ -10,14 +10,14 @@ import (
 )
 
 type NewGetWatchlistController interface {
-	HandleGetWatchlist(ctx *gin.Context)
+	HandleGetWatchlists(ctx *gin.Context)
 }
 
 type getWatchlistController struct {
 	service business.NewGetWatchlistsService
 }
 
-func NewGetWatchListController(service business.NewGetWatchlistsService) NewGetWatchlistController {
+func NewGetWatchListsController(service business.NewGetWatchlistsService) NewGetWatchlistController {
 	return &getWatchlistController{
 		service: service,
 	}
@@ -30,7 +30,7 @@ func NewGetWatchListController(service business.NewGetWatchlistsService) NewGetW
 // @Failure 500 {object} map[string]string "Internal server error"
 // @Security JWT
 // @Router /v1/watchlist/list [get]
-func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Context) {
+func (controller *getWatchlistController) HandleGetWatchlists(context *gin.Context) {
 
 	watchlistData, err := controller.service.NewGetWatchlistsService(context)
 

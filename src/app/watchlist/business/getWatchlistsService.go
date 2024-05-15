@@ -15,9 +15,9 @@ type getWatchListsSercvice struct {
 	getWatchlistsRepository repositories.GetWatchlistsRepository
 }
 
-func NewUsersService(getWatchlistInstance repositories.GetWatchlistsRepository) NewGetWatchlistsService {
+func NewUsersService(getWatchlistsInstance repositories.GetWatchlistsRepository) NewGetWatchlistsService {
 	return &getWatchListsSercvice{
-		getWatchlistsRepository: getWatchlistInstance,
+		getWatchlistsRepository: getWatchlistsInstance,
 	}
 }
 

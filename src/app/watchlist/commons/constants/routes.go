@@ -6,5 +6,5 @@ const (
 	WatchlistHealthCheck = "/watchlist/health-check"
 	Metrics              = "/metrics"
 	CreateWatchlist      = "/watchlist/create"
-	GetWatchList         = "/watchlist/list"
+	GetWatchLists        = "/watchlist/list"
 )

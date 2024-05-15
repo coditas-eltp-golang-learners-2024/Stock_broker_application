@@ -13,25 +13,25 @@ type GetWatchlistsRepository interface {
 	GetWatchlists(ctx *gin.Context, condition map[string]interface{}) ([]string, error)
 }
 
-type userDBRepository struct {
+type watchlistDBRepository struct {
 	DB *gorm.DB
 }
 
 func NewGetWatclistsRepository(db *gorm.DB) GetWatchlistsRepository {
-	return &userDBRepository{DB: db}
+	return &watchlistDBRepository{DB: db}
 }
 
-func (repository *userDBRepository) GetWatchlists(ctx *gin.Context, condition map[string]interface{}) ([]string, error) {
+func (repository *watchlistDBRepository) GetWatchlists(ctx *gin.Context, condition map[string]interface{}) ([]string, error) {
 	var watchlistSlice []models.Watchlist
-	var watchlistNames []string
+	var watchlistsNames []string
 	var err error
 	if err = repository.DB.Model(&models.Watchlist{}).Where(condition).Find(&watchlistSlice).Error; err != nil {
-		return watchlistNames, errors.New(constants.WatchlistNotFoundError)
+		return watchlistsNames, errors.New(constants.WatchlistNotFoundError)
 	}
 
 	for _, watchlist := range watchlistSlice {
-		watchlistNames = append(watchlistNames, watchlist.WatchlistName)
+		watchlistsNames = append(watchlistsNames, watchlist.WatchlistName)
 	}
 
-	return watchlistNames, nil
+	return watchlistsNames, nil
 }
