@@ -11,17 +11,17 @@ type NewGetWatchlistsService interface {
 	NewGetWatchlistsService(ctx *gin.Context) ([]string, error)
 }
 
-type getWatchListSercvice struct {
+type getWatchListsSercvice struct {
 	getWatchlistsRepository repositories.GetWatchlistsRepository
 }
 
-func NewUsersService(getWatchlistRepository repositories.GetWatchlistsRepository) NewGetWatchlistsService {
-	return &getWatchListSercvice{
-		getWatchlistsRepository: getWatchlistRepository,
+func NewUsersService(getWatchlistInstance repositories.GetWatchlistsRepository) NewGetWatchlistsService {
+	return &getWatchListsSercvice{
+		getWatchlistsRepository: getWatchlistInstance,
 	}
 }
 
-func (service *getWatchListSercvice) NewGetWatchlistsService(ctx *gin.Context) ([]string, error) {
+func (service *getWatchListsSercvice) NewGetWatchlistsService(ctx *gin.Context) ([]string, error) {
 	id := ctx.Value(genericConstants.Id).(uint16)
 	condition := map[string]interface{}{
 		genericConstants.UserId: id,

@@ -1,7 +1,9 @@
 package repositories
 
 import (
+	"errors"
 	"stock_broker_application/src/models"
+	"watchlist/commons/constants"
 
 	"github.com/gin-gonic/gin"
 	"gorm.io/gorm"
@@ -24,7 +26,7 @@ func (repository *userDBRepository) GetWatchlists(ctx *gin.Context, condition ma
 	var watchlistNames []string
 	var err error
 	if err = repository.DB.Model(&models.Watchlist{}).Where(condition).Find(&watchlistSlice).Error; err != nil {
-		return watchlistNames, err
+		return watchlistNames, errors.New(constants.WatchlistNotFoundError)
 	}
 
 	for _, watchlist := range watchlistSlice {

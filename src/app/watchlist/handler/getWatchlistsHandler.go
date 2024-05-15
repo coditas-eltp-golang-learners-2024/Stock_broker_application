@@ -33,15 +33,17 @@ func NewGetWatchListController(service business.NewGetWatchlistsService) NewGetW
 func (controller *getWatchlistController) HandleGetWatchlist(context *gin.Context) {
 
 	watchlistData, err := controller.service.NewGetWatchlistsService(context)
-	if len(watchlistData) == 0 {
-		context.JSON(http.StatusNoContent, gin.H{})
-		return
-	}
 
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
+
+	if len(watchlistData) == 0 {
+		context.JSON(http.StatusNoContent, gin.H{})
+		return
+	}
+
 	context.JSON(http.StatusOK, gin.H{genericConstants.WatchlistTable: watchlistData})
 
 }

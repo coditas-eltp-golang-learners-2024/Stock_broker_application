@@ -46,8 +46,8 @@ func (Stocks) TableName() string {
 
 type WatchlistStock struct {
 	ID          uint `gorm:"column:id;primary_key" json:"id"`
-	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlist_id"`
-	StockID     uint `gorm:"column:stocks_id" json:"stock_id"`
+	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlistId"`
+	StockID     uint `gorm:"column:stocks_id" json:"stockId"`
 }
 
 func (WatchlistStock) TableName() string {
