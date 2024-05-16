@@ -1,10 +1,11 @@
 package repositories
 
 import (
-	"gorm.io/gorm"
 	serviceConstants "stock_broker_application/src/constants"
 	dbModel "stock_broker_application/src/models"
 	"watchlist/models"
+
+	"gorm.io/gorm"
 )
 
 type CreateWatchlistRepository interface {

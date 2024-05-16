@@ -7,6 +7,7 @@ import (
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 	"unicode"
+
 	"github.com/go-playground/validator/v10"
 )
 

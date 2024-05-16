@@ -4,11 +4,12 @@ package constants
 const (
 	WatchlistAlreadyExistsError            = "watchlist already exists"
 	WatchlistIsNotAddedError               = "failed to create new watchlist"
+	WatchlistWrongScripError               = "no such scrip is registered"
+	WatchlistNotFoundError                 = "watchlist not found"
 	WatchlistWrongScripsError              = "no such script is registered"
 	InvalidRequestPayloadError             = "invalid request payload"
 	FailedToDeleteScripsError              = "failed to delete scrips from watchlist"
 	UserIDNotFoundError                    = "userID not found in context"
-	WatchlistNotFoundError                 = "watchlist not found"
 	DeleteScripsError                      = "failed to delete scrips from the watchlist"
 	UpdateWatchlistError                   = "failed to update watchlist"
 	RecordNotFoundError                    = "record not found"

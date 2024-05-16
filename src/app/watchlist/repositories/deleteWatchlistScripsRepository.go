@@ -13,15 +13,15 @@ type DeleteWatchlistRepository interface {
 	DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int, watchlistCondition map[string]interface{}) error
 }
 
-type watchlistDBRepository struct {
+type watchlistDbRepository struct {
 	DB *gorm.DB
 }
 
 func NewDeleteWatchlistRepository(db *gorm.DB) DeleteWatchlistRepository {
-	return &watchlistDBRepository{DB: db}
+	return &watchlistDbRepository{DB: db}
 }
 
-func (repository *watchlistDBRepository) DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int, watchlistCondition map[string]interface{}) error {
+func (repository *watchlistDbRepository) DeleteScrips(ctx *gin.Context, watchlistName string, scrips []int, watchlistCondition map[string]interface{}) error {
 
 	var watchListID uint
 	if err := repository.DB.Model(&models.Watchlist{}).Where(watchlistCondition).Pluck(genericConstants.Id, &watchListID).Error; err != nil {

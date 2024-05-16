@@ -45,7 +45,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "User created successfully",
                         "schema": {
                             "type": "string"
@@ -55,6 +55,40 @@ const docTemplate = `{
                         "description": "Bad request",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/watchlist/list": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Handler function to fetch the user's watchlist data.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GetWatchlists"
+                ],
+                "summary": "Get the list of WatchLists",
+                "responses": {
+                    "200": {
+                        "description": "Returns the user's watchlist data",
+                        "schema": {
+                            "$ref": "#/definitions/models.GetWatchlists"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -82,8 +116,8 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "No Content",
+                    "200": {
+                        "description": "OK",
                         "schema": {
                             "type": "string"
                         }
@@ -132,11 +166,12 @@ const docTemplate = `{
             "type": "object",
             "required": [
                 "scrips",
-                "watchlist_name"
+                "watchlistName"
             ],
             "properties": {
                 "scrips": {
                     "type": "array",
+                    "minItems": 1,
                     "items": {
                         "type": "integer"
                     },
@@ -145,9 +180,20 @@ const docTemplate = `{
                         3
                     ]
                 },
-                "watchlist_name": {
+                "watchlistName": {
                     "type": "string",
-                    "example": "Mid watchists"
+                    "example": "Mid watchlists"
+                }
+            }
+        },
+        "models.GetWatchlists": {
+            "type": "object",
+            "properties": {
+                "watchlist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         }

@@ -3,10 +3,11 @@ package handler
 import (
 	"authentication/commons/constants"
 	"authentication/models"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	genericModel "stock_broker_application/src/models"
+
+	"github.com/gin-gonic/gin"
 )
 
 type OTPService interface {

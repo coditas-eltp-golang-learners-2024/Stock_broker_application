@@ -24,17 +24,25 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(middlewares...)
 	router.Use(gin.Recovery())
 	connectionWithDb := postgres.GetPostGresClient().GormDb
+
+	//Create Watchlist
 	userDatabaseRepository := repositories.NewUserDBRepository(connectionWithDb)
 	createWatchlistHandler := business.NewCreateWatchlistService(userDatabaseRepository)
 	createWatchlistController := handler.NewWatchlistController(createWatchlistHandler)
 
+	//Get Watchlist
+	repository := repositories.NewGetWatclistsRepository(connectionWithDb)
+	service := business.NewUsersService(repository)
+	newGetwatchlistsController := handler.NewGetWatchListsController(service)
+
+	//Delete watchlist scrips
 	deleteWatchlistRepository := repositories.NewDeleteWatchlistRepository(connectionWithDb)
 	deleteWatchlistScripsService := business.NewDeleteWatchlistService(deleteWatchlistRepository)
 	deleteWatchlistScripsController := handler.NewDeleteWatchlistScripsController(deleteWatchlistScripsService)
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
-		v1Routes.GET(serviceConstants.AuthenticationHealthCheck, func(c *gin.Context) {
+		v1Routes.GET(serviceConstants.WatchlistHealthCheck, func(c *gin.Context) {
 			response := map[string]string{
 				genericConstants.ResponseMessageKey: genericConstants.BFFResponseSuccessMessage,
 			}
@@ -42,7 +50,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		})
 		docs.SwaggerInfo.Schemes = []string{"http", "https"}
 		v1Routes.GET(serviceConstants.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
+
 		v1Routes.POST(serviceConstants.CreateWatchlist, headerCheck.AuthMiddleware(), createWatchlistController.HandleCreateWatchlist)
+
+		v1Routes.GET(serviceConstants.GetWatchLists, headerCheck.AuthMiddleware(), newGetwatchlistsController.HandleGetWatchlists)
+
 		v1Routes.DELETE(serviceConstants.DeleteWatchlistScrips, headerCheck.AuthMiddleware(), deleteWatchlistScripsController.HandleDeleteWatchlistScrips)
 	}
 	return router

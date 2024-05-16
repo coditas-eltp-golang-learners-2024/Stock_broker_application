@@ -43,7 +43,6 @@ type HttpGoRoutineRequest struct {
 	Metadata    interface{}
 }
 
-// claim model for email
 type TokenData struct {
 	UserId uint16 `json:"id"`
 }
