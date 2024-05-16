@@ -6,7 +6,7 @@
         "contact": {},
         "version": "2.0"
     },
-    "host": "localhost:8080",
+    "host": "localhost:8081",
     "paths": {
         "/v1/watchlist/create": {
             "post": {
@@ -38,7 +38,7 @@
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "User created successfully",
                         "schema": {
                             "type": "string"
@@ -48,6 +48,40 @@
                         "description": "Bad request",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/watchlist/list": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Handler function to fetch the user's watchlist data.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GetWatchlists"
+                ],
+                "summary": "Get the list of WatchLists",
+                "responses": {
+                    "200": {
+                        "description": "Returns the user's watchlist data",
+                        "schema": {
+                            "$ref": "#/definitions/models.GetWatchlists"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -75,6 +109,17 @@
                 "watchlistName": {
                     "type": "string",
                     "example": "Mid Watchlist"
+                }
+            }
+        },
+        "models.GetWatchlists": {
+            "type": "object",
+            "properties": {
+                "watchlist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         }

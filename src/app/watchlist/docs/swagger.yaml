@@ -15,7 +15,14 @@ definitions:
     - scrips
     - watchlistName
     type: object
-host: localhost:8080
+  models.GetWatchlists:
+    properties:
+      watchlist:
+        items:
+          type: string
+        type: array
+    type: object
+host: localhost:8081
 info:
   contact: {}
   description: api for Stock Broker using gin and gorm
@@ -37,7 +44,7 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
+        "201":
           description: User created successfully
           schema:
             type: string
@@ -50,6 +57,27 @@ paths:
       summary: Create a new user
       tags:
       - CreateWatchlist
+  /v1/watchlist/list:
+    get:
+      description: Handler function to fetch the user's watchlist data.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns the user's watchlist data
+          schema:
+            $ref: '#/definitions/models.GetWatchlists'
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Get the list of WatchLists
+      tags:
+      - GetWatchlists
 securityDefinitions:
   JWT:
     in: header

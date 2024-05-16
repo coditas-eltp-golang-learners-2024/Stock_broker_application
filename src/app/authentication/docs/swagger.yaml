@@ -86,7 +86,7 @@ info:
   title: Stock Broker Application
   version: "2.0"
 paths:
-  /v1/change-password:
+  /v1/auth/change-password:
     patch:
       consumes:
       - application/json
@@ -118,7 +118,7 @@ paths:
       summary: Change Password
       tags:
       - Change Password
-  /v1/forgot-password:
+  /v1/auth/forgot-password:
     post:
       consumes:
       - application/json
@@ -153,7 +153,7 @@ paths:
       summary: Update user credentials
       tags:
       - Forgot Password
-  /v1/signin:
+  /v1/auth/signin:
     post:
       consumes:
       - application/json
@@ -183,7 +183,7 @@ paths:
       summary: Handle sign-in request
       tags:
       - SignIN
-  /v1/signup:
+  /v1/auth/signup:
     post:
       consumes:
       - application/json
@@ -198,7 +198,7 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
+        "201":
           description: User created successfully
           schema:
             type: string
@@ -209,7 +209,7 @@ paths:
       summary: Create a new user
       tags:
       - SignUP
-  /v1/validate-otp:
+  /v1/auth/validate-otp:
     post:
       consumes:
       - application/json
