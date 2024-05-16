@@ -45,7 +45,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "User created successfully",
                         "schema": {
                             "type": "string"
@@ -71,13 +71,15 @@ const docTemplate = `{
                 "produces": [
                     "application/json"
                 ],
+                "tags": [
+                    "GetWatchlists"
+                ],
                 "summary": "Get the list of WatchLists",
                 "responses": {
                     "200": {
                         "description": "Returns the user's watchlist data",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": true
+                            "$ref": "#/definitions/models.GetWatchlists"
                         }
                     },
                     "500": {
@@ -114,6 +116,17 @@ const docTemplate = `{
                 "watchlistName": {
                     "type": "string",
                     "example": "Mid Watchlist"
+                }
+            }
+        },
+        "models.GetWatchlists": {
+            "type": "object",
+            "properties": {
+                "watchlist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
                 }
             }
         }

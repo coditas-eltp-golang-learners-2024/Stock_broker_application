@@ -1,12 +1,13 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"watchlist/business"
 	serviceConstants "watchlist/commons/constants"
 	serviceModel "watchlist/models"
+
+	"github.com/gin-gonic/gin"
 )
 
 type CreateWatchlistController struct {
@@ -26,7 +27,7 @@ func NewWatchlistController(service *business.CreateWatchlistService) *CreateWat
 // @Produce json
 // @Security JWT
 // @Param user body models.CreateWatchlist true "User details"
-// @Success 200 {string} string "User created successfully"
+// @Success 201 {string} string "User created successfully"
 // @Failure 400 {string} string "Bad request"
 // @Router /v1/watchlist/create [post]
 func (controller *CreateWatchlistController) HandleCreateWatchlist(ctx *gin.Context) {
@@ -40,5 +41,5 @@ func (controller *CreateWatchlistController) HandleCreateWatchlist(ctx *gin.Cont
 		ctx.Abort()
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{genericConstants.BFFResponseSuccessMessage: serviceConstants.WatchlistCreatedSuccessfully})
+	ctx.JSON(http.StatusCreated, gin.H{genericConstants.BFFResponseSuccessMessage: serviceConstants.WatchlistCreatedSuccessfully})
 }

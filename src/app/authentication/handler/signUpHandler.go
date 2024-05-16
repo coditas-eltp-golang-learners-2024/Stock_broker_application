@@ -27,7 +27,7 @@ func NewSignUpController(service *business.SignUpService) *signUpController {
 // @Accept json
 // @Produce json
 // @Param user body models.UserSignUp true "User details"
-// @Success 200 {string} string "User created successfully"
+// @Success 201 {string} string "User created successfully"
 // @Failure 400 {string} string "Bad request"
 // @Router /v1/auth/signup [post]
 func (controller *signUpController) SignUp(ctx *gin.Context) {
@@ -48,5 +48,5 @@ func (controller *signUpController) SignUp(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
+	ctx.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
 }

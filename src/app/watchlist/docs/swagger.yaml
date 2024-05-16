@@ -15,6 +15,13 @@ definitions:
     - scrips
     - watchlistName
     type: object
+  models.GetWatchlists:
+    properties:
+      watchlist:
+        items:
+          type: string
+        type: array
+    type: object
 host: localhost:8081
 info:
   contact: {}
@@ -37,7 +44,7 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
+        "201":
           description: User created successfully
           schema:
             type: string
@@ -59,8 +66,7 @@ paths:
         "200":
           description: Returns the user's watchlist data
           schema:
-            additionalProperties: true
-            type: object
+            $ref: '#/definitions/models.GetWatchlists'
         "500":
           description: Internal server error
           schema:
@@ -70,6 +76,8 @@ paths:
       security:
       - JWT: []
       summary: Get the list of WatchLists
+      tags:
+      - GetWatchlists
 securityDefinitions:
   JWT:
     in: header

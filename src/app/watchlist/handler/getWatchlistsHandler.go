@@ -4,11 +4,13 @@ import (
 	"net/http"
 
 	genericConstants "stock_broker_application/src/constants"
+
 	"watchlist/business"
 
 	"github.com/gin-gonic/gin"
 )
 
+// NewGetWatchlistController defines the interface for handling GetWatchlist requests.
 type NewGetWatchlistController interface {
 	HandleGetWatchlists(ctx *gin.Context)
 }
@@ -17,16 +19,19 @@ type getWatchlistController struct {
 	service business.NewGetWatchlistsService
 }
 
+// NewGetWatchListsController creates a new instance of GetWatchlistController.
 func NewGetWatchListsController(service business.NewGetWatchlistsService) NewGetWatchlistController {
 	return &getWatchlistController{
 		service: service,
 	}
 }
 
+// HandleGetWatchlists handles the GetWatchlists request.
 // @Summary Get the list of WatchLists
 // @Description Handler function to fetch the user's watchlist data.
 // @Produce json
-// @Success 200 {object} map[string]interface{} "Returns the user's watchlist data"
+// @Tags GetWatchlists
+// @Success 200 {object} models.GetWatchlists "Returns the user's watchlist data"
 // @Failure 500 {object} map[string]string "Internal server error"
 // @Security JWT
 // @Router /v1/watchlist/list [get]
@@ -39,11 +44,10 @@ func (controller *getWatchlistController) HandleGetWatchlists(context *gin.Conte
 		return
 	}
 
-	if len(watchlistData) == 0 {
+	if len(watchlistData.Watchlist) == 0 {
 		context.JSON(http.StatusNoContent, gin.H{})
 		return
 	}
 
-	context.JSON(http.StatusOK, gin.H{genericConstants.WatchlistTable: watchlistData})
-
+	context.JSON(http.StatusOK, watchlistData)
 }
