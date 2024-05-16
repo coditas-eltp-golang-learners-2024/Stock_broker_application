@@ -30,6 +30,8 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(gin.Recovery())
 
 	connectionWithDb := postgres.GetPostGresClient().GormDb
+
+	//Create Watchlist
 	userDatabaseRepository := repositories.NewUserDBRepository(connectionWithDb)
 	createWatchlistHandler := business.NewCreateWatchlistService(userDatabaseRepository)
 	createWatchlistController := handler.NewWatchlistController(createWatchlistHandler)
@@ -41,6 +43,10 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	deleteWatchList := repositories.NewDeleteWatchListRepository()
 	deleteWatchListService := business.NewDeleteWatchListService(deleteWatchList)
 	deleteWatchListController := handler.NewDeleteWatchListDeleteController(deleteWatchListService)
+	//Get Watchlist
+	repository := repositories.NewGetWatclistsRepository(connectionWithDb)
+	service := business.NewUsersService(repository)
+	newGetwatchlistsController := handler.NewGetWatchListsController(service)
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
@@ -57,6 +63,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		v1Routes.POST(serviceConstants.CreateWatchlist, headerCheck.AuthMiddleware(), createWatchlistController.HandleCreateWatchlist)
 		v1Routes.PUT(constants.RenameWatchList, headerCheck.AuthMiddleware(), editWatchListController.EditWatchList)
 		v1Routes.DELETE(constants.DeleteWatchList, headerCheck.AuthMiddleware(), deleteWatchListController.DeleteWatchList)
+		v1Routes.GET(serviceConstants.GetWatchLists, headerCheck.AuthMiddleware(), newGetwatchlistsController.HandleGetWatchlists)
 	}
 	return router
 }

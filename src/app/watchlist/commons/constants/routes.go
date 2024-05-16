@@ -8,4 +8,5 @@ const (
 	RenameWatchList      = "/rename-watchlist"
 	DeleteWatchList      = "/delete-watchlist"
 	CreateWatchlist      = "/watchlist/create"
+	GetWatchLists        = "/watchlist/list"
 )

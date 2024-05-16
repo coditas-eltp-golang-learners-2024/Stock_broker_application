@@ -1,10 +1,11 @@
 package repositories
 
 import (
-	"gorm.io/gorm"
 	serviceConstants "stock_broker_application/src/constants"
 	dbModel "stock_broker_application/src/models"
 	"watchlist/models"
+
+	"gorm.io/gorm"
 )
 
 type CreateWatchlistRepository interface {
@@ -60,7 +61,10 @@ func (user *UserDBRepository) IsScripsAdded(condition map[string]interface{}, cr
 			if err := user.db.Model(&dbModel.WatchlistStock{}).Create(&newRecord).Error; err != nil {
 				return false
 			}
+		} else {
+			return count > 0
 		}
+
 	}
-	return true
+	return count > 0
 }
