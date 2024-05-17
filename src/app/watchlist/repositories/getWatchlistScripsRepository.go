@@ -12,7 +12,7 @@ type WatchlistScripsRepository interface {
 	CheckWatchlistExists(condition map[string]interface{}) (bool, error)
 	GetWatchlistsByUserID(condition map[string]interface{}) (uint, error)
 	GetStockIDsByWatchlistID(watchlistID uint) ([]uint, error)
-	GetScripsByStockID(stockIDSlice []uint) ([]models.Scrip, error)
+	GetScripsByStockID(stockIDSlice []uint) (models.GetWatchlistScrips, error)
 }
 type watchlistDBScripsRepository struct {
 	db *gorm.DB
@@ -57,7 +57,7 @@ func (repo *watchlistDBScripsRepository) GetStockIDsByWatchlistID(watchlist uint
 	return stockIDs, nil
 }
 
-func (repo *watchlistDBScripsRepository) GetScripsByStockID(stockIDSlice []uint) ([]models.Scrip, error) {
+func (repo *watchlistDBScripsRepository) GetScripsByStockID(stockIDSlice []uint) (models.GetWatchlistScrips, error) {
 	var GetWatchlistScrips models.GetWatchlistScrips
 	for _, stockID := range stockIDSlice {
 		var scrip models.Scrip
@@ -65,9 +65,9 @@ func (repo *watchlistDBScripsRepository) GetScripsByStockID(stockIDSlice []uint)
 			Where(genericConstants.StocksID, stockID).
 			Find(&scrip).
 			Error; err != nil {
-			return nil, err
+			return models.GetWatchlistScrips{}, err
 		}
 		GetWatchlistScrips.WatchlistScrip = append(GetWatchlistScrips.WatchlistScrip, scrip)
 	}
-	return GetWatchlistScrips.WatchlistScrip, nil
+	return GetWatchlistScrips, nil
 }

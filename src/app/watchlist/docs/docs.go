@@ -126,9 +126,9 @@ const docTemplate = `{
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "Returns the user's watchlist's Scrips data",
                         "schema": {
-                            "$ref": "#/definitions/models.Scrip"
+                            "$ref": "#/definitions/models.GetWatchlistScrips"
                         }
                     },
                     "400": {
@@ -162,6 +162,17 @@ const docTemplate = `{
                 "watchlistName": {
                     "type": "string",
                     "example": "Mid Watchlist"
+                }
+            }
+        },
+        "models.GetWatchlistScrips": {
+            "type": "object",
+            "properties": {
+                "scrips": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Scrip"
+                    }
                 }
             }
         },

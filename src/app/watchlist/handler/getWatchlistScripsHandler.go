@@ -25,7 +25,7 @@ func NewWatchlistScripController(service *business.WatchlistScripsService) *watc
 // @Produce json
 // @Security JWT
 // @Param watchlist_name query string true "Name of the watchlist"
-// @Success 200 {object} models.Scrip "OK"
+// @Success 200 {object} models.GetWatchlistScrips "Returns the user's watchlist's Scrips data"
 // @Failure 400 {string} string "Bad Request"
 // @Router /v1/watchlist/scrips/list [get]
 func (controller *watchlistScripsController) HandleWatchlistScrips(context *gin.Context) {
@@ -39,7 +39,7 @@ func (controller *watchlistScripsController) HandleWatchlistScrips(context *gin.
 		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-	if len(scrips) == 0 {
+	if scrips.WatchlistScrip == nil {
 		context.JSON(http.StatusNoContent, gin.H{})
 		return
 	}

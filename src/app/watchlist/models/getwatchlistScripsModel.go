@@ -5,5 +5,5 @@ type Scrip struct {
 	Token  uint   `json:"token"`
 }
 type GetWatchlistScrips struct {
-	WatchlistScrip []Scrip `json:"watchlist_scrip"`
+	WatchlistScrip []Scrip `json:"scrips"`
 }
