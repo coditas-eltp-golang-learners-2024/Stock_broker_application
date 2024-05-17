@@ -48,11 +48,9 @@ func (service *WatchlistScripsService) GetScrips(context *gin.Context, watchlist
 	if len(stockIDSlice) == 0 {
 		return nil, errors.New(serviceConstants.NoStocksInWatchlistError)
 	}
-
 	scrips, err := service.watchlistRepository.GetScripsByStockID(stockIDSlice)
 	if err != nil {
 		return nil, err
 	}
-
 	return scrips, nil
 }
