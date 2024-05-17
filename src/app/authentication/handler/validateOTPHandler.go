@@ -3,10 +3,11 @@ package handler
 import (
 	"authentication/commons/constants"
 	"authentication/models"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	genericModel "stock_broker_application/src/models"
+
+	"github.com/gin-gonic/gin"
 )
 
 type OTPService interface {
@@ -34,7 +35,7 @@ func NewOTPValidationController(service OTPService) *OTPValidationController {
 // @Success 200 {string} string "OTP validated successfully"
 // @Failure 400 {string} string "Bad request"
 // @Failure 401 {string} string "OTP is expired or invalid"
-// @Router /v1/validate-otp [post]
+// @Router /v1/auth/validate-otp [post]
 func (controller *OTPValidationController) HandleValidateOTP(context *gin.Context) {
 	var otpValidationRequest models.ValidateOTPRequest
 	if err := context.ShouldBindJSON(&otpValidationRequest); err != nil {

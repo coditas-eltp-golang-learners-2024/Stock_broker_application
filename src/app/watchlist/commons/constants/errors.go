@@ -4,6 +4,8 @@ package constants
 const (
 	WatchlistAlreadyExistsError = "watchlist already exists"
 	WatchlistIsNotAddedError    = "failed to create new watchlist"
-	WatchlistWrongScripError    = "no such script is registered"
-	WatchlistNotFoundError      = "watchlist not found for the given user ID and name"
+	WatchlistWrongScripError    = "no such scrip is registered"
+	WatchlistNotFoundError      = "watchlist not found"
+	WatchlistIDNotFoundError    = "watchlist id not found"
+	NoStocksInWatchlistError    = "no stocks found in the watchlist"
 )

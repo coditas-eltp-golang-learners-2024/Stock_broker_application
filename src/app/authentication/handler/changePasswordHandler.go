@@ -4,11 +4,12 @@ import (
 	"authentication/business"
 	serviceConstants "authentication/commons/constants"
 	"authentication/models"
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type ChangePasswordController struct {
@@ -29,7 +30,7 @@ func NewChangePasswordController(service *business.ChangePasswordService) *Chang
 // @Success 200 {string} string "Password changed successfully"
 // @Failure 400 {string} string "Bad Request"
 // @Failure 500 {string} string "Internal Server Error"
-// @Router /v1/change-password [patch]
+// @Router /v1/auth/change-password [patch]
 func HandleChangePassword(service *ChangePasswordController) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var changeRequest models.ChangePassword

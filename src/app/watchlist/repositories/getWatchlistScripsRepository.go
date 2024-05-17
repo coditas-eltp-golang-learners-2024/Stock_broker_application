@@ -1,10 +1,11 @@
 package repositories
 
 import (
-	"gorm.io/gorm"
 	genericConstants "stock_broker_application/src/constants"
-	dbmodels "stock_broker_application/src/models"
+	genericModels "stock_broker_application/src/models"
 	"watchlist/models"
+
+	"gorm.io/gorm"
 )
 
 type WatchlistScripsRepository interface {
@@ -13,25 +14,26 @@ type WatchlistScripsRepository interface {
 	GetStockIDsByWatchlistID(watchlistID uint) ([]uint, error)
 	GetScripsByStockID(stockIDSlice []uint) ([]models.Scrip, error)
 }
-type watchlistDBRepository struct {
+type watchlistDBScripsRepository struct {
 	db *gorm.DB
 }
 
-func NewWatchlistRepository(db *gorm.DB) *watchlistDBRepository {
-	return &watchlistDBRepository{db: db}
+func NewWatchlistRepository(db *gorm.DB) *watchlistDBScripsRepository {
+	return &watchlistDBScripsRepository{db: db}
 }
-func (repo *watchlistDBRepository) CheckWatchlistExists(condition map[string]interface{}) (bool, error) {
+func (repo *watchlistDBScripsRepository) CheckWatchlistExists(condition map[string]interface{}) (bool, error) {
 	var count int64
-	if err := repo.db.Model(&dbmodels.Watchlist{}).
+	if err := repo.db.Model(&genericModels.Watchlist{}).
 		Where(condition).
 		Count(&count).Error; err != nil {
-		return count > 0, err
+		return false, err
 	}
-	return true, nil
+	return count > 0, nil
 }
-func (repo *watchlistDBRepository) GetWatchlistsByUserID(condition map[string]interface{}) (uint, error) {
-	var watchlists dbmodels.Watchlist
-	if err := repo.db.Model(&dbmodels.Watchlist{}).
+
+func (repo *watchlistDBScripsRepository) GetWatchlistsByUserID(condition map[string]interface{}) (uint, error) {
+	var watchlists genericModels.Watchlist
+	if err := repo.db.Model(&genericModels.Watchlist{}).
 		Where(condition).
 		Find(&watchlists).
 		Error; err != nil {
@@ -40,11 +42,11 @@ func (repo *watchlistDBRepository) GetWatchlistsByUserID(condition map[string]in
 	return watchlists.ID, nil
 }
 
-func (repo *watchlistDBRepository) GetStockIDsByWatchlistID(watchlist uint) ([]uint, error) {
+func (repo *watchlistDBScripsRepository) GetStockIDsByWatchlistID(watchlist uint) ([]uint, error) {
 	var stockIDs []uint
-	var stocks []dbmodels.WatchlistStock
-	if err := repo.db.Model(&dbmodels.WatchlistStock{}).
-		Where(genericConstants.WatchlistID+" = ?", watchlist).
+	var stocks []genericModels.WatchlistStock
+	if err := repo.db.Model(&genericModels.WatchlistStock{}).
+		Where(genericConstants.WatchlistID, watchlist).
 		Find(&stocks).
 		Error; err != nil {
 		return nil, err
@@ -55,17 +57,17 @@ func (repo *watchlistDBRepository) GetStockIDsByWatchlistID(watchlist uint) ([]u
 	return stockIDs, nil
 }
 
-func (repo *watchlistDBRepository) GetScripsByStockID(stockIDSlice []uint) ([]models.Scrip, error) {
-	var scrips []models.Scrip
+func (repo *watchlistDBScripsRepository) GetScripsByStockID(stockIDSlice []uint) ([]models.Scrip, error) {
+	var GetWatchlistScrips models.GetWatchlistScrips
 	for _, stockID := range stockIDSlice {
 		var scrip models.Scrip
-		if err := repo.db.Model(&dbmodels.Stocks{}).
-			Where(genericConstants.StocksID+" = ?", stockID).
+		if err := repo.db.Model(&genericModels.Stocks{}).
+			Where(genericConstants.StocksID, stockID).
 			Find(&scrip).
 			Error; err != nil {
 			return nil, err
 		}
-		scrips = append(scrips, scrip)
+		GetWatchlistScrips.WatchlistScrip = append(GetWatchlistScrips.WatchlistScrip, scrip)
 	}
-	return scrips, nil
+	return GetWatchlistScrips.WatchlistScrip, nil
 }

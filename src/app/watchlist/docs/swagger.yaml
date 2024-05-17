@@ -15,6 +15,13 @@ definitions:
     - scrips
     - watchlistName
     type: object
+  models.GetWatchlists:
+    properties:
+      watchlist:
+        items:
+          type: string
+        type: array
+    type: object
   models.Scrip:
     properties:
       symbol:
@@ -44,7 +51,7 @@ paths:
       produces:
       - application/json
       responses:
-        "200":
+        "201":
           description: User created successfully
           schema:
             type: string
@@ -57,6 +64,29 @@ paths:
       summary: Create a new user
       tags:
       - CreateWatchlist
+  /v1/watchlist/list:
+    get:
+      consumes:
+      - application/json
+      description: Handler function to fetch the user's watchlist data.
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns the user's watchlist data
+          schema:
+            $ref: '#/definitions/models.GetWatchlists'
+        "500":
+          description: Internal server error
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      security:
+      - JWT: []
+      summary: Get the list of WatchLists
+      tags:
+      - GetWatchlists
   /v1/watchlist/scrips/list:
     get:
       consumes:

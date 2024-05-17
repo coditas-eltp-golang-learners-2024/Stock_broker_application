@@ -119,7 +119,7 @@ const (
 	EpochTimestamp               = "epochtimestamp"
 	WatchlistName                = "watchlist_name"
 	WatchlistID                  = "watchlist_id"
-	StocksID                     = "stocks_id"
+	StocksID                     = "id"
 	Token                        = "token"
 )
 
@@ -709,7 +709,4 @@ const (
 	StocksIntradayAggrDataEndpoint = "/v1/stocks/intraday-aggr-data"
 	ChartSource                    = "CHART"
 	AutomationFlag                 = "AUTOMATION"
-)
-const (
-	ScripsKey = "scrips"
 )

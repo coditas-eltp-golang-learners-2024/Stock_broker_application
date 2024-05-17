@@ -25,14 +25,21 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(gin.Recovery())
 	connectionWithDb := postgres.GetPostGresClient().GormDb
 
+	//Create Watchlist
 	userDatabaseRepository := repositories.NewUserDBRepository(connectionWithDb)
 	createWatchlistHandler := business.NewCreateWatchlistService(userDatabaseRepository)
 	createWatchlistController := handler.NewWatchlistController(createWatchlistHandler)
 
-	//dependency injection for getWatchlistScrips
-	userDbRepository := repositories.NewWatchlistRepository(connectionWithDb)
-	watchlistService := business.NewWatchlistScripsService(userDbRepository)
-	watchlistController := handler.NewWatchlistScripController(watchlistService)
+	//Get Watchlist
+	repository := repositories.NewGetWatclistsRepository(connectionWithDb)
+	service := business.NewUsersService(repository)
+	newGetwatchlistsController := handler.NewGetWatchListsController(service)
+
+	//Get watchlist scrips
+	watchlistScripsRepository := repositories.NewWatchlistRepository(connectionWithDb)
+	watchlistScripsService := business.NewWatchlistScripsService(watchlistScripsRepository)
+	watchlistScripsController := handler.NewWatchlistScripController(watchlistScripsService)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstants.WatchlistHealthCheck, func(c *gin.Context) {
@@ -44,7 +51,9 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		docs.SwaggerInfo.Schemes = []string{"http", "https"}
 		v1Routes.GET(serviceConstants.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 		v1Routes.POST(serviceConstants.CreateWatchlist, headerCheck.AuthMiddleware(), createWatchlistController.HandleCreateWatchlist)
-		v1Routes.GET(serviceConstants.GetWatchList, headerCheck.AuthMiddleware(), watchlistController.HandleWatchlistScrips)
+		v1Routes.GET(serviceConstants.GetWatchLists, headerCheck.AuthMiddleware(), newGetwatchlistsController.HandleGetWatchlists)
+		v1Routes.GET(serviceConstants.GetWatchListsScrips, headerCheck.AuthMiddleware(), watchlistScripsController.HandleWatchlistScrips)
+
 	}
 	return router
 }

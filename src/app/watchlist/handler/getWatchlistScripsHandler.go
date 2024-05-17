@@ -34,16 +34,14 @@ func (controller *watchlistScripsController) HandleWatchlistScrips(context *gin.
 		context.JSON(http.StatusNoContent, gin.H{})
 		return
 	}
-
 	scrips, err := controller.service.GetScrips(context, watchlistName)
 	if err != nil {
 		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-
-	if len(scrips) > 0 {
-		context.JSON(http.StatusOK, gin.H{genericConstants.ScripsKey: scrips})
-	} else {
-		context.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONErrorMessage: genericConstants.ScripsNotFoundError})
+	if len(scrips) == 0 {
+		context.JSON(http.StatusNoContent, gin.H{})
+		return
 	}
+	context.JSON(http.StatusOK, scrips)
 }

@@ -2,8 +2,10 @@ package constants
 
 // watchlist route Constants
 const (
-	WatchlistHealthCheck = "/watchlist/health-check"
 	SwaggerRoute         = "/swagger/*any"
+	WatchlistHealthCheck = "/watchlist/health-check"
+	Metrics              = "/metrics"
 	CreateWatchlist      = "/watchlist/create"
-	GetWatchList         = "/watchlist/scrips/list"
+	GetWatchLists        = "/watchlist/list"
+	GetWatchListsScrips  = "/watchlist/scrips/list"
 )

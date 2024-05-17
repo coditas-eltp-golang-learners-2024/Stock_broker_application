@@ -33,16 +33,6 @@ func (Stocks) TableName() string {
 	return constants.StockTable
 }
 
-type Watchlist struct {
-	ID            uint   `gorm:"column:id;primary_key" json:"id"`
-	UserID        uint16 `gorm:"column:user_id" json:"userId"`
-	WatchlistName string `gorm:"column:watchlist_name" json:"watchlistName"`
-}
-
-func (Watchlist) TableName() string {
-	return constants.WatchlistTable
-}
-
 type WatchlistStock struct {
 	ID          uint `gorm:"column:id;primary_key" json:"id"`
 	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlistId"`
@@ -51,4 +41,13 @@ type WatchlistStock struct {
 
 func (WatchlistStock) TableName() string {
 	return constants.WatchlistStockTable
+}
+type Watchlist struct {
+	ID            uint    `gorm:"column:id" json:"id"`
+	UserID        uint    `gorm:"column:user_id" json:"userID"`
+	WatchlistName string `gorm:"column:watchlist_name" json:"watchlistName"`
+}
+
+func (Watchlist) TableName() string {
+	return constants.WatchlistTable
 }
