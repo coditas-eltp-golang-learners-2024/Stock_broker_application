@@ -65,7 +65,6 @@ const (
 
 // Column Name Constants
 const (
-	UserId                       = "user_id"
 	Id                           = "id"
 	Username                     = "username"
 	EmailId                      = "email"
@@ -118,6 +117,7 @@ const (
 	CreatedAt                    = "created_at"
 	EpochTimestamp               = "epochtimestamp"
 	WatchlistName                = "watchlist_name"
+	UserId                       = "user_id"
 	WatchlistID                  = "watchlist_id"
 	StocksID                     = "stocks_id"
 	Token                        = "token"
@@ -139,12 +139,12 @@ const (
 // Table Names Constants
 const (
 	UserTable                  = "users"
+	WatchlistTable             = "watchlist"
 	DeviceTable                = "devices"
 	BrokerTable                = "brokers"
 	StaticExchangeConfigTables = "static_exchange_config"
 	NewsAndFeedTable           = "news_and_feeds"
 	StockTable                 = "stocks"
-	WatchlistTable             = "watchlist"
 	WatchlistStockTable        = "watchlist_stocks"
 )
 

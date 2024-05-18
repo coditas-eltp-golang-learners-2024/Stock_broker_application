@@ -3,11 +3,12 @@ package handler
 import (
 	"authentication/business"
 	"authentication/models"
-	"github.com/gin-gonic/gin"
-	"github.com/go-playground/validator/v10"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/utils/validations"
+
+	"github.com/gin-gonic/gin"
+	"github.com/go-playground/validator/v10"
 )
 
 type signUpController struct {
@@ -26,9 +27,9 @@ func NewSignUpController(service *business.SignUpService) *signUpController {
 // @Accept json
 // @Produce json
 // @Param user body models.UserSignUp true "User details"
-// @Success 200 {string} string "User created successfully"
+// @Success 201 {string} string "User created successfully"
 // @Failure 400 {string} string "Bad request"
-// @Router /v1/signup [post]
+// @Router /v1/auth/signup [post]
 func (controller *signUpController) SignUp(ctx *gin.Context) {
 	var user models.UserSignUp
 	if err := ctx.ShouldBindJSON(&user); err != nil {
@@ -47,5 +48,5 @@ func (controller *signUpController) SignUp(ctx *gin.Context) {
 		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"message": "User created successfully"})
+	ctx.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
 }

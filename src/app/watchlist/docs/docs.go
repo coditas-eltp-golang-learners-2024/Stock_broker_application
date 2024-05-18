@@ -45,7 +45,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "User created successfully",
                         "schema": {
                             "type": "string"
@@ -55,6 +55,40 @@ const docTemplate = `{
                         "description": "Bad request",
                         "schema": {
                             "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/watchlist/list": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Handler function to fetch the user's watchlist data.",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "GetWatchlists"
+                ],
+                "summary": "Get the list of WatchLists",
+                "responses": {
+                    "200": {
+                        "description": "Returns the user's watchlist data",
+                        "schema": {
+                            "$ref": "#/definitions/models.GetWatchlists"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal server error",
+                        "schema": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "string"
+                            }
                         }
                     }
                 }
@@ -84,6 +118,17 @@ const docTemplate = `{
                     "example": "Mid Watchlist"
                 }
             }
+        },
+        "models.GetWatchlists": {
+            "type": "object",
+            "properties": {
+                "watchlist": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
         }
     },
     "securityDefinitions": {
@@ -98,7 +143,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "2.0",
-	Host:             "localhost:8080",
+	Host:             "localhost:8081",
 	BasePath:         "",
 	Schemes:          []string{},
 	Title:            "Stock Broker Application",

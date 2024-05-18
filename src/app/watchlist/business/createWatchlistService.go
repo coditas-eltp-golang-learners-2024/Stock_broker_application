@@ -2,11 +2,12 @@ package business
 
 import (
 	"errors"
-	"github.com/gin-gonic/gin"
 	genericConstants "stock_broker_application/src/constants"
 	serviceConstants "watchlist/commons/constants"
 	serviceModel "watchlist/models"
 	"watchlist/repositories"
+
+	"github.com/gin-gonic/gin"
 )
 
 type CreateWatchlistService struct {

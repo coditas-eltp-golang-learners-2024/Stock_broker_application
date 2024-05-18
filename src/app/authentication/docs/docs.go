@@ -15,7 +15,7 @@ const docTemplate = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/v1/change-password": {
+        "/v1/auth/change-password": {
             "patch": {
                 "security": [
                     {
@@ -66,7 +66,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/forgot-password": {
+        "/v1/auth/forgot-password": {
             "post": {
                 "description": "Updates user credentials based on the provided request.",
                 "consumes": [
@@ -119,7 +119,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/signin": {
+        "/v1/auth/signin": {
             "post": {
                 "description": "Handle sign-in request and authenticate the user",
                 "consumes": [
@@ -165,7 +165,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/signup": {
+        "/v1/auth/signup": {
             "post": {
                 "description": "Create a new user with the provided details",
                 "consumes": [
@@ -190,7 +190,7 @@ const docTemplate = `{
                     }
                 ],
                 "responses": {
-                    "200": {
+                    "201": {
                         "description": "User created successfully",
                         "schema": {
                             "type": "string"
@@ -205,7 +205,7 @@ const docTemplate = `{
                 }
             }
         },
-        "/v1/validate-otp": {
+        "/v1/auth/validate-otp": {
             "post": {
                 "description": "Validates the OTP for a user",
                 "consumes": [

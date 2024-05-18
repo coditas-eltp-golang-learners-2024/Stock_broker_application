@@ -30,21 +30,6 @@ type EncryptedNestAPIResponse struct {
 	EncryptedResponse string `json:"jEncResp,omitempty"`
 }
 
-// type TokenData struct {
-// 	UserId            string   `json:"uid"`
-// 	UserSessionId     string   `json:"userSessionId"`
-// 	BFFPublicKey      string   `json:"bffPublicKey"`
-// 	BFFPrivateKey     string   `json:"bffPrivateKey"`
-// 	DevicePublicKey   string   `json:"devicePublicKey"`
-// 	AccountId         string   `json:"accountId"`
-// 	BrokerName        string   `json:"brokerName"`
-// 	BranchName        string   `json:"branchName"`
-// 	ProductAlias      string   `json:"productAlias"`
-// 	CriteriaAttribute []string `json:"criteriaAttribute"`
-// 	ClearingOrg       string   `json:"clearingOrg"`
-// 	EnabledExchanges  []string `json:"enabledExchange"`
-// }
-
 type ChannelResponse struct {
 	ApiEndpoint string
 	Response    []byte
@@ -58,7 +43,6 @@ type HttpGoRoutineRequest struct {
 	Metadata    interface{}
 }
 
-// claim model for email
 type TokenData struct {
 	UserId uint16 `json:"id"`
 }
