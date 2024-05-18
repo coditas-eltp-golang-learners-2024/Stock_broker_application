@@ -21,6 +21,14 @@ func NewRenameWatchListRepository() *renameWatchListRepository {
 }
 
 func (repository *renameWatchListRepository) RenameWatchlist(db *gorm.DB, watchlist *models.WatchlistRenameModel, userId uint16) error {
+	var Count int64
+	count := db.Model(&watchlistModel.Watchlist{}).Where(genericConstants.WatchlistName+" = ? and "+genericConstants.UserId+"=?", watchlist.NewWatchlistName, userId).Count(&Count)
+	if count.Error != nil {
+		return count.Error
+	}
+	if Count > 0 {
+		return errors.New(constants.WatchlistAlreadyExistsError)
+	}
 	err := db.Model(&watchlistModel.Watchlist{}).Where(genericConstants.WatchlistName+" = ? and "+genericConstants.UserId+"=?", watchlist.WatchlistName, userId).Update(genericConstants.WatchlistName, watchlist.NewWatchlistName)
 	if err.Error != nil {
 		return err.Error

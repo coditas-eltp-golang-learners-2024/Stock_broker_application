@@ -33,26 +33,27 @@ func NewDeleteWatchListDeleteController(service *business.DeleteWatchListService
 // @Param watchlist body models.WatchlistDeleteModel true "Watchlist details"
 // @Success 200 {string} string "Watchlist deleted successfully"
 // @Failure 400 {string} string "Bad request"
+// @Failure 500 {string} string "Internal server error"
 // @Router /v1/delete-watchlist [delete]
 func (controller *deleteWatchListController) DeleteWatchList(ctx *gin.Context) {
 	var watchlist models.WatchlistDeleteModel
 	if err := ctx.ShouldBindJSON(&watchlist); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
 	if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(watchlist); err != nil {
 		validationErrors := validations.FormatValidationErrors(ctx.Request.Context(), err.(validator.ValidationErrors))
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error(),
+		ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error(),
 			genericConstants.GenericValidationError: validationErrors,
 		})
 	}
 	if err := controller.service.DeleteWatchList(&watchlist, ctx); err != nil {
 		if err.Error() == constants.NoWatchlistError {
-			ctx.JSON(http.StatusNoContent, gin.H{"error": err.Error()})
+			ctx.JSON(http.StatusNoContent, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 			return
 		}
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		ctx.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusOK, gin.H{"message": constants.WatchlistDeletedSuccessMessage})
+	ctx.JSON(http.StatusNoContent, gin.H{genericConstants.BFFResponseSuccessMessage: constants.WatchlistDeletedSuccessMessage})
 }
