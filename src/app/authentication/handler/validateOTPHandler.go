@@ -4,7 +4,6 @@ import (
 	"authentication/commons/constants"
 	"authentication/models"
 	"encoding/json"
-	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	genericModel "stock_broker_application/src/models"
 	"stock_broker_application/src/utils"
@@ -46,17 +45,20 @@ func (controller *OTPValidationController) HandleValidateOTP(context *gin.Contex
 		return
 	}
 	if err := controller.Service.OtpVerification(otpValidationRequest); err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
+		utils.SendUnauthorizedError(context, err.Error())
 		return
 	}
 	tokenData := genericModel.TokenData{
 		UserId: otpValidationRequest.UserID,
 	}
-	_, err := controller.Service.GenerateAndStoreToken(tokenData, otpValidationRequest.UserID)
+	token, err := controller.Service.GenerateAndStoreToken(tokenData, otpValidationRequest.UserID)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorGenToken})
+		utils.SendInternalServerError(context, constants.ErrorGenToken)
+
 		return
 	}
 
+	context.Set(genericConstants.GenericTokenMessage, token)
 	utils.SendStatusOk(context, constants.ValidateOTPSuccessMessage)
+
 }

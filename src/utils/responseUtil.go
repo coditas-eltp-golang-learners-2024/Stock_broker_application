@@ -46,9 +46,31 @@ func SendNoContentError(ctx *gin.Context) {
 }
 
 func SendStatusOk(ctx *gin.Context, data interface{}) {
-	ctx.JSON(http.StatusOK, data)
+	value, exist := ctx.Get(genericConstants.GenericTokenMessage)
+	if exist {
+		ctx.JSON(http.StatusOK, gin.H{
+			genericConstants.GenericJSONMessage:  data,
+			genericConstants.GenericTokenMessage: value,
+		})
+	} else {
+		ctx.JSON(http.StatusOK, gin.H{
+			genericConstants.GenericJSONMessage: data,
+		})
+	}
+
 }
 
 func SendNewDataCreated(ctx *gin.Context, data interface{}) {
 	ctx.JSON(http.StatusCreated, data)
+}
+
+func SendUnauthorizedError(ctx *gin.Context, err string) {
+	message := genericModels.ErrorMessage{
+		Key:          genericConstants.GenericErrorKey,
+		ErrorMessage: err,
+	}
+	ctx.JSON(http.StatusUnauthorized, genericModels.ErrorAPIResponse{
+		Message: []genericModels.ErrorMessage{message},
+		Error:   http.StatusText(http.StatusUnauthorized),
+	})
 }
