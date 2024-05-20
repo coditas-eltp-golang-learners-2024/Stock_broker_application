@@ -47,5 +47,5 @@ func (controller *getWatchlistController) HandleGetWatchlists(context *gin.Conte
 		return
 	}
 
-	utils.SendStatusOkSuccess(context, watchlistData)
+	utils.SendStatusOk(context, watchlistData)
 }

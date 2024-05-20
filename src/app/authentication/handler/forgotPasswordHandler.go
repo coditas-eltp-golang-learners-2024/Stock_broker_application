@@ -63,5 +63,5 @@ func (controller *forgotPasswordController) HandleForgotPassword(context *gin.Co
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.ForgotPasswordSuccessMessage})
-	utils.SendStatusOkSuccess(context, constants.ForgotPasswordSuccessMessage)
+	utils.SendStatusOk(context, constants.ForgotPasswordSuccessMessage)
 }

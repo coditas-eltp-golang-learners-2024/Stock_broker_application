@@ -45,10 +45,10 @@ func SendNoContentError(ctx *gin.Context) {
 	})
 }
 
-func SendStatusOkSuccess(ctx *gin.Context, data interface{}) {
+func SendStatusOk(ctx *gin.Context, data interface{}) {
 	ctx.JSON(http.StatusOK, data)
 }
 
-func SendNewDataCreatedSuccess(ctx *gin.Context, data interface{}) {
+func SendNewDataCreated(ctx *gin.Context, data interface{}) {
 	ctx.JSON(http.StatusCreated, data)
 }

@@ -58,5 +58,5 @@ func (controller *OTPValidationController) HandleValidateOTP(context *gin.Contex
 		return
 	}
 
-	utils.SendStatusOkSuccess(context, constants.ValidateOTPSuccessMessage)
+	utils.SendStatusOk(context, constants.ValidateOTPSuccessMessage)
 }

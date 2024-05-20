@@ -52,6 +52,6 @@ func HandleChangePassword(service *ChangePasswordController) gin.HandlerFunc {
 			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 			return
 		}
-		utils.SendStatusOkSuccess(ctx, serviceConstants.ChangePasswordSuccessMessage)
+		utils.SendStatusOk(ctx, serviceConstants.ChangePasswordSuccessMessage)
 	}
 }
