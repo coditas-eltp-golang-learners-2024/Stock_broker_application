@@ -49,11 +49,6 @@ func (controller *signInController) HandleSignIn(context *gin.Context) {
 
 		utils.SendBadRequest(context, validationErrors)
 
-		// context.JSON(http.StatusBadRequest, gin.H{
-		// 	genericConstants.GenericJSONErrorMessage: genericConstants.ValidatorError,
-		// 	genericConstants.GenericValidationError:  validationErrors,
-		// })
-
 		return
 	}
 	if err := controller.service.SignIn(signInRequest); err != nil {
