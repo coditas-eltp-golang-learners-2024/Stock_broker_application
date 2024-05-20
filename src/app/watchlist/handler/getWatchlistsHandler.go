@@ -1,9 +1,7 @@
 package handler
 
 import (
-	"net/http"
-
-	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/utils"
 
 	"watchlist/business"
 
@@ -40,14 +38,14 @@ func (controller *getWatchlistController) HandleGetWatchlists(context *gin.Conte
 	watchlistData, err := controller.service.NewGetWatchlistsService(context)
 
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
+		utils.SendInternalServerError(context, err.Error())
 		return
 	}
 
 	if len(watchlistData.Watchlist) == 0 {
-		context.JSON(http.StatusNoContent, gin.H{})
+		utils.SendNoContentError(context)
 		return
 	}
 
-	context.JSON(http.StatusOK, watchlistData)
+	utils.SendStatusOkSuccess(context, watchlistData)
 }

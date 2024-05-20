@@ -4,8 +4,11 @@ import (
 	"authentication/business"
 	"authentication/commons/constants"
 	"authentication/models"
+	"encoding/json"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
+	genericModel "stock_broker_application/src/models"
+	"stock_broker_application/src/utils"
 	"stock_broker_application/src/utils/validations"
 
 	"github.com/gin-gonic/gin"
@@ -37,7 +40,8 @@ func (controller *signInController) HandleSignIn(context *gin.Context) {
 	var signInRequest models.SignInRequest
 
 	if err := context.ShouldBindJSON(&signInRequest); err != nil {
-		context.JSON(http.StatusBadRequest, constants.ErrorBadRequest)
+		errorMsgs := genericModel.ErrorMessage{Key: err.(*json.UnmarshalTypeError).Field, ErrorMessage: genericConstants.JsonBindingFieldError}
+		utils.SendBadRequest(context, []genericModel.ErrorMessage{errorMsgs})
 		return
 	}
 	if err := validations.GetCustomValidator(context.Request.Context()).Struct(signInRequest); err != nil {

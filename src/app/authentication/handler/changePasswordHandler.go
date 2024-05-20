@@ -4,8 +4,11 @@ import (
 	"authentication/business"
 	serviceConstants "authentication/commons/constants"
 	"authentication/models"
+	"encoding/json"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
+	genericModel "stock_broker_application/src/models"
+	"stock_broker_application/src/utils"
 	"stock_broker_application/src/utils/validations"
 
 	"github.com/gin-gonic/gin"
@@ -35,21 +38,20 @@ func HandleChangePassword(service *ChangePasswordController) gin.HandlerFunc {
 	return func(ctx *gin.Context) {
 		var changeRequest models.ChangePassword
 		if err := ctx.BindJSON(&changeRequest); err != nil {
-			ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
+			errorMsgs := genericModel.ErrorMessage{Key: err.(*json.UnmarshalTypeError).Field, ErrorMessage: genericConstants.JsonBindingFieldError}
+			utils.SendBadRequest(ctx, []genericModel.ErrorMessage{errorMsgs})
 			return
 		}
+
 		if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(changeRequest); err != nil {
 			validationErrors := validations.FormatValidationErrors(ctx.Request.Context(), err.(validator.ValidationErrors))
-			ctx.JSON(http.StatusBadRequest, gin.H{
-				genericConstants.GenericJSONErrorMessage: genericConstants.ValidatorError,
-				genericConstants.GenericValidationError:  validationErrors,
-			})
+			utils.SendBadRequest(ctx, validationErrors)
 			return
 		}
 		if err := service.ChangePasswordController.ChangePasswordService(changeRequest, ctx); err != nil {
 			ctx.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 			return
 		}
-		ctx.JSON(http.StatusOK, gin.H{genericConstants.BFFResponseSuccessMessage: serviceConstants.ChangePasswordSuccessMessage})
+		utils.SendStatusOkSuccess(ctx, serviceConstants.ChangePasswordSuccessMessage)
 	}
 }

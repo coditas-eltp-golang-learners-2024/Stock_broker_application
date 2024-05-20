@@ -1,8 +1,11 @@
 package handler
 
 import (
+	"encoding/json"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
+	genericModel "stock_broker_application/src/models"
+	"stock_broker_application/src/utils"
 	"watchlist/business"
 	serviceConstants "watchlist/commons/constants"
 	serviceModel "watchlist/models"
@@ -33,13 +36,19 @@ func NewWatchlistController(service *business.CreateWatchlistService) *CreateWat
 func (controller *CreateWatchlistController) HandleCreateWatchlist(ctx *gin.Context) {
 	var createWatchlistRequest serviceModel.CreateWatchlist
 	if err := ctx.BindJSON(&createWatchlistRequest); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
+		errorMsgs := genericModel.ErrorMessage{Key: err.(*json.UnmarshalTypeError).Field, ErrorMessage: genericConstants.JsonBindingFieldError}
+		utils.SendBadRequest(ctx, []genericModel.ErrorMessage{errorMsgs})
 		return
 	}
 	if err := controller.service.CreateWatchlistService(createWatchlistRequest, ctx); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.AccessToken: err.Error()})
+		ErrMessage := genericModel.ErrorMessage{
+			Key:          genericConstants.AccessToken,
+			ErrorMessage: err.Error(),
+		}
+		utils.SendBadRequest(ctx, []genericModel.ErrorMessage{ErrMessage})
 		ctx.Abort()
 		return
 	}
 	ctx.JSON(http.StatusCreated, gin.H{genericConstants.BFFResponseSuccessMessage: serviceConstants.WatchlistCreatedSuccessfully})
+	utils.SendStatusOkSuccess(ctx, serviceConstants.WatchlistCreatedSuccessfully)
 }

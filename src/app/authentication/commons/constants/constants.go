@@ -14,4 +14,5 @@ const (
 	ChangePasswordSuccessMessage = "Password changed successfully"
 	ForgotPasswordSuccessMessage = "Password updated successfully"
 	SignInSuccessMessage         = "user authenticated successfully"
+	SignUpSuccessMessage         = "user created successfully"
 )

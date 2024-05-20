@@ -4,8 +4,11 @@ import (
 	"authentication/business"
 	"authentication/commons/constants"
 	"authentication/models"
+	"encoding/json"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
+	genericModel "stock_broker_application/src/models"
+	"stock_broker_application/src/utils"
 	"stock_broker_application/src/utils/validations"
 
 	"github.com/gin-gonic/gin"
@@ -42,7 +45,8 @@ func NewUsersController(service business.NewforgotPasswordService) NewForgetPass
 func (controller *forgotPasswordController) HandleForgotPassword(context *gin.Context) {
 	var request models.ForgotPasswordRequest
 	if err := context.ShouldBindJSON(&request); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
+		errorMsgs := genericModel.ErrorMessage{Key: err.(*json.UnmarshalTypeError).Field, ErrorMessage: genericConstants.JsonBindingFieldError}
+		utils.SendBadRequest(context, []genericModel.ErrorMessage{errorMsgs})
 		return
 	}
 	if err := validations.GetCustomValidator(context.Request.Context()).Struct(request); err != nil {
@@ -59,4 +63,5 @@ func (controller *forgotPasswordController) HandleForgotPassword(context *gin.Co
 		return
 	}
 	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.ForgotPasswordSuccessMessage})
+	utils.SendStatusOkSuccess(context, constants.ForgotPasswordSuccessMessage)
 }
