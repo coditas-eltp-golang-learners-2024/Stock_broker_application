@@ -8,6 +8,7 @@ const (
 
 const (
 	WatchlistCreatedSuccessfully   = "new watchlist is created successfully"
-	WatchlistRenameSuccessMessage  = "Watchlist renamed successfully"
-	WatchlistDeletedSuccessMessage = "Watchlist deleted successfully"
+	WatchlistRenameSuccessMessage  = "watchlist renamed successfully"
+	WatchlistDeletedSuccessMessage = "watchlist deleted successfully"
+	WatchlistEditSuccessMessage    = "watchlist edited successfully"
 )

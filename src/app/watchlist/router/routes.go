@@ -36,9 +36,9 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	createWatchlistHandler := business.NewCreateWatchlistService(userDatabaseRepository)
 	createWatchlistController := handler.NewWatchlistController(createWatchlistHandler)
 
-	editWatchList := repositories.NewRenameWatchListRepository()
-	editWatchListService := business.NewRenameWatchListService(editWatchList)
-	editWatchListController := handler.NewRenameWatchListController(editWatchListService)
+	renameWatchList := repositories.NewRenameWatchListRepository()
+	renameWatchListService := business.NewRenameWatchListService(renameWatchList)
+	renameWatchListController := handler.NewRenameWatchListController(renameWatchListService)
 
 	deleteWatchList := repositories.NewDeleteWatchListRepository()
 	deleteWatchListService := business.NewDeleteWatchListService(deleteWatchList)
@@ -47,6 +47,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	repository := repositories.NewGetWatclistsRepository(connectionWithDb)
 	service := business.NewUsersService(repository)
 	newGetwatchlistsController := handler.NewGetWatchListsController(service)
+
+	//Edit Watchlist
+	editWatchList := repositories.NewEditWatchlistRepository()
+	editWatchListService := business.NewEditWatchlistService(editWatchList)
+	editWatchListController := handler.NewEditWatchListController(editWatchListService)
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
@@ -61,9 +66,10 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 
 		v1Routes.GET(serviceConstants.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 		v1Routes.POST(serviceConstants.CreateWatchlist, headerCheck.AuthMiddleware(), createWatchlistController.HandleCreateWatchlist)
-		v1Routes.PUT(constants.RenameWatchList, headerCheck.AuthMiddleware(), editWatchListController.EditWatchList)
+		v1Routes.PUT(constants.RenameWatchList, headerCheck.AuthMiddleware(), renameWatchListController.RenameWatchList)
 		v1Routes.DELETE(constants.DeleteWatchList, headerCheck.AuthMiddleware(), deleteWatchListController.DeleteWatchList)
 		v1Routes.GET(serviceConstants.GetWatchLists, headerCheck.AuthMiddleware(), newGetwatchlistsController.HandleGetWatchlists)
+		v1Routes.PUT(constants.EditWatchlist, headerCheck.AuthMiddleware(), editWatchListController.EditWatchList)
 	}
 	return router
 }

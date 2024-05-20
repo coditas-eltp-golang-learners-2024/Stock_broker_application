@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/utils"
 	"stock_broker_application/src/utils/validations"
 	"watchlist/business"
 	constants "watchlist/commons/constants"
@@ -24,7 +25,7 @@ func NewRenameWatchListController(service *business.RenameWatchListService) *ren
 
 // @Summary Edit a watchlist
 // @Description Edit a watchlist with the provided details
-// @Tags EditWatchlist
+// @Tags RenameWatchlist
 // @Accept json
 // @Produce json
 // @Security JWT
@@ -33,7 +34,7 @@ func NewRenameWatchListController(service *business.RenameWatchListService) *ren
 // @Failure 400 {string} string "Bad request"
 // @Failure 500 {string} string "Internal server error"
 // @Router /v1/edit-watchlist [put]
-func (controller *renameWatchListController) EditWatchList(ctx *gin.Context) {
+func (controller *renameWatchListController) RenameWatchList(ctx *gin.Context) {
 	var watchlist models.WatchlistRenameModel
 	if err := ctx.ShouldBindJSON(&watchlist); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
@@ -51,5 +52,6 @@ func (controller *renameWatchListController) EditWatchList(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.InternalServerError})
 		return
 	}
-	ctx.JSON(http.StatusNoContent, gin.H{genericConstants.BFFResponseSuccessMessage: constants.WatchlistRenameSuccessMessage})
+	utils.SendStatusOkSuccess(ctx, constants.WatchlistRenameSuccessMessage)
+
 }

@@ -9,4 +9,5 @@ const (
 	InternalServerError         = "internal server error"
 	NoWatchlistError            = "no watchlist found"
 	WatchlistNotFoundError      = "watchlist not found"
+	ScripsAlreadyAddedError     = "scrips already added to watchlist"
 )

@@ -3,6 +3,7 @@ package handler
 import (
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
+	"stock_broker_application/src/utils"
 	"stock_broker_application/src/utils/validations"
 	"watchlist/business"
 	"watchlist/commons/constants"
@@ -55,5 +56,5 @@ func (controller *deleteWatchListController) DeleteWatchList(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-	ctx.JSON(http.StatusNoContent, gin.H{genericConstants.BFFResponseSuccessMessage: constants.WatchlistDeletedSuccessMessage})
+	utils.SendStatusOkSuccess(ctx, constants.WatchlistDeletedSuccessMessage)
 }
