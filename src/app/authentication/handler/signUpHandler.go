@@ -56,5 +56,6 @@ func (controller *signUpController) SignUp(ctx *gin.Context) {
 
 		return
 	}
-	utils.SendStatusOkSuccess(ctx, constants.SignUpSuccessMessage)
+
+	utils.SendNewDataCreatedSuccess(ctx, constants.SignUpSuccessMessage)
 }

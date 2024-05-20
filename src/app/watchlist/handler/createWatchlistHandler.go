@@ -2,7 +2,6 @@ package handler
 
 import (
 	"encoding/json"
-	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	genericModel "stock_broker_application/src/models"
 	"stock_broker_application/src/utils"
@@ -49,6 +48,5 @@ func (controller *CreateWatchlistController) HandleCreateWatchlist(ctx *gin.Cont
 		ctx.Abort()
 		return
 	}
-	ctx.JSON(http.StatusCreated, gin.H{genericConstants.BFFResponseSuccessMessage: serviceConstants.WatchlistCreatedSuccessfully})
-	utils.SendStatusOkSuccess(ctx, serviceConstants.WatchlistCreatedSuccessfully)
+	utils.SendNewDataCreatedSuccess(ctx, serviceConstants.WatchlistCreatedSuccessfully)
 }
