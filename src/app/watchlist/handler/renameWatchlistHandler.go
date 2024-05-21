@@ -52,6 +52,6 @@ func (controller *renameWatchListController) RenameWatchList(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.InternalServerError})
 		return
 	}
-	utils.SendStatusOkSuccess(ctx, constants.WatchlistRenameSuccessMessage)
+	utils.SendStatusOkSuccess(ctx, constants.RenameWatchlistSuccessMessage)
 
 }

@@ -44,5 +44,5 @@ func (controller *editWatchListController) EditWatchList(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-	utils.SendStatusOkSuccess(ctx, constants.WatchlistEditSuccessMessage)
+	utils.SendStatusOkSuccess(ctx, constants.EditWatchlistSuccessMessage)
 }

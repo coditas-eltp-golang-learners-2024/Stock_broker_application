@@ -55,5 +55,5 @@ func (controller *deleteWatchListController) DeleteWatchList(ctx *gin.Context) {
 		ctx.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
 	}
-	utils.SendStatusOkSuccess(ctx, constants.WatchlistDeletedSuccessMessage)
+	utils.SendStatusOkSuccess(ctx, constants.DeletedWatchlistSuccessMessage)
 }
