@@ -19,7 +19,7 @@ func NewDeleteWatchListService(deleteWatchListRepository repositories.DeleteWatc
 	}
 }
 
-func (service *DeleteWatchListService) DeleteWatchList(watchlist *models.WatchlistDeleteModel, ctx *gin.Context) error {
+func (service *DeleteWatchListService) DeleteWatchList(watchlist *models.DeleteWatchlist, ctx *gin.Context) error {
 
 	client := postgres.GetPostGresClient()
 	userId := ctx.Value(genericConstants.Id).(uint16)

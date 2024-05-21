@@ -19,7 +19,7 @@ func NewRenameWatchListService(renameWatchListRepository repositories.RenameWatc
 	}
 }
 
-func (service *RenameWatchListService) RenameWatchList(watchlist *models.WatchlistRenameModel, ctx *gin.Context) error {
+func (service *RenameWatchListService) RenameWatchList(watchlist *models.RenameWatchlist, ctx *gin.Context) error {
 	client := postgres.GetPostGresClient()
 	userId := ctx.Value(genericConstants.Id).(uint16)
 	err := service.RenameWatchListRepository.RenameWatchlist(client.GormDb, watchlist, userId)

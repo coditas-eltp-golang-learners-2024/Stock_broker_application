@@ -24,7 +24,6 @@ func NewDeleteWatchListDeleteController(service *business.DeleteWatchListService
 
 }
 
-// DeleteWatchList godoc
 // @Summary Delete a watchlist
 // @Description Delete a watchlist with the provided details
 // @Tags DeleteWatchlist
@@ -37,7 +36,7 @@ func NewDeleteWatchListDeleteController(service *business.DeleteWatchListService
 // @Failure 500 {string} string "Internal server error"
 // @Router /v1/delete-watchlist [delete]
 func (controller *deleteWatchListController) DeleteWatchList(ctx *gin.Context) {
-	var watchlist models.WatchlistDeleteModel
+	var watchlist models.DeleteWatchlist
 	if err := ctx.ShouldBindJSON(&watchlist); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return
