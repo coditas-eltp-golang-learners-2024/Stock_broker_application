@@ -9,10 +9,7 @@ type Watchlist struct {
 	ID            int    `gorm:"column:id" json:"id"`
 	UserID        int    `gorm:"column:user_id" json:"userID"`
 	WatchlistName string `gorm:"column:watchlist_name" json:"watchlistName"`
-}
-
-func (Watchlist) TableName() string {
-	return constants.WatchlistTable
+	StockId       uint64 `gorm:"column:stock_id" json:"stockId"`
 }
 
 type Users struct {
@@ -30,8 +27,10 @@ type Users struct {
 	EpochTimestamp int64     `gorm:"column:epochtimestamp" json:"epochtimestamp"`
 }
 
-func (Users) TableName() string {
-	return constants.UserTable
+type WatchlistStock struct {
+	ID          uint `gorm:"column:id;primary_key" json:"id"`
+	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlist_id"`
+	StockID     uint `gorm:"column:stocks_id" json:"stock_id"`
 }
 
 type Stocks struct {
@@ -40,16 +39,18 @@ type Stocks struct {
 	Symbol string `gorm:"column:symbol" json:"symbol"`
 }
 
+func (WatchlistStock) TableName() string {
+	return constants.WatchlistStockTable
+}
+
+func (Users) TableName() string {
+	return constants.UserTable
+}
+
 func (Stocks) TableName() string {
 	return constants.StockTable
 }
 
-type WatchlistStock struct {
-	ID          uint `gorm:"column:id;primary_key" json:"id"`
-	WatchlistID uint `gorm:"column:watchlist_id" json:"watchlistId"`
-	StockID     uint `gorm:"column:stocks_id" json:"stockId"`
-}
-
-func (WatchlistStock) TableName() string {
-	return constants.WatchlistStockTable
+func (Watchlist) TableName() string {
+	return constants.WatchlistTable
 }
