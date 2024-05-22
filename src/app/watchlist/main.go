@@ -22,6 +22,7 @@ import (
 // @host localhost:8081
 // @securityDefinitions.apiKey JWT
 // @in header
+// @name Watchlist
 // @name Authorization
 // @BasePath /
 func main() {
