@@ -1,5 +1,5 @@
 package models
 
-type DeleteWatchlist struct {
+type DeleteWatchlistRequest struct {
 	WatchlistName string `json:"watchListName" validate:"required"`
 }

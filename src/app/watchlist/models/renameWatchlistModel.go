@@ -1,6 +1,6 @@
 package models
 
-type RenameWatchlist struct {
+type RenameWatchlistRequest struct {
 	WatchlistName    string `json:"watchlistName" validate:"required"`
 	NewWatchlistName string `json:"newWatchlistName" validate:"required"`
 }

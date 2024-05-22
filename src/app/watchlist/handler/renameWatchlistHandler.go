@@ -35,7 +35,7 @@ func NewRenameWatchListController(service *business.RenameWatchListService) *ren
 // @Failure 500 {string} string "Internal server error"
 // @Router /v1/edit-watchlist [put]
 func (controller *renameWatchListController) RenameWatchList(ctx *gin.Context) {
-	var watchlist models.RenameWatchlist
+	var watchlist models.RenameWatchlistRequest
 	if err := ctx.ShouldBindJSON(&watchlist); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return

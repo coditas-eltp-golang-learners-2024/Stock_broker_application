@@ -11,7 +11,7 @@ import (
 )
 
 type EditWatchlistRepository interface {
-	InsertScripsToWatchlist(editWatchlist models.EditWatchlist, userId uint16, client *gorm.DB) error
+	InsertScripsToWatchlist(editWatchlist models.EditWatchlistRequest, userId uint16, client *gorm.DB) error
 }
 
 type editWatchlistRepository struct {
@@ -21,7 +21,7 @@ func NewEditWatchlistRepository() *editWatchlistRepository {
 	return &editWatchlistRepository{}
 }
 
-func (repository *editWatchlistRepository) InsertScripsToWatchlist(editWatchlist models.EditWatchlist, userId uint16, client *gorm.DB) error {
+func (repository *editWatchlistRepository) InsertScripsToWatchlist(editWatchlist models.EditWatchlistRequest, userId uint16, client *gorm.DB) error {
 	var scripsIds []uint
 	if err := client.Model(&genericModels.Stocks{}).
 		Where(genericConstants.Token+" IN (?)", editWatchlist.Scrips).

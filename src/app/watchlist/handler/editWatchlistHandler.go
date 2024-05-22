@@ -35,7 +35,7 @@ func NewEditWatchListController(service *business.EditWatchlistService) *editWat
 // @Router /v1/edit-watchlist [put]
 func (controller *editWatchListController) EditWatchList(ctx *gin.Context) {
 
-	var editWatchListRequest models.EditWatchlist
+	var editWatchListRequest models.EditWatchlistRequest
 	if err := ctx.ShouldBindJSON(&editWatchListRequest); err != nil {
 		ctx.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
 		return

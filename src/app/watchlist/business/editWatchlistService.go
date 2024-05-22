@@ -19,7 +19,7 @@ func NewEditWatchlistService(editWatchlistRepository repositories.EditWatchlistR
 	}
 }
 
-func (service *EditWatchlistService) EditWatchlist(editWatchlist *models.EditWatchlist, ctx *gin.Context) error {
+func (service *EditWatchlistService) EditWatchlist(editWatchlist *models.EditWatchlistRequest, ctx *gin.Context) error {
 
 	client := postgres.GetPostGresClient()
 	userId := ctx.Value(genericConstants.Id).(uint16)
