@@ -46,7 +46,3 @@ type HttpGoRoutineRequest struct {
 type TokenData struct {
 	UserId uint16 `json:"id"`
 }
-
-func (TokenData) TableName() string {
-	return "watchlist_stocks"
-}

@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	genericConstants "stock_broker_application/src/constants"
 	"watchlist/commons/constants"
+	"watchlist/models"
 	"watchlist/repositories"
 )
 
@@ -18,14 +19,14 @@ func NewDeleteWatchlistService(deleteWatchlistRepository repositories.DeleteWatc
 	}
 }
 
-func (service *DeleteWatchlistScripsService) DeleteScripsFromWatchlist(ctx *gin.Context, watchlistName string, scrips []int) error {
+func (service *DeleteWatchlistScripsService) DeleteScripsFromWatchlist(ctx *gin.Context, request models.DeleteWatchlistScripsRequest) error {
 	userID := ctx.Value(genericConstants.Id).(uint16)
 	watchlistCondition := map[string]interface{}{
 		genericConstants.UserId:        userID,
-		genericConstants.WatchlistName: watchlistName,
+		genericConstants.WatchlistName: request.WatchlistName,
 	}
 
-	err := service.deleteWatchlistRepository.DeleteScrips(ctx, watchlistName, scrips, watchlistCondition)
+	err := service.deleteWatchlistRepository.DeleteScrips(ctx, request.WatchlistName, request.Scrips, watchlistCondition)
 	if err != nil {
 		return errors.New(constants.FailedToDeleteScripsfromWatchlistError)
 	}

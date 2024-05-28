@@ -36,7 +36,7 @@ func (controller *DeleteWatchlistScripsController) HandleDeleteWatchlistScrips(c
 		return
 	}
 
-	err := controller.service.DeleteScripsFromWatchlist(context, request.WatchlistName, request.Scrips)
+	err := controller.service.DeleteScripsFromWatchlist(context, request)
 	if err != nil {
 		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONMessage: constants.FailedToDeleteScripsError})
 		return
