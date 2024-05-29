@@ -2,10 +2,14 @@ package handler
 
 import (
 	"authentication/business"
+	"authentication/commons/constants"
 	"authentication/models"
-	"net/http"
+	"encoding/json"
 	genericConstants "stock_broker_application/src/constants"
+	genericModel "stock_broker_application/src/models"
+	"stock_broker_application/src/utils"
 	"stock_broker_application/src/utils/validations"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	"github.com/go-playground/validator/v10"
@@ -33,20 +37,25 @@ func NewSignUpController(service *business.SignUpService) *signUpController {
 func (controller *signUpController) SignUp(ctx *gin.Context) {
 	var user models.UserSignUp
 	if err := ctx.ShouldBindJSON(&user); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		errorMsgs := genericModel.ErrorMessage{Key: err.(*json.UnmarshalTypeError).Field, ErrorMessage: genericConstants.JsonBindingFieldError}
+		utils.SendBadRequest(ctx, []genericModel.ErrorMessage{errorMsgs})
 		return
 	}
+
 	if err := validations.GetCustomValidator(ctx.Request.Context()).Struct(user); err != nil {
 		validationErrors := validations.FormatValidationErrors(ctx.Request.Context(), err.(validator.ValidationErrors))
-		ctx.JSON(http.StatusBadRequest, gin.H{
-			genericConstants.GenericJSONErrorMessage: genericConstants.ValidatorError,
-			genericConstants.GenericValidationError:  validationErrors,
-		})
+		utils.SendBadRequest(ctx, validationErrors)
 		return
 	}
 	if err := controller.service.SignUp(&user); err != nil {
-		ctx.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		if strings.Contains(err.Error(), constants.ErrorUserExists) {
+			utils.SendConflictError(ctx, err.Error())
+		} else {
+			utils.SendInternalServerError(ctx, err.Error())
+		}
+
 		return
 	}
-	ctx.JSON(http.StatusCreated, gin.H{"message": "User created successfully"})
+
+	utils.SendCreated(ctx, constants.SignUpSuccessMessage)
 }

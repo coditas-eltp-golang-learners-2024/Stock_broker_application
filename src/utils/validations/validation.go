@@ -79,6 +79,10 @@ func isValid(newPassword string) bool {
 func FormatValidationErrors(ctx context.Context, validationErrors validator.ValidationErrors) []models.ErrorMessage {
 	var errorMessages []models.ErrorMessage
 
+	errorMessages = append(errorMessages, models.ErrorMessage{
+		Key:          genericConstants.GenericJSONErrorMessage,
+		ErrorMessage: genericConstants.ValidatorError})
+
 	// Iterate over each validation error and format it
 	for _, err := range validationErrors {
 		key := err.Field()

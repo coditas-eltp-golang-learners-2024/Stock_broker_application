@@ -33,6 +33,7 @@ func (service *SignUpService) SignUp(user *models.UserSignUp) error {
 	if err != nil {
 		return err
 	}
+
 	if count > 0 {
 		return errors.New(constants.ErrorUserExists)
 	}

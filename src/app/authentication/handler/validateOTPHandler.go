@@ -3,9 +3,10 @@ package handler
 import (
 	"authentication/commons/constants"
 	"authentication/models"
-	"net/http"
+	"encoding/json"
 	genericConstants "stock_broker_application/src/constants"
 	genericModel "stock_broker_application/src/models"
+	"stock_broker_application/src/utils"
 
 	"github.com/gin-gonic/gin"
 )
@@ -39,11 +40,12 @@ func NewOTPValidationController(service OTPService) *OTPValidationController {
 func (controller *OTPValidationController) HandleValidateOTP(context *gin.Context) {
 	var otpValidationRequest models.ValidateOTPRequest
 	if err := context.ShouldBindJSON(&otpValidationRequest); err != nil {
-		context.JSON(http.StatusBadRequest, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorInvalidRequest})
+		errorMsgs := genericModel.ErrorMessage{Key: err.(*json.UnmarshalTypeError).Field, ErrorMessage: genericConstants.JsonBindingFieldError}
+		utils.SendBadRequest(context, []genericModel.ErrorMessage{errorMsgs})
 		return
 	}
 	if err := controller.Service.OtpVerification(otpValidationRequest); err != nil {
-		context.JSON(http.StatusUnauthorized, gin.H{genericConstants.GenericJSONErrorMessage: err.Error()})
+		utils.SendUnauthorizedError(context, err.Error())
 		return
 	}
 	tokenData := genericModel.TokenData{
@@ -51,8 +53,16 @@ func (controller *OTPValidationController) HandleValidateOTP(context *gin.Contex
 	}
 	token, err := controller.Service.GenerateAndStoreToken(tokenData, otpValidationRequest.UserID)
 	if err != nil {
-		context.JSON(http.StatusInternalServerError, gin.H{genericConstants.GenericJSONErrorMessage: constants.ErrorGenToken})
+		utils.SendInternalServerError(context, constants.ErrorGenToken)
+
 		return
 	}
-	context.JSON(http.StatusOK, gin.H{genericConstants.GenericJSONMessage: constants.ValidateOTPSuccessMessage, genericConstants.GenericTokenMessage: token})
+
+	responseModel := genericModel.JWTTokens{
+		AccessToken: token,
+	}
+
+	// context.Set(genericConstants.GenericTokenMessage, token)
+	utils.SendStatusOk(context, responseModel)
+
 }

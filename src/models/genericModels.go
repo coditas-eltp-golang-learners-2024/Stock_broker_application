@@ -18,6 +18,14 @@ type Request struct {
 	Request  interface{} `json:"request,omitempty"`  // Content
 }
 
+type JWTTokens struct {
+	AccessToken string `json:"accessToken"`
+}
+
+type HttpStatusOkResponse struct {
+	Message string `json:"message"`
+}
+
 type EncryptResponse struct {
 	EncResponse string `json:"encResponse"`
 }

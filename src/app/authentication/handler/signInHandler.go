@@ -4,8 +4,10 @@ import (
 	"authentication/business"
 	"authentication/commons/constants"
 	"authentication/models"
-	"net/http"
+	"encoding/json"
 	genericConstants "stock_broker_application/src/constants"
+	genericModel "stock_broker_application/src/models"
+	"stock_broker_application/src/utils"
 	"stock_broker_application/src/utils/validations"
 
 	"github.com/gin-gonic/gin"
@@ -37,27 +39,31 @@ func (controller *signInController) HandleSignIn(context *gin.Context) {
 	var signInRequest models.SignInRequest
 
 	if err := context.ShouldBindJSON(&signInRequest); err != nil {
-		context.JSON(http.StatusBadRequest, constants.ErrorBadRequest)
+		errorMsgs := genericModel.ErrorMessage{Key: err.(*json.UnmarshalTypeError).Field, ErrorMessage: genericConstants.JsonBindingFieldError}
+		utils.SendBadRequest(context, []genericModel.ErrorMessage{errorMsgs})
 		return
 	}
 	if err := validations.GetCustomValidator(context.Request.Context()).Struct(signInRequest); err != nil {
+
 		validationErrors := validations.FormatValidationErrors(context.Request.Context(), err.(validator.ValidationErrors))
-		context.JSON(http.StatusBadRequest, gin.H{
-			genericConstants.GenericJSONErrorMessage: genericConstants.ValidatorError,
-			genericConstants.GenericValidationError:  validationErrors,
-		})
+
+		utils.SendBadRequest(context, validationErrors)
 
 		return
 	}
 	if err := controller.service.SignIn(signInRequest); err != nil {
-		context.JSON(http.StatusUnauthorized, constants.ErrorMessageAuthenticationFailed)
+		utils.SendUnauthorizedError(context, constants.ErrorMessageAuthenticationFailed)
 		return
 	}
 
-	context.JSON(http.StatusOK, constants.SignInSuccessMessage)
+	responseModel := genericModel.HttpStatusOkResponse{
+		Message: constants.SignInSuccessMessage,
+	}
+
+	utils.SendStatusOk(context, responseModel)
 
 	if err := controller.service.GenerateAndSaveOTP(signInRequest.UserName); err != nil {
-		context.JSON(http.StatusInternalServerError, constants.ErrorGenerateAndSaveOTP)
+		utils.SendInternalServerError(context, constants.ErrorGenerateAndSaveOTP)
 		return
 	}
 }
