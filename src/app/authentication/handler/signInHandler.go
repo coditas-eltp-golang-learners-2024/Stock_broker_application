@@ -56,7 +56,11 @@ func (controller *signInController) HandleSignIn(context *gin.Context) {
 		return
 	}
 
-	utils.SendStatusOk(context, constants.SignInSuccessMessage)
+	responseModel := genericModel.HttpStatusOkResponse{
+		Message: constants.SignInSuccessMessage,
+	}
+
+	utils.SendStatusOk(context, responseModel)
 
 	if err := controller.service.GenerateAndSaveOTP(signInRequest.UserName); err != nil {
 		utils.SendInternalServerError(context, constants.ErrorGenerateAndSaveOTP)

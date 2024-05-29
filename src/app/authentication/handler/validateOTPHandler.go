@@ -58,7 +58,11 @@ func (controller *OTPValidationController) HandleValidateOTP(context *gin.Contex
 		return
 	}
 
-	context.Set(genericConstants.GenericTokenMessage, token)
-	utils.SendStatusOk(context, constants.ValidateOTPSuccessMessage)
+	responseModel := genericModel.JWTTokens{
+		AccessToken: token,
+	}
+
+	// context.Set(genericConstants.GenericTokenMessage, token)
+	utils.SendStatusOk(context, responseModel)
 
 }

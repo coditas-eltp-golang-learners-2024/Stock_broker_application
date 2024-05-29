@@ -1,6 +1,8 @@
 package handler
 
 import (
+	"errors"
+	"net/http"
 	"stock_broker_application/src/utils"
 
 	"watchlist/business"
@@ -43,7 +45,8 @@ func (controller *getWatchlistController) HandleGetWatchlists(context *gin.Conte
 	}
 
 	if len(watchlistData.Watchlist) == 0 {
-		utils.SendNoContentError(context)
+		err := errors.New(http.StatusText(http.StatusNoContent))
+		utils.SendNoContentError(context, err)
 		return
 	}
 
