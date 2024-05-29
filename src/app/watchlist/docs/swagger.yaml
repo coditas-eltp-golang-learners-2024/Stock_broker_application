@@ -15,6 +15,23 @@ definitions:
     - scrips
     - watchlistName
     type: object
+  models.DeleteWatchlistScripsRequest:
+    properties:
+      scrips:
+        example:
+        - 1
+        - 3
+        items:
+          type: integer
+        minItems: 1
+        type: array
+      watchlistName:
+        example: Mid watchlists
+        type: string
+    required:
+    - scrips
+    - watchlistName
+    type: object
   models.GetWatchlists:
     properties:
       watchlist:
@@ -78,6 +95,35 @@ paths:
       summary: Get the list of WatchLists
       tags:
       - GetWatchlists
+  /v1/watchlist/scrips:
+    delete:
+      consumes:
+      - application/json
+      description: Delete scrips from a watchlist based on the provided watchlist
+        name and scrips
+      parameters:
+      - description: Delete Watchlist Scrips Request
+        in: body
+        name: request
+        required: true
+        schema:
+          $ref: '#/definitions/models.DeleteWatchlistScripsRequest'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            type: string
+        "400":
+          description: Invalid request payload
+          schema:
+            type: string
+        "500":
+          description: Failed to delete scrips
+          schema:
+            type: string
+      summary: Delete scrips from a watchlist
 securityDefinitions:
   JWT:
     in: header

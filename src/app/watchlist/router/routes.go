@@ -1,6 +1,9 @@
 package router
 
 import (
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/middleware/headerCheck"
@@ -10,10 +13,6 @@ import (
 	"watchlist/docs"
 	"watchlist/handler"
 	"watchlist/repositories"
-
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func init() {
@@ -26,15 +25,17 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	router.Use(gin.Recovery())
 	connectionWithDb := postgres.GetPostGresClient().GormDb
 
-	//Create Watchlist
 	userDatabaseRepository := repositories.NewUserDBRepository(connectionWithDb)
 	createWatchlistHandler := business.NewCreateWatchlistService(userDatabaseRepository)
 	createWatchlistController := handler.NewWatchlistController(createWatchlistHandler)
 
-	//Get Watchlist
 	repository := repositories.NewGetWatclistsRepository(connectionWithDb)
 	service := business.NewUsersService(repository)
 	newGetwatchlistsController := handler.NewGetWatchListsController(service)
+
+	deleteWatchlistRepository := repositories.NewDeleteWatchlistRepository(connectionWithDb)
+	deleteWatchlistScripsService := business.NewDeleteWatchlistService(deleteWatchlistRepository)
+	deleteWatchlistScripsController := handler.NewDeleteWatchlistScripsController(deleteWatchlistScripsService)
 
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
@@ -48,6 +49,7 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		v1Routes.GET(serviceConstants.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 		v1Routes.POST(serviceConstants.CreateWatchlist, headerCheck.AuthMiddleware(), createWatchlistController.HandleCreateWatchlist)
 		v1Routes.GET(serviceConstants.GetWatchLists, headerCheck.AuthMiddleware(), newGetwatchlistsController.HandleGetWatchlists)
+		v1Routes.DELETE(serviceConstants.DeleteWatchlistScrips, headerCheck.AuthMiddleware(), deleteWatchlistScripsController.HandleDeleteWatchlistScrips)
 	}
 	return router
 }

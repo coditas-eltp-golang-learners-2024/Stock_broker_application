@@ -1,19 +1,17 @@
 package main
 
 import (
-	serviceConstants "watchlist/commons/constants"
-	"watchlist/router"
-
 	"context"
 	"fmt"
+	"go.uber.org/zap"
 	genericConstants "stock_broker_application/src/constants"
 	loggerMiddleware "stock_broker_application/src/middleware/logger"
 	"stock_broker_application/src/utils/configs"
 	"stock_broker_application/src/utils/flags"
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
-
-	"go.uber.org/zap"
+	serviceConstants "watchlist/commons/constants"
+	"watchlist/router"
 )
 
 // @title Stock Broker Application

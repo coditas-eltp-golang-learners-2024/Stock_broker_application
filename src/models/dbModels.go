@@ -5,16 +5,6 @@ import (
 	"time"
 )
 
-type Watchlist struct {
-	ID            int    `gorm:"column:id" json:"id"`
-	UserID        int    `gorm:"column:user_id" json:"userID"`
-	WatchlistName string `gorm:"column:watchlist_name" json:"watchlistName"`
-}
-
-func (Watchlist) TableName() string {
-	return constants.WatchlistTable
-}
-
 type Users struct {
 	Id             uint16    `gorm:"primary_key;auto_increment" json:"id"`
 	UserName       string    `gorm:"column:username" json:"username"`
@@ -25,7 +15,6 @@ type Users struct {
 	PanCard        string    `gorm:"column:pan_card" json:"panCard"`
 	Password       string    `gorm:"column:password" json:"password"`
 	Token          string    `gorm:"column:token" json:"token"`
-	CreationTime   time.Time `gorm:"column:created_at" json:"created_at"`
 	OTP            uint16    `gorm:"column:otp" json:"otp"`
 	EpochTimestamp int64     `gorm:"column:epochtimestamp" json:"epochtimestamp"`
 }
@@ -42,6 +31,16 @@ type Stocks struct {
 
 func (Stocks) TableName() string {
 	return constants.StockTable
+}
+
+type Watchlist struct {
+	ID            uint   `gorm:"column:id;primary_key" json:"id"`
+	UserID        uint16 `gorm:"column:user_id" json:"userId"`
+	WatchlistName string `gorm:"column:watchlist_name" json:"watchlistName"`
+}
+
+func (Watchlist) TableName() string {
+	return constants.WatchlistTable
 }
 
 type WatchlistStock struct {
