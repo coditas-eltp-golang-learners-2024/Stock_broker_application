@@ -19,44 +19,35 @@ func NewWatchlistScripsService(watchlistRepository repositories.WatchlistScripsR
 	}
 }
 
-func (service *WatchlistScripsService) GetScrips(context *gin.Context, watchlistName string) (models.GetWatchlistScrips, error) {
+func (service *WatchlistScripsService) GetScrips(context *gin.Context, watchlistName string) (*models.GetWatchlistScrips, error) {
 	userID := context.Value(genericConstants.Id).(uint16)
 	condition := map[string]interface{}{
 		genericConstants.UserId:       userID,
 		genericConstants.WatchlistName: watchlistName,
 	}
 
-	watchlistExists, err := service.watchlistRepository.CheckWatchlistExists(condition)
-	if err != nil {
-		return models.GetWatchlistScrips{}, err
-	}
-
-	if !watchlistExists {
-		return models.GetWatchlistScrips{}, errors.New(serviceConstants.WatchlistNotFoundError)
-	}
-
 	watchlistID, err := service.watchlistRepository.GetWatchlistsByUserID(condition)
 	if err != nil {
-		return models.GetWatchlistScrips{}, err
+		return nil, err
 	}
 
 	if watchlistID == 0 {
-		return models.GetWatchlistScrips{}, errors.New(serviceConstants.WatchlistIDNotFoundError)
+		return nil, errors.New(serviceConstants.WatchlistNotFoundError)
 	}
 
 	stockIDSlice, err := service.watchlistRepository.GetStockIDsByWatchlistID(watchlistID)
 	if err != nil {
-		return  models.GetWatchlistScrips{}, err
+		return nil, err
 	}
 
 	if len(stockIDSlice) == 0 {
-		return  models.GetWatchlistScrips{}, errors.New(serviceConstants.NoStocksInWatchlistError)
+		return  nil, errors.New(serviceConstants.NoStocksInWatchlistError)
 	}
 
 	scrips, err := service.watchlistRepository.GetScripsByStockID(stockIDSlice)
 	if err != nil {
-		return models.GetWatchlistScrips{}, err
+		return nil, err
 	}
 
-	return scrips, nil
+	return &scrips, nil
 }

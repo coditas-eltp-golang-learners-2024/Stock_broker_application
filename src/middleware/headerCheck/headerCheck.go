@@ -6,7 +6,6 @@ import (
 	"stock_broker_application/src/utils/configs"
 	"strings"
 	"time"
-
 	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )

@@ -9,7 +9,6 @@ import (
 )
 
 type WatchlistScripsRepository interface {
-	CheckWatchlistExists(condition map[string]interface{}) (bool, error)
 	GetWatchlistsByUserID(condition map[string]interface{}) (uint, error)
 	GetStockIDsByWatchlistID(watchlistID uint) ([]uint, error)
 	GetScripsByStockID(stockIDSlice []uint) (models.GetWatchlistScrips, error)
@@ -20,15 +19,6 @@ type watchlistDBScripsRepository struct {
 
 func NewWatchlistRepository(db *gorm.DB) *watchlistDBScripsRepository {
 	return &watchlistDBScripsRepository{db: db}
-}
-func (repo *watchlistDBScripsRepository) CheckWatchlistExists(condition map[string]interface{}) (bool, error) {
-	var count int64
-	if err := repo.db.Model(&genericModels.Watchlist{}).
-		Where(condition).
-		Count(&count).Error; err != nil {
-		return false, err
-	}
-	return count > 0, nil
 }
 
 func (repo *watchlistDBScripsRepository) GetWatchlistsByUserID(condition map[string]interface{}) (uint, error) {
