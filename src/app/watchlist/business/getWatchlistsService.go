@@ -1,11 +1,10 @@
 package business
 
 import (
+	"github.com/gin-gonic/gin"
 	genericConstants "stock_broker_application/src/constants"
 	"watchlist/models"
 	"watchlist/repositories"
-
-	"github.com/gin-gonic/gin"
 )
 
 type NewGetWatchlistsService interface {

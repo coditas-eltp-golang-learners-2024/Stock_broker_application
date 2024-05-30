@@ -1,6 +1,9 @@
 package router
 
 import (
+	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"net/http"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/middleware/headerCheck"
@@ -10,10 +13,6 @@ import (
 	"watchlist/docs"
 	"watchlist/handler"
 	"watchlist/repositories"
-
-	"github.com/gin-gonic/gin"
-	swaggerFiles "github.com/swaggo/files"
-	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 func init() {
@@ -36,6 +35,11 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 	service := business.NewUsersService(repository)
 	newGetwatchlistsController := handler.NewGetWatchListsController(service)
 
+	//Get watchlist scrips
+	watchlistScripsRepository := repositories.NewWatchlistRepository(connectionWithDb)
+	watchlistScripsService := business.NewWatchlistScripsService(watchlistScripsRepository)
+	watchlistScripsController := handler.NewWatchlistScripController(watchlistScripsService)
+
 	v1Routes := router.Group(genericConstants.RouterV1Config)
 	{
 		v1Routes.GET(serviceConstants.WatchlistHealthCheck, func(c *gin.Context) {
@@ -48,6 +52,8 @@ func GetRouter(middlewares ...gin.HandlerFunc) *gin.Engine {
 		v1Routes.GET(serviceConstants.SwaggerRoute, ginSwagger.WrapHandler(swaggerFiles.Handler))
 		v1Routes.POST(serviceConstants.CreateWatchlist, headerCheck.AuthMiddleware(), createWatchlistController.HandleCreateWatchlist)
 		v1Routes.GET(serviceConstants.GetWatchLists, headerCheck.AuthMiddleware(), newGetwatchlistsController.HandleGetWatchlists)
+		v1Routes.GET(serviceConstants.GetWatchListsScrips, headerCheck.AuthMiddleware(), watchlistScripsController.HandleWatchlistScrips)
+
 	}
 	return router
 }

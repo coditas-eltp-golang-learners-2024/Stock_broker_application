@@ -68,6 +68,9 @@ const docTemplate = `{
                     }
                 ],
                 "description": "Handler function to fetch the user's watchlist data.",
+                "consumes": [
+                    "application/json"
+                ],
                 "produces": [
                     "application/json"
                 ],
@@ -89,6 +92,49 @@ const docTemplate = `{
                             "additionalProperties": {
                                 "type": "string"
                             }
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/watchlist/scrips/list": {
+            "get": {
+                "security": [
+                    {
+                        "JWT": []
+                    }
+                ],
+                "description": "Retrieves the list of scrips for a given watchlist",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Get Watchlist Scrips"
+                ],
+                "summary": "Get watchlist scrips",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "Name of the watchlist",
+                        "name": "watchlist_name",
+                        "in": "query",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Returns the user's watchlist's Scrips data",
+                        "schema": {
+                            "$ref": "#/definitions/models.GetWatchlistScrips"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -119,6 +165,17 @@ const docTemplate = `{
                 }
             }
         },
+        "models.GetWatchlistScrips": {
+            "type": "object",
+            "properties": {
+                "scrips": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/models.Scrip"
+                    }
+                }
+            }
+        },
         "models.GetWatchlists": {
             "type": "object",
             "properties": {
@@ -127,6 +184,17 @@ const docTemplate = `{
                     "items": {
                         "type": "string"
                     }
+                }
+            }
+        },
+        "models.Scrip": {
+            "type": "object",
+            "properties": {
+                "symbol": {
+                    "type": "string"
+                },
+                "token": {
+                    "type": "integer"
                 }
             }
         }

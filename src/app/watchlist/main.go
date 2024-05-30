@@ -3,7 +3,6 @@ package main
 import (
 	serviceConstants "watchlist/commons/constants"
 	"watchlist/router"
-
 	"context"
 	"fmt"
 	genericConstants "stock_broker_application/src/constants"
@@ -12,10 +11,8 @@ import (
 	"stock_broker_application/src/utils/flags"
 	"stock_broker_application/src/utils/logger"
 	"stock_broker_application/src/utils/postgres"
-
 	"go.uber.org/zap"
 )
-
 // @title Stock Broker Application
 // @description   api for Stock Broker using gin and gorm
 // @version 2.0

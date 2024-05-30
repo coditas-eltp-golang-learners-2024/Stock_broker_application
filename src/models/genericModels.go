@@ -1,5 +1,7 @@
 package models
 
+
+
 type ErrorMessage struct {
 	Key          string `json:"key,omitempty"`
 	ErrorMessage string `json:"errorMessage,omitempty"`

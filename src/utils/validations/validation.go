@@ -3,12 +3,11 @@ package validations
 import (
 	"context"
 	"fmt"
+	"github.com/go-playground/validator/v10"
 	"reflect"
 	genericConstants "stock_broker_application/src/constants"
 	"stock_broker_application/src/models"
 	"unicode"
-
-	"github.com/go-playground/validator/v10"
 )
 
 var custValidator *validator.Validate
@@ -20,7 +19,6 @@ func NewCustomValidator(ctx context.Context) {
 		return field.Tag.Get(genericConstants.JsonConfig)
 	})
 	custValidator.RegisterValidation(genericConstants.CustomPasswordValidation, ValidatePasswordStruct)
-
 }
 
 func GetCustomValidator(ctx context.Context) *validator.Validate {
@@ -91,7 +89,6 @@ func FormatValidationErrors(ctx context.Context, validationErrors validator.Vali
 		} else {
 			errorMessage = customErrorMap[message]
 		}
-
 		// Add the error message to both structured error messages and string slice
 		errorMessages = append(errorMessages, models.ErrorMessage{
 			Key:          key,

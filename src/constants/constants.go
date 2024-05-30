@@ -119,7 +119,7 @@ const (
 	EpochTimestamp               = "epochtimestamp"
 	WatchlistName                = "watchlist_name"
 	WatchlistID                  = "watchlist_id"
-	StocksID                     = "stocks_id"
+	StocksID                     = "id"
 	Token                        = "token"
 )
 

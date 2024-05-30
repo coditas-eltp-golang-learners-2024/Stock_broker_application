@@ -7,4 +7,5 @@ const (
 	Metrics              = "/metrics"
 	CreateWatchlist      = "/watchlist/create"
 	GetWatchLists        = "/watchlist/list"
+	GetWatchListsScrips  = "/watchlist/scrips/list"
 )

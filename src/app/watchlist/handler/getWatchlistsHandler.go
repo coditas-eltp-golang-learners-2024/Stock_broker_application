@@ -29,11 +29,12 @@ func NewGetWatchListsController(service business.NewGetWatchlistsService) NewGet
 // HandleGetWatchlists handles the GetWatchlists request.
 // @Summary Get the list of WatchLists
 // @Description Handler function to fetch the user's watchlist data.
-// @Produce json
 // @Tags GetWatchlists
+// @Accept json
+// @Produce json
+// @Security JWT
 // @Success 200 {object} models.GetWatchlists "Returns the user's watchlist data"
 // @Failure 500 {object} map[string]string "Internal server error"
-// @Security JWT
 // @Router /v1/watchlist/list [get]
 func (controller *getWatchlistController) HandleGetWatchlists(context *gin.Context) {
 

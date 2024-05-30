@@ -6,4 +6,5 @@ const (
 	WatchlistIsNotAddedError    = "failed to create new watchlist"
 	WatchlistWrongScripError    = "no such scrip is registered"
 	WatchlistNotFoundError      = "watchlist not found"
+	NoStocksInWatchlistError    = "no stocks found in the watchlist"
 )

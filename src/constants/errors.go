@@ -293,7 +293,10 @@ const (
 	GenericJSONMessage      = "message"
 	GenericTokenMessage     = "token"
 )
+
 const (
 	GenericValidationError         = "validation error"
-	GenericPasswordValidationError = "validation failed: must contain atleast one lowercase, uppercase and numeric character"
+	GenericPasswordValidationError = "validation failed: must contain atleast one lowercase, uppercase and numeWric character"
+	WatchlistNameRequiredError     = "watchlist_name is required"
+	ScripsNotFoundError            = "No scrips found for the specified watchlist"
 )

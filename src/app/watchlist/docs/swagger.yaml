@@ -15,12 +15,26 @@ definitions:
     - scrips
     - watchlistName
     type: object
+  models.GetWatchlistScrips:
+    properties:
+      scrips:
+        items:
+          $ref: '#/definitions/models.Scrip'
+        type: array
+    type: object
   models.GetWatchlists:
     properties:
       watchlist:
         items:
           type: string
         type: array
+    type: object
+  models.Scrip:
+    properties:
+      symbol:
+        type: string
+      token:
+        type: integer
     type: object
 host: localhost:8081
 info:
@@ -59,6 +73,8 @@ paths:
       - CreateWatchlist
   /v1/watchlist/list:
     get:
+      consumes:
+      - application/json
       description: Handler function to fetch the user's watchlist data.
       produces:
       - application/json
@@ -78,6 +94,33 @@ paths:
       summary: Get the list of WatchLists
       tags:
       - GetWatchlists
+  /v1/watchlist/scrips/list:
+    get:
+      consumes:
+      - application/json
+      description: Retrieves the list of scrips for a given watchlist
+      parameters:
+      - description: Name of the watchlist
+        in: query
+        name: watchlist_name
+        required: true
+        type: string
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Returns the user's watchlist's Scrips data
+          schema:
+            $ref: '#/definitions/models.GetWatchlistScrips'
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      security:
+      - JWT: []
+      summary: Get watchlist scrips
+      tags:
+      - Get Watchlist Scrips
 securityDefinitions:
   JWT:
     in: header
